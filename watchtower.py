@@ -789,8 +789,19 @@ def main():
     fetch_reddit(signals, fetched)
     fetch_13f(signals, fetched)
 
-    watchlist = list(signals.keys())[:25]
-    fetch_google_trends(signals, fetched, watchlist)
+    # Build tracking universe: tickers with any signal + all ARK holdings (for Reddit/Trends scanning)
+    # ARK holdings don't score pts but seed the universe so Reddit/Trends can corroborate
+    ark_universe = []
+    if PREVIOUS_DATA_PATH.exists():
+        try:
+            prev = json.loads(PREVIOUS_DATA_PATH.read_text())
+            ark_holdings = prev.get("ark_holdings", {})
+            ark_universe = list({v["ticker"] for v in ark_holdings.values() if v.get("ticker")})
+        except Exception:
+            pass
+
+    watchlist = list(set(list(signals.keys()) + ark_universe))[:50]
+    fetch_google_trends(signals, fetched, watchlist[:25])
 
     # Reddit corroboration rule: zero out Reddit pts for tickers with no other source
     speculative_solo_tickers: set = set()
