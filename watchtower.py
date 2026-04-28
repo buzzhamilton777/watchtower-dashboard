@@ -835,9 +835,32 @@ def fetch_google_trends(signals: dict, fetched: list, watchlist: list):
                             detail = f"+{pct_change:.0f}% WoW acceleration (Google Trends)"
                             signals[ticker].append({"source": "Google Trends", "detail": detail, "pts": 1})
 
-                time.sleep(1)
+                time.sleep(15)  # longer delay to avoid 429 rate limits
             except Exception as e:
-                log.warning("Google Trends batch %s failed: %s", batch, e)
+                if "429" in str(e) or "response with code 429" in str(e):
+                    log.warning("Google Trends 429 on batch %s — waiting 30s and retrying", batch)
+                    time.sleep(30)
+                    try:
+                        pytrends.build_payload(batch, cat=0, timeframe="now 7-d", geo="US")
+                        interest = pytrends.interest_over_time()
+                        if not interest.empty:
+                            for ticker in batch:
+                                if ticker not in interest.columns:
+                                    continue
+                                col = interest[ticker].dropna()
+                                if len(col) < 2:
+                                    continue
+                                recent = col.iloc[-1]
+                                previous = col.iloc[max(0, len(col) - 8):-1].mean()
+                                if previous > 0:
+                                    pct_change = ((recent - previous) / previous) * 100
+                                    if pct_change >= 20:
+                                        detail = f"+{pct_change:.0f}% WoW acceleration (Google Trends)"
+                                        signals[ticker].append({"source": "Google Trends", "detail": detail, "pts": 1})
+                    except Exception as retry_e:
+                        log.warning("Google Trends retry failed for batch %s: %s", batch, retry_e)
+                else:
+                    log.warning("Google Trends batch %s failed: %s", batch, e)
 
         fetched.append("google_trends")
     except Exception as e:
@@ -1291,6 +1314,7 @@ def main(mode: str = "full"):
         watchlist = list(set(list(signals.keys()) + ark_universe))[:50]
         fetch_short_interest(signals, fetched, watchlist[:20])
         fetch_subreddit_growth(signals, fetched)
+        fetch_google_trends(signals, fetched, watchlist[:25])
 
     else:  # full
         fetch_congressional(signals, sell_signals, fetched)

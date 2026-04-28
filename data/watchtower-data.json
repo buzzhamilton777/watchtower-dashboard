@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-28T14:19:54",
+  "generated_at": "2026-04-28T11:23:17",
   "tickers": [
     {
       "ticker": "FMAO",
@@ -46,8 +46,8 @@
         }
       ],
       "last_signal_date": "2026-04-28",
-      "price_flag": "neutral",
-      "price_note": ""
+      "price_flag": "extended",
+      "price_note": "\u26a0\ufe0f Near 52-week high, RSI elevated \u2014 wait for pullback"
     },
     {
       "ticker": "NEE",
@@ -142,13 +142,13 @@
         },
         {
           "source": "Mega-cap Penalty",
-          "detail": "Market cap >2040B \u2014 harder to move needle",
+          "detail": "Market cap >2100B \u2014 harder to move needle",
           "pts": -2
         }
       ],
       "last_signal_date": "2026-04-28",
-      "price_flag": "neutral",
-      "price_note": ""
+      "price_flag": "extended",
+      "price_note": "\u26a0\ufe0f Near 52-week high, RSI elevated \u2014 wait for pullback"
     }
   ],
   "tier1_alert": [],
