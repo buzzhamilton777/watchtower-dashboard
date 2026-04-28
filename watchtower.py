@@ -5,9 +5,11 @@ Fetches signals from SEC filings, ARK ETFs, Reddit, and Google Trends.
 Runs daily via GitHub Actions. Results written to data/watchtower-data.json.
 """
 
+import codecs
 import json
 import logging
 import os
+import re
 import time
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
@@ -155,75 +157,75 @@ def _is_congressional_cache_valid(cache: dict) -> bool:
 
 
 def fetch_congressional(signals: dict, sell_signals: dict, fetched: list):
-    log.info("Fetching congressional trades...")
+    log.info("Fetching congressional trades from Capitol Trades...")
     cutoff = days_ago_str(30)
     house_buys = 0
     senate_buys = 0
     new_signals = []
 
-    # House trades
-    house_url = "https://housestockwatcher.com/api/transactions"
-    r = safe_get(house_url, timeout=30)
+    url = "https://www.capitoltrades.com/trades?pageSize=100"
+    headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"}
+    r = safe_get(url, extra_headers=headers, timeout=30)
     if r:
         try:
-            data = r.json()
-            txns = data if isinstance(data, list) else []
-            for txn in txns:
-                date = str(txn.get("transaction_date", ""))[:10]
-                if date < cutoff:
-                    continue
-                txn_type = str(txn.get("type", "")).lower()
-                ticker = str(txn.get("ticker", "")).upper().strip()
-                if not ticker or ticker in ("", "--", "N/A", "—"):
-                    continue
-                rep = txn.get("representative", "Unknown Rep.")
-                amount = txn.get("amount", "")
+            html = r.text
+            match = re.search(r'\\"data\\":\[', html)
+            trades = []
+            if match:
+                start_idx = match.end()
+                depth = 1
+                i = start_idx
+                while i < len(html) and depth > 0:
+                    if html[i:i+2] == '\\"':
+                        i += 2
+                        continue
+                    if html[i] == "[":
+                        depth += 1
+                    elif html[i] == "]":
+                        depth -= 1
+                    i += 1
+                if depth == 0:
+                    data_str = "[" + html[start_idx:i-1] + "]"
+                    data_str = codecs.decode(data_str, "unicode_escape")
+                    trades = json.loads(data_str)
+            if trades:
+                for trade in trades:
+                    tx_date = str(trade.get("txDate", ""))[:10]
+                    if tx_date < cutoff:
+                        continue
+                    tx_type = str(trade.get("txType", "")).lower()
+                    issuer = trade.get("issuer") or {}
+                    ticker_raw = issuer.get("issuerTicker") or ""
+                    ticker = ticker_raw.split(":")[0].upper().strip() if ticker_raw else ""
+                    if not ticker or ticker in ("", "--", "N/A", "—"):
+                        continue
+                    politician = trade.get("politician", {})
+                    first = politician.get("firstName", "")
+                    last = politician.get("lastName", "")
+                    name = f"{first} {last}".strip() or "Unknown"
+                    chamber = trade.get("chamber", "")
+                    value = trade.get("value", 0)
+                    value_str = f"${value:,.0f}" if value else "undisclosed"
 
-                if "purchase" in txn_type:
-                    detail = f"Rep. {rep} purchased {amount} ({date})"
-                    signals[ticker].append({"source": "Congressional", "detail": detail, "pts": 3})
-                    new_signals.append({"ticker": ticker, "detail": detail, "pts": 3, "type": "buy"})
-                    house_buys += 1
-                elif "sale" in txn_type:
-                    detail = f"Rep. {rep} sold {amount} ({date})"
-                    sell_signals[ticker].append({"source": "Congressional", "detail": detail, "reason": "sell"})
-                    new_signals.append({"ticker": ticker, "detail": detail, "type": "sell"})
+                    prefix = "Rep." if chamber == "house" else "Sen."
+                    if tx_type == "buy":
+                        detail = f"{prefix} {name} bought {value_str} ({tx_date})"
+                        signals[ticker].append({"source": "Congressional", "detail": detail, "pts": 3})
+                        new_signals.append({"ticker": ticker, "detail": detail, "pts": 3, "type": "buy"})
+                        if chamber == "house":
+                            house_buys += 1
+                        else:
+                            senate_buys += 1
+                    elif tx_type == "sell":
+                        detail = f"{prefix} {name} sold {value_str} ({tx_date})"
+                        sell_signals[ticker].append({"source": "Congressional", "detail": detail, "reason": "sell"})
+                        new_signals.append({"ticker": ticker, "detail": detail, "type": "sell"})
+            else:
+                log.warning("Capitol Trades: Could not find trade data in response")
         except Exception as e:
-            log.warning("House Stock Watcher parse failed: %s", e)
+            log.warning("Capitol Trades parse failed: %s", e)
     else:
-        log.warning("House Stock Watcher fetch failed")
-
-    # Senate trades
-    senate_url = "https://senatestockwatcher.com/api/transactions"
-    r = safe_get(senate_url, timeout=30)
-    if r:
-        try:
-            data = r.json()
-            txns = data if isinstance(data, list) else []
-            for txn in txns:
-                date = str(txn.get("transaction_date", ""))[:10]
-                if date < cutoff:
-                    continue
-                txn_type = str(txn.get("type", "")).lower()
-                ticker = str(txn.get("ticker", "")).upper().strip()
-                if not ticker or ticker in ("", "--", "N/A", "—"):
-                    continue
-                senator = txn.get("senator", "Unknown Senator")
-                amount = txn.get("amount", "")
-
-                if "purchase" in txn_type:
-                    detail = f"Sen. {senator} purchased {amount} ({date})"
-                    signals[ticker].append({"source": "Congressional", "detail": detail, "pts": 3})
-                    new_signals.append({"ticker": ticker, "detail": detail, "pts": 3, "type": "buy"})
-                    senate_buys += 1
-                elif "sale" in txn_type:
-                    detail = f"Sen. {senator} sold {amount} ({date})"
-                    sell_signals[ticker].append({"source": "Congressional", "detail": detail, "reason": "sell"})
-                    new_signals.append({"ticker": ticker, "detail": detail, "type": "sell"})
-        except Exception as e:
-            log.warning("Senate Stock Watcher parse failed: %s", e)
-    else:
-        log.warning("Senate Stock Watcher fetch failed")
+        log.warning("Capitol Trades fetch failed")
 
     total_buys = house_buys + senate_buys
     log.info("Congressional: %d buy signals (House: %d, Senate: %d)", total_buys, house_buys, senate_buys)

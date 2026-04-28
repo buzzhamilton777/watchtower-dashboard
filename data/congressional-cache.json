@@ -1,0 +1,89 @@
+{
+  "timestamp": "2026-04-28T11:23:17.544710+00:00",
+  "signals": [
+    {
+      "ticker": "FMAO",
+      "detail": "Rep. Robert Latta bought $8,000 (2026-04-20)",
+      "pts": 3,
+      "type": "buy"
+    },
+    {
+      "ticker": "TSM",
+      "detail": "Rep. Cleo Fields bought $8,000 (2026-04-09)",
+      "pts": 3,
+      "type": "buy"
+    },
+    {
+      "ticker": "SBUX",
+      "detail": "Sen. James Banks sold $8,000 (2026-04-15)",
+      "type": "sell"
+    },
+    {
+      "ticker": "VZ",
+      "detail": "Rep. Jennifer  McClellan sold $175,000 (2026-04-07)",
+      "type": "sell"
+    },
+    {
+      "ticker": "AXP",
+      "detail": "Rep. Richard Larsen sold $8,000 (2026-04-07)",
+      "type": "sell"
+    },
+    {
+      "ticker": "AWK",
+      "detail": "Rep. Richard Larsen sold $8,000 (2026-04-07)",
+      "type": "sell"
+    },
+    {
+      "ticker": "BR",
+      "detail": "Rep. Richard Larsen sold $8,000 (2026-04-07)",
+      "type": "sell"
+    },
+    {
+      "ticker": "CARR",
+      "detail": "Rep. Richard Larsen bought $8,000 (2026-04-07)",
+      "pts": 3,
+      "type": "buy"
+    },
+    {
+      "ticker": "CASY",
+      "detail": "Rep. Richard Larsen bought $8,000 (2026-04-07)",
+      "pts": 3,
+      "type": "buy"
+    },
+    {
+      "ticker": "NEE",
+      "detail": "Rep. Richard Larsen bought $8,000 (2026-04-07)",
+      "pts": 3,
+      "type": "buy"
+    },
+    {
+      "ticker": "PAYX",
+      "detail": "Rep. Richard Larsen sold $8,000 (2026-04-07)",
+      "type": "sell"
+    },
+    {
+      "ticker": "WAB",
+      "detail": "Rep. Richard Larsen bought $8,000 (2026-04-07)",
+      "pts": 3,
+      "type": "buy"
+    },
+    {
+      "ticker": "MAR",
+      "detail": "Rep. William Steube bought $32,500 (2026-04-08)",
+      "pts": 3,
+      "type": "buy"
+    },
+    {
+      "ticker": "AMCR",
+      "detail": "Rep. Thomas Kean Jr bought $8,000 (2026-03-31)",
+      "pts": 3,
+      "type": "buy"
+    },
+    {
+      "ticker": "EQT",
+      "detail": "Rep. Michael McCaul bought $32,500 (2026-03-31)",
+      "pts": 3,
+      "type": "buy"
+    }
+  ]
+}
