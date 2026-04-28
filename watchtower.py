@@ -37,7 +37,10 @@ log = logging.getLogger("watchtower")
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
-SCORE_THRESHOLDS = {1: 8, 2: 5, 3: 3, 4: 1}  # tier: min_score
+# Tier thresholds — calibrate up as more sources come online (congressional, 13F/13D)
+# Current active sources: ARK (5 funds, max ~5 pts), Reddit (1 pt), Google Trends (1 pt)
+# Full source target: Congressional + 13F + 13D + ARK + Reddit + Trends = 8+ pts for Tier 1
+SCORE_THRESHOLDS = {1: 4, 2: 3, 3: 2, 4: 1}  # tier: min_score (recalibrate to 8+ when congressional+13F live)
 HEADERS = {"User-Agent": "watchtower/1.0 kurtafarmer@gmail.com"}
 
 WHALE_CIKS = {
@@ -86,12 +89,9 @@ def ticker_to_company(ticker: str) -> str:
 
 
 def assign_tier(score: int) -> int:
-    if score >= 8:
-        return 1
-    if score >= 5:
-        return 2
-    if score >= 3:
-        return 3
+    for tier in sorted(SCORE_THRESHOLDS.keys()):
+        if score >= SCORE_THRESHOLDS[tier]:
+            return tier
     return 4
 
 
@@ -366,12 +366,17 @@ def fetch_ark(signals: dict, sell_signals: dict, fetched: list):
         shares = data["shares"]
         prev_shares = prev.get(key, {}).get("shares", 0)
 
-        if prev_shares == 0 and shares > 0:
+        if prev_shares == 0 and shares > 0:  # new position
             detail = f"{fund} new position: {int(shares):,} shares added"
             signals[ticker].append({"source": "ARK", "detail": detail, "pts": 2})
         elif prev_shares > 0 and shares > prev_shares * 1.10:
             pct = ((shares - prev_shares) / prev_shares) * 100
             detail = f"{fund} increased position +{pct:.0f}% ({int(prev_shares):,}→{int(shares):,} shares)"
+        elif prev_shares > 0 and shares >= prev_shares * 0.80:
+            # Existing hold (no significant change) — ARK still believes in it
+            detail = f"{fund} holds {int(shares):,} shares of {ticker}"
+            signals[ticker].append({"source": "ARK", "detail": detail, "pts": 1})
+            continue
             signals[ticker].append({"source": "ARK", "detail": detail, "pts": 1})
         elif prev_shares > 0 and shares < prev_shares * 0.80:
             pct = ((prev_shares - shares) / prev_shares) * 100
