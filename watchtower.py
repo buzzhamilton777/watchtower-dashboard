@@ -1278,12 +1278,15 @@ def main(mode: str = "full"):
 
     if mode == "fast":
         fetch_form4_insiders(signals, fetched)
+        fetch_ark(signals, sell_signals, fetched)
         ark_universe = _load_ark_universe()
         watchlist = list(set(list(signals.keys()) + ark_universe))[:50]
         fetch_news_sentiment(signals, sell_signals, fetched, watchlist[:30])
 
     elif mode == "morning":
         fetch_congressional(signals, sell_signals, fetched)
+        fetch_form4_insiders(signals, fetched)
+        fetch_ark(signals, sell_signals, fetched)
         ark_universe = _load_ark_universe()
         watchlist = list(set(list(signals.keys()) + ark_universe))[:50]
         fetch_short_interest(signals, fetched, watchlist[:20])
