@@ -1,10 +1,21 @@
-name: Run WATCHTOWER
+name: WATCHTOWER Signal Scanner
 
 on:
   schedule:
-    # 01:00 UTC = 8:00 PM CDT (UTC-5)
-    - cron: "0 1 * * *"
-  workflow_dispatch: # allow manual runs
+    # Full run: weekdays at 4:15 PM ET (21:15 UTC)
+    - cron: "15 21 * * 1-5"
+    # Morning run: weekdays at 9:30 AM ET (14:30 UTC)
+    - cron: "30 14 * * 1-5"
+    # Fast run: weekdays every hour 10:30AM-4PM ET (15:30-20:30 UTC)
+    - cron: "30 15,16,17,18,19,20 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Run mode"
+        required: false
+        default: "full"
+        type: choice
+        options: [fast, morning, full]
 
 permissions:
   contents: write
@@ -12,12 +23,10 @@ permissions:
 jobs:
   watchtower:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python 3.11
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -26,18 +35,34 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Determine run mode
+        id: mode
+        run: |
+          HOUR=$(date -u +%H)
+          MIN=$(date -u +%M)
+          if [ "${{ github.event.inputs.mode }}" != "" ]; then
+            echo "mode=${{ github.event.inputs.mode }}" >> $GITHUB_OUTPUT
+          elif [ "$HOUR" = "21" ] && [ "$MIN" = "15" ]; then
+            echo "mode=full" >> $GITHUB_OUTPUT
+          elif [ "$HOUR" = "14" ] && [ "$MIN" = "30" ]; then
+            echo "mode=morning" >> $GITHUB_OUTPUT
+          else
+            echo "mode=fast" >> $GITHUB_OUTPUT
+          fi
+
       - name: Run WATCHTOWER
+        run: python watchtower.py --mode ${{ steps.mode.outputs.mode }}
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
-        run: python watchtower.py
 
-      - name: Commit updated data
+      - name: Commit updated data (full mode only)
+        if: steps.mode.outputs.mode == 'full'
         run: |
-          git config user.name "WATCHTOWER Bot"
-          git config user.email "actions@github.com"
+          git config --global user.name "WATCHTOWER Bot"
+          git config --global user.email "watchtower@github-actions"
           git add data/watchtower-data.json data/watchtower-previous.json || true
-          git diff --cached --quiet || git commit -m "chore: watchtower update $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git diff --staged --quiet || git commit -m "WATCHTOWER data update $(date -u +%Y-%m-%d)"
           git push

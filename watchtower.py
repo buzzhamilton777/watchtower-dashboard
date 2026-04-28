@@ -1067,8 +1067,8 @@ def send_daily_brief(tickers_out: list, sell_alerts: list, stats: dict, speculat
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
-def main():
-    log.info("=== WATCHTOWER run started ===")
+def main(mode: str = "full"):
+    log.info("=== WATCHTOWER run started — mode: %s ===", mode)
     start = datetime.now(timezone.utc)
 
     signals: dict[str, list] = defaultdict(list)
@@ -1084,33 +1084,47 @@ def main():
         except Exception as e:
             log.warning("Could not load previous tickers for comparison: %s", e)
 
-    fetch_congressional(signals, sell_signals, fetched)
-    fetch_form4_insiders(signals, fetched)
-    fetch_13d(signals, fetched)
-    fetch_ark(signals, sell_signals, fetched)
-    fetch_reddit(signals, fetched)
-    fetch_13f(signals, fetched)
-
-    # Build tracking universe: tickers with any signal + all ARK holdings (for Reddit/Trends scanning)
-    # ARK holdings don't score pts but seed the universe so Reddit/Trends can corroborate
-    ark_universe = []
-    if PREVIOUS_DATA_PATH.exists():
+    def _load_ark_universe() -> list:
+        if not PREVIOUS_DATA_PATH.exists():
+            return []
         try:
             prev = json.loads(PREVIOUS_DATA_PATH.read_text())
-            ark_holdings = prev.get("ark_holdings", {})
-            ark_universe = list({v["ticker"] for v in ark_holdings.values() if v.get("ticker")})
+            return list({v["ticker"] for v in prev.get("ark_holdings", {}).values() if v.get("ticker")})
         except Exception:
-            pass
+            return []
 
-    watchlist = list(set(list(signals.keys()) + ark_universe))[:50]
+    if mode == "fast":
+        fetch_form4_insiders(signals, fetched)
+        ark_universe = _load_ark_universe()
+        watchlist = list(set(list(signals.keys()) + ark_universe))[:50]
+        fetch_news_sentiment(signals, sell_signals, fetched, watchlist[:30])
 
-    # Camillo behavioral layer
-    fetch_news_sentiment(signals, sell_signals, fetched, watchlist[:30])
-    fetch_subreddit_growth(signals, fetched)
-    fetch_job_signals(signals, fetched, watchlist[:15])
-    fetch_short_interest(signals, fetched, watchlist[:20])
+    elif mode == "morning":
+        fetch_congressional(signals, sell_signals, fetched)
+        ark_universe = _load_ark_universe()
+        watchlist = list(set(list(signals.keys()) + ark_universe))[:50]
+        fetch_short_interest(signals, fetched, watchlist[:20])
+        fetch_subreddit_growth(signals, fetched)
 
-    fetch_google_trends(signals, fetched, watchlist[:25])
+    else:  # full
+        fetch_congressional(signals, sell_signals, fetched)
+        fetch_form4_insiders(signals, fetched)
+        fetch_13d(signals, fetched)
+        fetch_ark(signals, sell_signals, fetched)
+        fetch_reddit(signals, fetched)
+        fetch_13f(signals, fetched)
+
+        # Build tracking universe: tickers with any signal + all ARK holdings (for Reddit/Trends scanning)
+        # ARK holdings don't score pts but seed the universe so Reddit/Trends can corroborate
+        ark_universe = _load_ark_universe()
+        watchlist = list(set(list(signals.keys()) + ark_universe))[:50]
+
+        # Camillo behavioral layer
+        fetch_news_sentiment(signals, sell_signals, fetched, watchlist[:30])
+        fetch_subreddit_growth(signals, fetched)
+        fetch_job_signals(signals, fetched, watchlist[:15])
+        fetch_short_interest(signals, fetched, watchlist[:20])
+        fetch_google_trends(signals, fetched, watchlist[:25])
 
     # Reddit corroboration rule: zero out Reddit pts for tickers with no other source
     speculative_solo_tickers: set = set()
@@ -1316,11 +1330,17 @@ def main():
     OUTPUT_PATH.write_text(json.dumps(output, indent=2))
     log.info("Wrote %s (%d tickers, %d sell alerts)", OUTPUT_PATH, len(tickers_out), len(sell_alerts))
 
-    send_daily_brief(tickers_out, sell_alerts, stats, speculative_solo_tickers)
+    if mode == "full":
+        send_daily_brief(tickers_out, sell_alerts, stats, speculative_solo_tickers)
 
     elapsed = (datetime.now(timezone.utc) - start).total_seconds()
     log.info("=== WATCHTOWER run complete in %.1fs — Tier 1: %s ===", elapsed, tier1 or "none")
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    parser = argparse.ArgumentParser(description="WATCHTOWER signal scanner")
+    parser.add_argument("--mode", choices=["fast", "morning", "full"], default="full",
+                        help="fast=Form4+news only | morning=congressional+short | full=everything")
+    args = parser.parse_args()
+    main(mode=args.mode)
