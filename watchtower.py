@@ -98,26 +98,15 @@ def assign_tier(score: int) -> int:
 # ---------------------------------------------------------------------------
 # Source: Congressional trades (Capitol Trades + Senate STOCK Act)
 # ---------------------------------------------------------------------------
-def fetch_congressional(signals: dict, fetched: list):
+def fetch_congressional(signals: dict, sell_signals: dict, fetched: list):
     log.info("Fetching congressional trades...")
     bought = 0
 
-    # Source 1: Senate STOCK Act disclosures via efts.sec.gov proxy
-    urls = [
-        # Quiver Quant public CSV (no key needed for bulk)
-        "https://www.quiverquant.com/congress/api/",
-        # Direct Senate eFD XML feed (periodic)
-        f"https://efts.sec.gov/LATEST/search-index?forms=4&dateRange=custom&startdt={days_ago_str(14)}&enddt={today_str()}&hits.hits.total.value=true",
-    ]
-
-    # Try House clerk bulk XML (the most reliable free source)
-    year = datetime.now().year
-    house_url = f"https://disclosures-clerk.house.gov/public_disc/financial-pdfs/{year}FD.zip"
-    # This is a ZIP of PDFs — too complex to parse on the fly. Use quiverquant or senate eFD instead.
-
     # Senate periodic XML
-    senate_url = "https://efts.sec.gov/LATEST/search-index?forms=4&category=form-type&dateRange=custom" \
-                 f"&startdt={days_ago_str(7)}&enddt={today_str()}&hits.hits._source=true"
+    senate_url = (
+        "https://efts.sec.gov/LATEST/search-index?forms=4&category=form-type&dateRange=custom"
+        f"&startdt={days_ago_str(7)}&enddt={today_str()}&hits.hits._source=true"
+    )
     r = safe_get(senate_url)
     if r:
         try:
@@ -154,16 +143,19 @@ def fetch_congressional(signals: dict, fetched: list):
                     if date < cutoff:
                         continue
                     txn_type = str(txn.get("Transaction") or txn.get("type", "")).lower()
-                    if "purchase" not in txn_type and "buy" not in txn_type:
-                        continue
                     ticker = str(txn.get("Ticker") or txn.get("ticker", "")).upper().strip()
                     if not ticker or ticker in ("", "--", "N/A"):
                         continue
                     rep = txn.get("Representative") or txn.get("representative", "Unknown Rep.")
                     amount = txn.get("Amount") or txn.get("amount", "")
-                    detail = f"{rep} purchased {amount} ({date})"
-                    signals[ticker].append({"source": "Congressional", "detail": detail, "pts": 1})
-                    bought += 1
+
+                    if "purchase" in txn_type or "buy" in txn_type:
+                        detail = f"{rep} purchased {amount} ({date})"
+                        signals[ticker].append({"source": "Congressional", "detail": detail, "pts": 1})
+                        bought += 1
+                    elif "sale" in txn_type or "sell" in txn_type:
+                        detail = f"{rep} sold {amount} ({date})"
+                        sell_signals[ticker].append({"source": "Congressional", "detail": detail, "reason": "sell"})
             except Exception as e:
                 log.warning("QuiverQuant congressional parse failed: %s", e)
 
@@ -207,37 +199,23 @@ def fetch_13f(signals: dict, fetched: list):
             filing_date = dates[idx]
             cik_stripped = cik.lstrip("0")
 
-            # Fetch the index page for this filing
-            index_url = f"https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={cik_stripped}&type=13F-HR&dateb=&owner=include&count=1&search_text="
-            # Use the direct accession URL instead
-            doc_url = f"https://www.sec.gov/Archives/edgar/data/{cik_stripped}/{acc}/0{acc}-index.htm"
-
-            # Try EDGAR search to get holdings
             search_url = (
                 f"https://efts.sec.gov/LATEST/search-index?q=%2213F%22"
                 f"&forms=13F-HR&dateRange=custom"
                 f"&startdt={days_ago_str(120)}&enddt={today_str()}"
                 f"&entity={requests.utils.quote(firm)}"
             )
-            sr = safe_get(search_url)
-            holdings_detail = f"{firm}: 13F-HR filed {filing_date}"
+            safe_get(search_url)
 
-            # We can't easily parse the actual holdings XML without an extensive parser,
-            # so we record the filing as a general whale signal on the firm's known top holdings.
-            # Real parsing would require fetching the infotable XML.
             log.info("13F: %s latest filing %s on %s", firm, acc, filing_date)
 
-            # Mark the filing as seen — award pts to known positions
-            # We'll use a lightweight approach: flag the filing date recency
             filing_dt = datetime.strptime(filing_date, "%Y-%m-%d")
             days_old = (datetime.now() - filing_dt).days
 
-            if days_old <= 45:  # Fresh 13F (within a quarter)
-                # Fetch infotable XML to get actual holdings
+            if days_old <= 45:
                 infotable_url = f"https://www.sec.gov/Archives/edgar/data/{cik_stripped}/{acc}/"
                 idx_r = safe_get(infotable_url)
                 if idx_r and "infotable" in idx_r.text.lower():
-                    # Find the infotable link
                     import re
                     links = re.findall(r'href="([^"]*infotable[^"]*)"', idx_r.text, re.I)
                     if links:
@@ -259,17 +237,15 @@ def fetch_13f(signals: dict, fetched: list):
 
 def _parse_infotable(xml_text: str, firm: str, filing_date: str, signals: dict):
     import re
-    # Extract nameofissuer and ticker
     entries = re.findall(
         r"<nameofissuer>(.*?)</nameofissuer>.*?<cusip>(.*?)</cusip>.*?<value>(.*?)</value>.*?<sshprnamt>(.*?)</sshprnamt>",
         xml_text,
         re.DOTALL | re.I,
     )
-    for name, cusip, value, shares in entries[:50]:  # cap at 50
+    for name, cusip, value, shares in entries[:50]:
         name = name.strip()
         shares_n = int(shares.strip().replace(",", "")) if shares.strip().replace(",", "").isdigit() else 0
         if shares_n > 100_000:
-            # We don't have the ticker directly from infotable — use name as key
             ticker_guess = _name_to_ticker_guess(name)
             if ticker_guess:
                 detail = f"{firm} holds {shares_n:,} shares of {name} (13F filed {filing_date})"
@@ -278,7 +254,6 @@ def _parse_infotable(xml_text: str, firm: str, filing_date: str, signals: dict):
 
 def _name_to_ticker_guess(name: str) -> str:
     name = name.upper()
-    # Quick lookup for common names
     MAP = {
         "APPLE": "AAPL", "MICROSOFT": "MSFT", "AMAZON": "AMZN", "ALPHABET": "GOOGL",
         "NVIDIA": "NVDA", "META": "META", "TESLA": "TSLA", "BERKSHIRE": "BRK.B",
@@ -319,13 +294,9 @@ def fetch_13d(signals: dict, fetched: list):
         try:
             src = hit.get("_source", {})
             entity = src.get("entity_name", "Unknown filer")
-            ticker = (src.get("file_num") or "").upper()
-            # entity_name is usually the subject company, file_num is not ticker
-            # Try display_names or period_of_report
             display = src.get("display_names", [])
             subject = display[0].get("name", entity) if display else entity
 
-            # Try to get ticker from the filing
             ticker = ""
             for dn in display:
                 t = dn.get("ticker", "")
@@ -336,7 +307,6 @@ def fetch_13d(signals: dict, fetched: list):
             if not ticker:
                 continue
 
-            filer = src.get("period_of_report", "")
             filed = src.get("file_date", "")
             detail = f"SC 13D: {entity} filed on {subject} ({filed})"
             signals[ticker].append({"source": "13D Activist", "detail": detail, "pts": 4})
@@ -350,7 +320,7 @@ def fetch_13d(signals: dict, fetched: list):
 # ---------------------------------------------------------------------------
 # Source: ARK Invest daily holdings (via arkfunds.io)
 # ---------------------------------------------------------------------------
-def fetch_ark(signals: dict, fetched: list):
+def fetch_ark(signals: dict, sell_signals: dict, fetched: list):
     log.info("Fetching ARK holdings...")
     prev = {}
     if PREVIOUS_DATA_PATH.exists():
@@ -389,7 +359,7 @@ def fetch_ark(signals: dict, fetched: list):
         except Exception as e:
             log.error("ARK %s parse failed: %s", fund, e)
 
-    # Compute diffs
+    # Compute diffs — buy signals for increases, sell signals for reductions
     for key, data in current.items():
         ticker = data["ticker"]
         fund = data["fund"]
@@ -403,6 +373,20 @@ def fetch_ark(signals: dict, fetched: list):
             pct = ((shares - prev_shares) / prev_shares) * 100
             detail = f"{fund} increased position +{pct:.0f}% ({int(prev_shares):,}→{int(shares):,} shares)"
             signals[ticker].append({"source": "ARK", "detail": detail, "pts": 1})
+        elif prev_shares > 0 and shares < prev_shares * 0.80:
+            pct = ((prev_shares - shares) / prev_shares) * 100
+            detail = f"{fund} reduced {ticker} by {pct:.0f}% ({int(prev_shares):,}→{int(shares):,} shares)"
+            sell_signals[ticker].append({"source": "ARK", "detail": detail, "reason": "sell"})
+
+    # Detect full ARK exits (was in prev, not in current)
+    current_keys = set(current.keys())
+    for key, prev_info in prev.items():
+        if key not in current_keys and prev_info.get("shares", 0) > 0:
+            ticker = prev_info["ticker"]
+            fund = prev_info["fund"]
+            detail = f"{fund} fully exited {ticker} (was {int(prev_info['shares']):,} shares)"
+            sell_signals[ticker].append({"source": "ARK", "detail": detail, "reason": "sell"})
+            log.info("ARK full exit detected: %s from %s", ticker, fund)
 
     # Save current for next run
     try:
@@ -503,7 +487,6 @@ def _count_tickers(text: str, counts: dict):
     import re
     if TICKER_PATTERN is None:
         TICKER_PATTERN = re.compile(r'\b([A-Z]{2,5})\b')
-    # Common English words to skip
     SKIP = {
         "I", "A", "THE", "AND", "OR", "FOR", "TO", "IN", "OF", "ON", "AT",
         "BY", "IS", "IT", "AS", "AN", "BE", "WE", "DO", "IF", "SO", "UP",
@@ -532,7 +515,6 @@ def fetch_google_trends(signals: dict, fetched: list, watchlist: list):
         from pytrends.request import TrendReq
         pytrends = TrendReq(hl="en-US", tz=360, timeout=(10, 25))
 
-        # Process in batches of 5 (pytrends limit)
         for i in range(0, min(len(watchlist), 25), 5):
             batch = watchlist[i:i + 5]
             try:
@@ -566,36 +548,98 @@ def fetch_google_trends(signals: dict, fetched: list, watchlist: list):
 
 
 # ---------------------------------------------------------------------------
-# Discord alert
+# Discord daily brief
 # ---------------------------------------------------------------------------
-def send_discord_alert(tier1_tickers: list, tickers_data: list):
+def send_daily_brief(tickers_out: list, sell_alerts: list, stats: dict):
     webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
     if not webhook_url:
-        log.info("No DISCORD_WEBHOOK_URL set — skipping alert")
-        return
-    if not tier1_tickers:
+        log.info("No DISCORD_WEBHOOK_URL set — skipping daily brief")
         return
 
-    lines = ["# WATCHTOWER — TIER 1 ALERT", f"**{datetime.now().strftime('%Y-%m-%d %H:%M UTC')}**", ""]
+    now = datetime.now(timezone.utc)
+    date_str = now.strftime("%a %b %-d")
 
-    for t in tickers_data:
-        if t["ticker"] not in tier1_tickers:
-            continue
-        lines.append(f"## {t['ticker']} — Score {t['score']}/10+ ({t['company']})")
-        for sig in t["signals"]:
-            lines.append(f"• **{sig['source']}** (+{sig['pts']}pt): {sig['detail']}")
-        lines.append("")
+    sep = "─" * 32
+    lines = [
+        f"🗼 WATCHTOWER DAILY BRIEF — {date_str}",
+        sep,
+    ]
 
-    lines.append("_See everything before the market does._")
+    tier1 = [t for t in tickers_out if t["tier"] == 1]
+    tier2 = [t for t in tickers_out if t["tier"] == 2]
 
-    payload = {"content": "\n".join(lines)[:2000]}
+    # Tier 1 section
+    lines.append("🔴 TIER 1 — MAX CONVICTION")
+    if tier1:
+        for t in tier1:
+            top_sigs = [s["detail"] for s in t["signals"][:3]]
+            sig_str = ", ".join(top_sigs)
+            lines.append(f"• {t['ticker']} (Score: {t['score']}) — {sig_str}")
+    else:
+        lines.append("• None today")
+
+    lines.append("")
+
+    # Tier 2 section (top 5 only)
+    lines.append("🟠 TIER 2 — HIGH CONVICTION")
+    if tier2:
+        for t in tier2[:5]:
+            top_sigs = [s["detail"] for s in t["signals"][:3]]
+            sig_str = ", ".join(top_sigs)
+            lines.append(f"• {t['ticker']} (Score: {t['score']}) — {sig_str}")
+    else:
+        lines.append("• None today")
+
+    lines.append("")
+
+    # Sell alerts section
+    lines.append("🚨 SELL ALERTS")
+    if sell_alerts:
+        for alert in sell_alerts:
+            reasons_str = ", ".join(alert["reasons"])
+            lines.append(f"• {alert['ticker']} — {reasons_str}")
+    else:
+        lines.append("• None today")
+
+    lines.append("")
+
+    # Stats line
+    sources_active = len(stats.get("sources_fetched", []))
+    lines.append(
+        f"📊 Stats: {stats['total_scanned']} tickers scanned | "
+        f"{stats['tier1_count']} Tier 1 | {stats['tier2_count']} Tier 2 | "
+        f"{sources_active} sources active"
+    )
+    lines.append(sep)
+    lines.append("See everything before the market does. 🗼")
+
+    message = "\n".join(lines)
+
+    # Truncate Tier 2 entries if over Discord's 2000-char limit
+    if len(message) > 1900:
+        lines_trimmed = []
+        in_tier2 = False
+        tier2_count = 0
+        for line in lines:
+            if line.startswith("🟠 TIER 2"):
+                in_tier2 = True
+            elif line == "" and in_tier2:
+                in_tier2 = False
+            if in_tier2 and line.startswith("•"):
+                tier2_count += 1
+                if tier2_count > 3:
+                    continue
+            lines_trimmed.append(line)
+        message = "\n".join(lines_trimmed)
+
+    payload = {"content": message[:2000]}
 
     try:
         r = requests.post(webhook_url, json=payload, timeout=10)
         r.raise_for_status()
-        log.info("Discord alert sent for %s", tier1_tickers)
+        log.info("Discord daily brief sent")
     except Exception as e:
-        log.error("Discord alert failed: %s", e)
+        log.error("Discord daily brief failed: %s", e)
 
 
 # ---------------------------------------------------------------------------
@@ -606,18 +650,28 @@ def main():
     start = datetime.now(timezone.utc)
 
     signals: dict[str, list] = defaultdict(list)
+    sell_signals: dict[str, list] = defaultdict(list)
     fetched: list[str] = []
 
+    # Load previous run data for comparisons
+    prev_tickers: dict[str, dict] = {}
+    if PREVIOUS_DATA_PATH.exists():
+        try:
+            prev_data = json.loads(PREVIOUS_DATA_PATH.read_text())
+            for t in prev_data.get("tickers", []):
+                prev_tickers[t["ticker"]] = t
+        except Exception as e:
+            log.warning("Could not load previous tickers for comparison: %s", e)
+
     # Run all sources — each is isolated; failures don't cascade
-    fetch_congressional(signals, fetched)
+    fetch_congressional(signals, sell_signals, fetched)
     fetch_13d(signals, fetched)
-    fetch_ark(signals, fetched)
+    fetch_ark(signals, sell_signals, fetched)
     fetch_reddit(signals, fetched)
 
-    # 13F needs its own step; build watchlist from signals so far for trends
     fetch_13f(signals, fetched)
 
-    watchlist = list(signals.keys())[:25]  # Google Trends: top 25 by activity
+    watchlist = list(signals.keys())[:25]
     fetch_google_trends(signals, fetched, watchlist)
 
     # Resolve company names
@@ -625,7 +679,7 @@ def main():
     companies = {}
     for ticker in signals:
         companies[ticker] = ticker_to_company(ticker)
-        time.sleep(0.1)  # yfinance rate limiting
+        time.sleep(0.1)
 
     # Build scored ticker list
     tickers_out = []
@@ -638,7 +692,6 @@ def main():
         tier = assign_tier(score)
         last_date = today_str()
 
-        # Deduplicate signals by source+detail
         seen = set()
         unique_sigs = []
         for s in sorted(sigs, key=lambda x: -x["pts"]):
@@ -658,30 +711,108 @@ def main():
 
     tickers_out.sort(key=lambda x: -x["score"])
 
+    # Current conviction set: tickers in tier 1 or 2 this run or previous run
+    curr_map = {t["ticker"]: t for t in tickers_out}
+    conviction_tickers = {t["ticker"] for t in tickers_out if t["tier"] in (1, 2)} | \
+                         {tk for tk, td in prev_tickers.items() if td.get("tier") in (1, 2)}
+
+    # Build sell alerts
+    sell_alerts = []
+    processed = set()
+
+    # 1. Tier drop: was tier 1/2 yesterday, now tier 3/4 or missing
+    for ticker, prev_t in prev_tickers.items():
+        prev_tier = prev_t.get("tier", 4)
+        if prev_tier not in (1, 2):
+            continue
+        curr_t = curr_map.get(ticker)
+        curr_tier = curr_t["tier"] if curr_t else 4
+        curr_score = curr_t["score"] if curr_t else 0
+        prev_score = prev_t.get("score", 0)
+
+        reasons = []
+
+        if curr_tier >= 3:
+            reasons.append(f"Tier dropped from {prev_tier}→{curr_tier}")
+
+        # 2. Score collapse: dropped 3+ points
+        if prev_score - curr_score >= 3:
+            reasons.append(f"Score fell {prev_score}→{curr_score} (-{prev_score - curr_score})")
+
+        # 3. ARK sell signals for this ticker
+        for sig in sell_signals.get(ticker, []):
+            if sig["source"] == "ARK":
+                reasons.append(sig["detail"])
+
+        # 4. Congressional sell for conviction tickers
+        for sig in sell_signals.get(ticker, []):
+            if sig["source"] == "Congressional":
+                reasons.append(sig["detail"])
+
+        if reasons:
+            sell_alerts.append({
+                "ticker": ticker,
+                "company": prev_t.get("company", ticker),
+                "prev_tier": prev_tier,
+                "curr_tier": curr_tier,
+                "reasons": reasons,
+            })
+            processed.add(ticker)
+
+    # Also flag ARK/congressional sell signals on current conviction tickers not already processed
+    for ticker in conviction_tickers - processed:
+        if ticker not in sell_signals:
+            continue
+        reasons = []
+        for sig in sell_signals[ticker]:
+            reasons.append(sig["detail"])
+        if reasons:
+            curr_t = curr_map.get(ticker)
+            prev_t = prev_tickers.get(ticker, {})
+            sell_alerts.append({
+                "ticker": ticker,
+                "company": (curr_t or prev_t).get("company", ticker),
+                "prev_tier": prev_t.get("tier", 4) if prev_t else None,
+                "curr_tier": curr_t["tier"] if curr_t else None,
+                "reasons": reasons,
+            })
+
+    log.info("Sell alerts generated: %d", len(sell_alerts))
+
+    # Persist tickers list for next run's tier comparison
+    try:
+        prev_snapshot = json.loads(PREVIOUS_DATA_PATH.read_text()) if PREVIOUS_DATA_PATH.exists() else {}
+        prev_snapshot["tickers"] = tickers_out
+        PREVIOUS_DATA_PATH.write_text(json.dumps(prev_snapshot))
+    except Exception as e:
+        log.warning("Could not persist tickers snapshot: %s", e)
+
     tier1 = [t["ticker"] for t in tickers_out if t["tier"] == 1]
     tier2 = [t["ticker"] for t in tickers_out if t["tier"] == 2]
     tier3 = [t["ticker"] for t in tickers_out if t["tier"] == 3]
     tier4 = [t["ticker"] for t in tickers_out if t["tier"] == 4]
 
+    stats = {
+        "total_scanned": total_scanned,
+        "tier1_count": len(tier1),
+        "tier2_count": len(tier2),
+        "tier3_count": len(tier3),
+        "tier4_count": len(tier4),
+        "sources_fetched": fetched,
+    }
+
     output = {
         "generated_at": start.strftime("%Y-%m-%dT%H:%M:%S"),
         "tickers": tickers_out,
         "tier1_alert": tier1,
-        "stats": {
-            "total_scanned": total_scanned,
-            "tier1_count": len(tier1),
-            "tier2_count": len(tier2),
-            "tier3_count": len(tier3),
-            "tier4_count": len(tier4),
-            "sources_fetched": fetched,
-        },
+        "sell_alerts": sell_alerts,
+        "stats": stats,
     }
 
     OUTPUT_PATH.write_text(json.dumps(output, indent=2))
-    log.info("Wrote %s (%d tickers)", OUTPUT_PATH, len(tickers_out))
+    log.info("Wrote %s (%d tickers, %d sell alerts)", OUTPUT_PATH, len(tickers_out), len(sell_alerts))
 
-    if tier1:
-        send_discord_alert(tier1, tickers_out)
+    send_daily_brief(tickers_out, sell_alerts, stats)
 
     elapsed = (datetime.now(timezone.utc) - start).total_seconds()
     log.info("=== WATCHTOWER run complete in %.1fs — Tier 1: %s ===", elapsed, tier1 or "none")
