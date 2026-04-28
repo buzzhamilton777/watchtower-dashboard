@@ -122,70 +122,140 @@ def assign_tier(score: int) -> int:
 
 
 # ---------------------------------------------------------------------------
-# Source: Congressional trades (Capitol Trades + Senate STOCK Act)
+# Source: Congressional trades (House Stock Watcher + Senate Stock Watcher)
 # ---------------------------------------------------------------------------
+CACHE_CONGRESSIONAL_PATH = Path("data/congressional-cache.json")
+
+
+def _load_congressional_cache() -> dict:
+    if not CACHE_CONGRESSIONAL_PATH.exists():
+        return {}
+    try:
+        return json.loads(CACHE_CONGRESSIONAL_PATH.read_text())
+    except Exception:
+        return {}
+
+
+def _save_congressional_cache(cache: dict):
+    try:
+        CACHE_CONGRESSIONAL_PATH.write_text(json.dumps(cache, indent=2))
+    except Exception as e:
+        log.warning("Could not save congressional cache: %s", e)
+
+
+def _is_congressional_cache_valid(cache: dict) -> bool:
+    ts = cache.get("timestamp")
+    if not ts:
+        return False
+    try:
+        cache_dt = datetime.fromisoformat(ts)
+        return (datetime.now(timezone.utc) - cache_dt).total_seconds() < 86400
+    except Exception:
+        return False
+
+
 def fetch_congressional(signals: dict, sell_signals: dict, fetched: list):
     log.info("Fetching congressional trades...")
-    bought = 0
+    cutoff = days_ago_str(30)
+    house_buys = 0
+    senate_buys = 0
+    new_signals = []
 
-    senate_url = (
-        "https://efts.sec.gov/LATEST/search-index?forms=4&category=form-type&dateRange=custom"
-        f"&startdt={days_ago_str(7)}&enddt={today_str()}&hits.hits._source=true"
-    )
-    r = safe_get(senate_url)
+    # House trades
+    house_url = "https://housestockwatcher.com/api/transactions"
+    r = safe_get(house_url, timeout=30)
     if r:
         try:
             data = r.json()
-            hits = data.get("hits", {}).get("hits", [])
-            for hit in hits[:50]:
-                src = hit.get("_source", {})
-                ticker = ""
-                for dn in src.get("display_names", []):
-                    t = dn.get("ticker", "")
-                    if t:
-                        ticker = t.upper()
-                        break
-                if not ticker:
+            txns = data if isinstance(data, list) else []
+            for txn in txns:
+                date = str(txn.get("transaction_date", ""))[:10]
+                if date < cutoff:
                     continue
-                entity = src.get("entity_name", "Unknown")
-                filed = src.get("file_date", "")
-                detail = f"{entity} Form 4 filed {filed}"
-                signals[ticker].append({"source": "Congressional", "detail": detail, "pts": 3})
-                bought += 1
+                txn_type = str(txn.get("type", "")).lower()
+                ticker = str(txn.get("ticker", "")).upper().strip()
+                if not ticker or ticker in ("", "--", "N/A", "—"):
+                    continue
+                rep = txn.get("representative", "Unknown Rep.")
+                amount = txn.get("amount", "")
+
+                if "purchase" in txn_type:
+                    detail = f"Rep. {rep} purchased {amount} ({date})"
+                    signals[ticker].append({"source": "Congressional", "detail": detail, "pts": 3})
+                    new_signals.append({"ticker": ticker, "detail": detail, "pts": 3, "type": "buy"})
+                    house_buys += 1
+                elif "sale" in txn_type:
+                    detail = f"Rep. {rep} sold {amount} ({date})"
+                    sell_signals[ticker].append({"source": "Congressional", "detail": detail, "reason": "sell"})
+                    new_signals.append({"ticker": ticker, "detail": detail, "type": "sell"})
         except Exception as e:
-            log.warning("Congressional SEC parse failed: %s", e)
+            log.warning("House Stock Watcher parse failed: %s", e)
+    else:
+        log.warning("House Stock Watcher fetch failed")
 
-    if bought == 0:
-        qq_url = "https://api.quiverquant.com/beta/bulk/congresstrading"
-        r = safe_get(qq_url)
-        if r:
-            try:
-                data = r.json()
-                cutoff = days_ago_str(14)
-                for txn in (data if isinstance(data, list) else []):
-                    date = str(txn.get("Date") or txn.get("transaction_date", ""))
-                    if date < cutoff:
-                        continue
-                    txn_type = str(txn.get("Transaction") or txn.get("type", "")).lower()
-                    ticker = str(txn.get("Ticker") or txn.get("ticker", "")).upper().strip()
-                    if not ticker or ticker in ("", "--", "N/A"):
-                        continue
-                    rep = txn.get("Representative") or txn.get("representative", "Unknown Rep.")
-                    amount = txn.get("Amount") or txn.get("amount", "")
+    # Senate trades
+    senate_url = "https://senatestockwatcher.com/api/transactions"
+    r = safe_get(senate_url, timeout=30)
+    if r:
+        try:
+            data = r.json()
+            txns = data if isinstance(data, list) else []
+            for txn in txns:
+                date = str(txn.get("transaction_date", ""))[:10]
+                if date < cutoff:
+                    continue
+                txn_type = str(txn.get("type", "")).lower()
+                ticker = str(txn.get("ticker", "")).upper().strip()
+                if not ticker or ticker in ("", "--", "N/A", "—"):
+                    continue
+                senator = txn.get("senator", "Unknown Senator")
+                amount = txn.get("amount", "")
 
-                    if "purchase" in txn_type or "buy" in txn_type:
-                        detail = f"{rep} purchased {amount} ({date})"
-                        signals[ticker].append({"source": "Congressional", "detail": detail, "pts": 3})
-                        bought += 1
-                    elif "sale" in txn_type or "sell" in txn_type:
-                        detail = f"{rep} sold {amount} ({date})"
-                        sell_signals[ticker].append({"source": "Congressional", "detail": detail, "reason": "sell"})
-            except Exception as e:
-                log.warning("QuiverQuant congressional parse failed: %s", e)
+                if "purchase" in txn_type:
+                    detail = f"Sen. {senator} purchased {amount} ({date})"
+                    signals[ticker].append({"source": "Congressional", "detail": detail, "pts": 3})
+                    new_signals.append({"ticker": ticker, "detail": detail, "pts": 3, "type": "buy"})
+                    senate_buys += 1
+                elif "sale" in txn_type:
+                    detail = f"Sen. {senator} sold {amount} ({date})"
+                    sell_signals[ticker].append({"source": "Congressional", "detail": detail, "reason": "sell"})
+                    new_signals.append({"ticker": ticker, "detail": detail, "type": "sell"})
+        except Exception as e:
+            log.warning("Senate Stock Watcher parse failed: %s", e)
+    else:
+        log.warning("Senate Stock Watcher fetch failed")
 
-    log.info("Congressional: %d buy signals found", bought)
-    if bought > 0:
+    total_buys = house_buys + senate_buys
+    log.info("Congressional: %d buy signals (House: %d, Senate: %d)", total_buys, house_buys, senate_buys)
+
+    if total_buys > 0:
+        cache = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "signals": new_signals,
+        }
+        _save_congressional_cache(cache)
         fetched.append("congressional")
+    else:
+        cache = _load_congressional_cache()
+        if _is_congressional_cache_valid(cache):
+            log.info("Congressional: Using cached data from %s", cache.get("timestamp", "unknown"))
+            cached_count = 0
+            for sig in cache.get("signals", []):
+                ticker = sig.get("ticker")
+                detail = sig.get("detail")
+                sig_type = sig.get("type")
+                pts = sig.get("pts", 3)
+                if ticker and detail:
+                    if sig_type == "buy":
+                        signals[ticker].append({"source": "Congressional", "detail": detail, "pts": pts})
+                        cached_count += 1
+                    elif sig_type == "sell":
+                        sell_signals[ticker].append({"source": "Congressional", "detail": detail, "reason": "sell"})
+            if cached_count > 0:
+                fetched.append("congressional")
+                log.info("Congressional: Loaded %d cached buy signals", cached_count)
+        else:
+            log.warning("Congressional: No data from APIs and no valid cache available")
 
 
 # ---------------------------------------------------------------------------
@@ -290,15 +360,58 @@ def fetch_form4_insiders(signals: dict, fetched: list):
 # ---------------------------------------------------------------------------
 # Source: SEC 13F whale filings
 # ---------------------------------------------------------------------------
+CACHE_13F_PATH = Path("data/13f-cache.json")
+
+
+def _load_13f_cache() -> dict:
+    if not CACHE_13F_PATH.exists():
+        return {}
+    try:
+        return json.loads(CACHE_13F_PATH.read_text())
+    except Exception:
+        return {}
+
+
+def _save_13f_cache(cache: dict):
+    try:
+        CACHE_13F_PATH.write_text(json.dumps(cache, indent=2))
+    except Exception as e:
+        log.warning("Could not save 13F cache: %s", e)
+
+
+def _is_cache_valid(cache: dict) -> bool:
+    ts = cache.get("timestamp")
+    if not ts:
+        return False
+    try:
+        cache_dt = datetime.fromisoformat(ts)
+        return (datetime.now(timezone.utc) - cache_dt).total_seconds() < 86400
+    except Exception:
+        return False
+
+
+def _fetch_with_retry(url: str, timeout: int = 20):
+    r = safe_get(url, timeout=timeout)
+    if r is not None:
+        return r
+    log.info("13F: Rate limited or failed, waiting 10s before retry...")
+    time.sleep(10)
+    return safe_get(url, timeout=timeout)
+
+
 def fetch_13f(signals: dict, fetched: list):
     log.info("Fetching 13F whale filings...")
+    cache = _load_13f_cache()
     found_any = False
+    new_holdings: dict = {}
 
     for firm, cik in WHALE_CIKS.items():
         try:
             sub_url = f"https://data.sec.gov/submissions/CIK{cik}.json"
-            r = safe_get(sub_url)
+            r = _fetch_with_retry(sub_url)
             if not r:
+                log.warning("13F: Could not fetch submissions for %s", firm)
+                time.sleep(2)
                 continue
             sub = r.json()
 
@@ -315,19 +428,12 @@ def fetch_13f(signals: dict, fetched: list):
 
             if idx is None:
                 log.warning("No 13F-HR found for %s", firm)
+                time.sleep(2)
                 continue
 
             acc = accessions[idx].replace("-", "")
             filing_date = dates[idx]
             cik_stripped = cik.lstrip("0")
-
-            search_url = (
-                f"https://efts.sec.gov/LATEST/search-index?q=%2213F%22"
-                f"&forms=13F-HR&dateRange=custom"
-                f"&startdt={days_ago_str(120)}&enddt={today_str()}"
-                f"&entity={requests.utils.quote(firm)}"
-            )
-            safe_get(search_url)
 
             log.info("13F: %s latest filing %s on %s", firm, acc, filing_date)
 
@@ -335,29 +441,72 @@ def fetch_13f(signals: dict, fetched: list):
             days_old = (datetime.now() - filing_dt).days
 
             if days_old <= 45:
+                time.sleep(2)
                 infotable_url = f"https://www.sec.gov/Archives/edgar/data/{cik_stripped}/{acc}/"
-                idx_r = safe_get(infotable_url)
+                idx_r = _fetch_with_retry(infotable_url)
                 if idx_r and "infotable" in idx_r.text.lower():
                     import re
-                    links = re.findall(r'href="([^"]*infotable[^"]*)"', idx_r.text, re.I)
+                    links = re.findall(r'href="([^"]*infotable[^"]*\.xml)"', idx_r.text, re.I)
+                    if not links:
+                        links = re.findall(r'href="([^"]*infotable[^"]*)"', idx_r.text, re.I)
                     if links:
-                        it_url = f"https://www.sec.gov{links[0]}" if links[0].startswith("/") else links[0]
-                        it_r = safe_get(it_url)
+                        link = links[0]
+                        if link.startswith("/"):
+                            it_url = f"https://www.sec.gov{link}"
+                        elif not link.startswith("http"):
+                            it_url = f"{infotable_url}{link}"
+                        else:
+                            it_url = link
+                        time.sleep(2)
+                        it_r = _fetch_with_retry(it_url)
                         if it_r:
-                            _parse_infotable(it_r.text, firm, filing_date, days_old, signals)
-                            found_any = True
+                            holdings = _parse_infotable(it_r.text, firm, filing_date, days_old, signals)
+                            if holdings:
+                                new_holdings[firm] = {"filing_date": filing_date, "holdings": holdings}
+                                found_any = True
+
+            time.sleep(2)
 
         except Exception as e:
             log.error("13F fetch failed for %s: %s", firm, e)
 
     if found_any:
+        cache = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "holdings": new_holdings,
+        }
+        _save_13f_cache(cache)
         fetched.append("13f")
+    elif _is_cache_valid(cache):
+        log.info("13F: Using cached data from %s", cache.get("timestamp", "unknown"))
+        cached_holdings = cache.get("holdings", {})
+        for firm, data in cached_holdings.items():
+            filing_date = data.get("filing_date", "")
+            holdings = data.get("holdings", [])
+            if not filing_date:
+                continue
+            try:
+                filing_dt = datetime.strptime(filing_date, "%Y-%m-%d")
+                days_old = (datetime.now() - filing_dt).days
+            except Exception:
+                days_old = 30
+            for h in holdings:
+                ticker = h.get("ticker")
+                detail = h.get("detail")
+                pts = h.get("pts", 0)
+                if ticker and detail and pts > 0:
+                    signals[ticker].append({"source": "13F Whale", "detail": detail, "pts": pts})
+                    found_any = True
+        if found_any:
+            fetched.append("13f")
+        else:
+            fetched.append("13f_partial")
     else:
-        log.warning("13F: No holdings parsed (SEC rate limits or no fresh filings)")
+        log.warning("13F: No holdings parsed and no valid cache available")
         fetched.append("13f_partial")
 
 
-def _parse_infotable(xml_text: str, firm: str, filing_date: str, days_old: int, signals: dict):
+def _parse_infotable(xml_text: str, firm: str, filing_date: str, days_old: int, signals: dict) -> list:
     import re
     if days_old <= 14:
         pts = 2
@@ -365,21 +514,43 @@ def _parse_infotable(xml_text: str, firm: str, filing_date: str, days_old: int, 
         pts = 1
     else:
         pts = 0
+
+    holdings = []
     if pts == 0:
-        return
+        return holdings
+
+    # Try multiple XML patterns for robustness
     entries = re.findall(
-        r"<nameofissuer>(.*?)</nameofissuer>.*?<cusip>(.*?)</cusip>.*?<value>(.*?)</value>.*?<sshprnamt>(.*?)</sshprnamt>",
+        r"<nameOfIssuer>(.*?)</nameOfIssuer>.*?<value>(.*?)</value>.*?<sshPrnamt>(.*?)</sshPrnamt>",
         xml_text,
         re.DOTALL | re.I,
     )
-    for name, cusip, value, shares in entries[:50]:
-        name = name.strip()
-        shares_n = int(shares.strip().replace(",", "")) if shares.strip().replace(",", "").isdigit() else 0
+    if not entries:
+        entries = re.findall(
+            r"<nameofissuer>(.*?)</nameofissuer>.*?<value>(.*?)</value>.*?<sshprnamt>(.*?)</sshprnamt>",
+            xml_text,
+            re.DOTALL | re.I,
+        )
+    if not entries:
+        # Fallback: try with cusip in between
+        entries = re.findall(
+            r"<(?:nameOfIssuer|nameofissuer)>(.*?)</(?:nameOfIssuer|nameofissuer)>.*?<(?:cusip|CUSIP)>.*?</(?:cusip|CUSIP)>.*?<value>(.*?)</value>.*?<(?:sshPrnamt|sshprnamt)>(.*?)</(?:sshPrnamt|sshprnamt)>",
+            xml_text,
+            re.DOTALL | re.I,
+        )
+
+    for entry in entries[:50]:
+        name = entry[0].strip()
+        shares_str = entry[2].strip().replace(",", "") if len(entry) > 2 else "0"
+        shares_n = int(shares_str) if shares_str.isdigit() else 0
         if shares_n > 100_000:
             ticker_guess = _name_to_ticker_guess(name)
             if ticker_guess:
                 detail = f"{firm} holds {shares_n:,} shares of {name} (13F filed {filing_date})"
                 signals[ticker_guess].append({"source": "13F Whale", "detail": detail, "pts": pts})
+                holdings.append({"ticker": ticker_guess, "detail": detail, "pts": pts})
+
+    return holdings
 
 
 def _name_to_ticker_guess(name: str) -> str:
