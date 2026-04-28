@@ -58,8 +58,8 @@ jobs:
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
 
-      - name: Commit updated data (full mode only)
-        if: steps.mode.outputs.mode == 'full'
+      - name: Commit updated data
+        if: always()
         run: |
           git config --global user.name "WATCHTOWER Bot"
           git config --global user.email "watchtower@github-actions"
