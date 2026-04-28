@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-04-28T14:34:46",
+  "generated_at": "2026-04-28T14:44:01",
   "tickers": [
     {
-      "ticker": "PLTR",
-      "company": "Palantir Technologies Inc.",
+      "ticker": "HOOD",
+      "company": "Robinhood Markets, Inc.",
       "score": 1,
       "tier": 4,
       "signals": [
         {
           "source": "News",
-          "detail": "PLTR: 3 net positive headlines in 24h",
+          "detail": "HOOD: 4 net positive headlines in 24h",
           "pts": 1
         }
       ],
@@ -19,88 +19,7 @@
     }
   ],
   "tier1_alert": [],
-  "sell_alerts": [
-    {
-      "ticker": "FMAO",
-      "company": "Farmers & Merchants Bancorp, Inc.",
-      "prev_tier": 2,
-      "curr_tier": 4,
-      "reasons": [
-        "Tier dropped from 2\u21924",
-        "Score fell 3\u21920 (-3)"
-      ]
-    },
-    {
-      "ticker": "CARR",
-      "company": "Carrier Global Corporation",
-      "prev_tier": 2,
-      "curr_tier": 4,
-      "reasons": [
-        "Tier dropped from 2\u21924",
-        "Score fell 3\u21920 (-3)"
-      ]
-    },
-    {
-      "ticker": "CASY",
-      "company": "Casey's General Stores, Inc.",
-      "prev_tier": 2,
-      "curr_tier": 4,
-      "reasons": [
-        "Tier dropped from 2\u21924",
-        "Score fell 3\u21920 (-3)"
-      ]
-    },
-    {
-      "ticker": "NEE",
-      "company": "NextEra Energy, Inc.",
-      "prev_tier": 2,
-      "curr_tier": 4,
-      "reasons": [
-        "Tier dropped from 2\u21924",
-        "Score fell 3\u21920 (-3)"
-      ]
-    },
-    {
-      "ticker": "WAB",
-      "company": "Westinghouse Air Brake Technologies Corporation",
-      "prev_tier": 2,
-      "curr_tier": 4,
-      "reasons": [
-        "Tier dropped from 2\u21924",
-        "Score fell 3\u21920 (-3)"
-      ]
-    },
-    {
-      "ticker": "MAR",
-      "company": "Marriott International, Inc.",
-      "prev_tier": 2,
-      "curr_tier": 4,
-      "reasons": [
-        "Tier dropped from 2\u21924",
-        "Score fell 3\u21920 (-3)"
-      ]
-    },
-    {
-      "ticker": "AMCR",
-      "company": "Amcor plc",
-      "prev_tier": 2,
-      "curr_tier": 4,
-      "reasons": [
-        "Tier dropped from 2\u21924",
-        "Score fell 3\u21920 (-3)"
-      ]
-    },
-    {
-      "ticker": "EQT",
-      "company": "EQT Corporation",
-      "prev_tier": 2,
-      "curr_tier": 4,
-      "reasons": [
-        "Tier dropped from 2\u21924",
-        "Score fell 3\u21920 (-3)"
-      ]
-    }
-  ],
+  "sell_alerts": [],
   "speculative_solo": [],
   "stats": {
     "total_scanned": 1,
