@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-28T20:47:37",
+  "generated_at": "2026-04-28T22:12:10",
   "tickers": [
     {
       "ticker": "FMAO",
@@ -156,14 +156,14 @@
       "price_note": ""
     },
     {
-      "ticker": "SPOT",
-      "company": "Spotify Technology S.A.",
+      "ticker": "PLTR",
+      "company": "Palantir Technologies Inc.",
       "score": 1,
       "tier": 4,
       "signals": [
         {
           "source": "News",
-          "detail": "SPOT: 3 net positive headlines in 24h",
+          "detail": "PLTR: 3 net positive headlines in 24h",
           "pts": 1
         }
       ],
