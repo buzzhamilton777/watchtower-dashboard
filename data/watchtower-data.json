@@ -1,0 +1,1941 @@
+{
+  "generated_at": "2026-04-28T01:51:04",
+  "tickers": [
+    {
+      "ticker": "AMD",
+      "company": "Advanced Micro Devices, Inc.",
+      "score": 8,
+      "tier": 1,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 1,591,290 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 524,628 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 438,241 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 102,416 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "PLTR",
+      "company": "Palantir Technologies Inc.",
+      "score": 8,
+      "tier": 1,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 2,230,093 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 744,924 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 338,494 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 250,047 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "AMZN",
+      "company": "Amazon.com, Inc.",
+      "score": 8,
+      "tier": 1,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 999,147 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 338,908 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 264,108 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 120,737 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "NVDA",
+      "company": "NVIDIA Corporation",
+      "score": 8,
+      "tier": 1,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 589,202 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 309,025 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 89,862 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 75,494 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "ROKU",
+      "company": "Roku, Inc.",
+      "score": 7,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 3,679,017 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 624,422 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 203,569 shares added",
+          "pts": 2
+        },
+        {
+          "source": "Google Trends",
+          "detail": "+29% WoW acceleration (Google Trends)",
+          "pts": 1
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "XYZ",
+      "company": "Block, Inc.",
+      "score": 7,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 2,156,059 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 669,661 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 623,690 shares added",
+          "pts": 2
+        },
+        {
+          "source": "Google Trends",
+          "detail": "+22% WoW acceleration (Google Trends)",
+          "pts": 1
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "TSLA",
+      "company": "Tesla, Inc.",
+      "score": 6,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 2,526,013 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 701,826 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 376,625 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "SHOP",
+      "company": "Shopify Inc.",
+      "score": 6,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 3,576,763 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 621,404 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 633,505 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "COIN",
+      "company": "Coinbase Global, Inc.",
+      "score": 6,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 2,232,090 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 331,498 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 257,140 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "HOOD",
+      "company": "Robinhood Markets, Inc.",
+      "score": 6,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 5,135,407 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 1,006,503 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 479,617 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "CRCL",
+      "company": "Circle Internet Group",
+      "score": 6,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 4,187,201 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 721,085 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 498,012 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "RBLX",
+      "company": "Roblox Corporation",
+      "score": 6,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 5,510,849 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 918,541 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 406,066 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "BLSH",
+      "company": "Bullish",
+      "score": 6,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 6,096,968 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 906,751 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 780,550 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "BMNR",
+      "company": "Bitmine Immersion Technologies, Inc.",
+      "score": 6,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 9,384,846 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 1,565,383 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 834,306 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "TSM",
+      "company": "Taiwan Semiconductor Manufacturing Company Limited",
+      "score": 6,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 362,001 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 207,642 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 118,237 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "AVGO",
+      "company": "Broadcom Inc.",
+      "score": 6,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 275,831 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 101,387 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 93,375 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "BIDU",
+      "company": "Baidu, Inc.",
+      "score": 6,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 809,602 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 402,168 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 134,072 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "BABA",
+      "company": "Alibaba Group Holding Limited",
+      "score": 6,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 689,293 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 134,143 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 74,337 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "GOOG",
+      "company": "Alphabet Inc.",
+      "score": 6,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 257,421 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 293,347 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 171,742 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "META",
+      "company": "Meta Platforms, Inc.",
+      "score": 6,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 55,966 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 45,335 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 31,986 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "SLMT",
+      "company": "Brera Holdings PLC",
+      "score": 6,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 6,459,193 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 1,706,188 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 958,637 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "DASH",
+      "company": "DoorDash, Inc.",
+      "score": 6,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 168,689 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 97,068 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 64,123 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "TEM",
+      "company": "Tempus AI, Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 9,561,664 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 1,974,142 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "CRSP",
+      "company": "CRISPR Therapeutics AG",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 9,263,628 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 1,979,100 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "TWST",
+      "company": "Twist Bioscience Corporation",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 5,168,064 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 1,849,831 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "BEAM",
+      "company": "Beam Therapeutics Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 9,990,680 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 2,081,127 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "CRWV",
+      "company": "CoreWeave, Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 2,333,707 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 583,683 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "TER",
+      "company": "Teradyne, Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 563,181 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 630,491 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "TXG",
+      "company": "10x Genomics, Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 10,370,191 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 3,041,049 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "ACHR",
+      "company": "Archer Aviation Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 26,808,791 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 13,505,468 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "NTLA",
+      "company": "Intellia Therapeutics, Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 10,062,936 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 2,847,883 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "ILMN",
+      "company": "Illumina, Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 937,916 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 369,560 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "RXRX",
+      "company": "Recursion Pharmaceuticals, Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 33,210,254 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 11,805,714 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "DE",
+      "company": "Deere & Company",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 204,372 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 189,057 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "NTRA",
+      "company": "Natera, Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 563,764 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 229,312 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "BWXT",
+      "company": "BWX Technologies, Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 458,708 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 224,759 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "VCYT",
+      "company": "Veracyte, Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 2,689,454 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 940,734 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "WGS",
+      "company": "GeneDx Holdings Corp.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 1,269,661 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 377,527 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "KTOS",
+      "company": "Kratos Defense & Security Solutions, Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 1,222,090 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 2,191,162 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "SOFI",
+      "company": "SoFi Technologies, Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 3,325,461 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 1,291,857 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "PACB",
+      "company": "Pacific Biosciences of California, Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 22,512,121 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 10,315,253 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "CERS",
+      "company": "Cerus Corporation",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 14,734,063 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 7,009,093 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "CRWD",
+      "company": "CrowdStrike Holdings, Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 67,222 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 24,205 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "TOST",
+      "company": "Toast, Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 595,456 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 1,195,698 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "MELI",
+      "company": "MercadoLibre, Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 8,976 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 14,724 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "SPOT",
+      "company": "Spotify Technology S.A.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 31,364 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 24,414 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "DKNG UW",
+      "company": "DKNG UW",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 680,253 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 634,367 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "ABNB",
+      "company": "Airbnb, Inc.",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 66,010 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 93,484 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "ETHQ/U",
+      "company": "ETHQ/U",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 822,313 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 565,048 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "SOLQ/U",
+      "company": "SOLQ/U",
+      "score": 4,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 439,354 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 401,283 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "RKLB UQ",
+      "company": "RKLB UQ",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 1,640,835 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "AVAV",
+      "company": "AeroVironment, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 409,533 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "LHX",
+      "company": "L3Harris Technologies, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 238,650 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "TRMB",
+      "company": "Trimble Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 962,771 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "LUNR",
+      "company": "Intuitive Machines, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 2,414,101 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "CAT",
+      "company": "Caterpillar Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 70,704 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "CCJ",
+      "company": "Cameco Corporation",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 428,865 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "SYM UQ",
+      "company": "SYM UQ",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 866,948 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "KMTUY",
+      "company": "Komatsu Ltd.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 1,172,539 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "ESLT",
+      "company": "Elbit Systems Ltd.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 51,759 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "IRDM",
+      "company": "Iridium Communications Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 1,094,093 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "ISRG",
+      "company": "Intuitive Surgical, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 78,623 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "JOBY",
+      "company": "Joby Aviation, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 4,377,118 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "AUR",
+      "company": "Aurora Innovation, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 7,335,363 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "WRD",
+      "company": "WeRide Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 4,389,891 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "OKLO",
+      "company": "Oklo Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 470,289 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "KDK",
+      "company": "Kodiak AI, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 3,347,155 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "SNPS",
+      "company": "Synopsys, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 57,669 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "TDY",
+      "company": "Teledyne Technologies Incorporated",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 44,775 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "BYDDY",
+      "company": "BYD Company Limited",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 2,174,800 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "PONY",
+      "company": "Pony AI Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 2,304,590 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "SRTA",
+      "company": "Strata Critical Medical, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 4,748,621 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "NET",
+      "company": "Cloudflare, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 147,144 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "PSTG",
+      "company": "Everpure Inc",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 340,359 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "DDOG",
+      "company": "Datadog, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 185,414 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "NFLX",
+      "company": "Netflix, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 236,547 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "RBRK",
+      "company": "Rubrik, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 342,686 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "GENI",
+      "company": "Genius Sports Limited",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 3,225,022 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "GTLB",
+      "company": "GitLab Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKW new position: 650,273 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "PSNL",
+      "company": "Personalis, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 7,542,236 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "ABSI",
+      "company": "Absci Corporation",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 11,172,562 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "GH",
+      "company": "Guardant Health, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 466,649 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "CDNA",
+      "company": "CareDx, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 1,890,687 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "CMPS",
+      "company": "COMPASS Pathways plc",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 3,119,635 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "ADPT",
+      "company": "Adaptive Biotechnologies Corporation",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 1,997,778 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "NRIX",
+      "company": "Nurix Therapeutics, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 1,621,618 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "BFLY",
+      "company": "Butterfly Network, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 4,599,390 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "SDGR",
+      "company": "Schr\u00f6dinger, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 1,969,180 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "ARCT UQ",
+      "company": "ARCT UQ",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 2,642,639 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "IONS",
+      "company": "Ionis Pharmaceuticals, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 271,178 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "ATAI UQ",
+      "company": "ATAI UQ",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 4,122,953 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "PRME",
+      "company": "Prime Medicine, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 4,634,020 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "ALMR",
+      "company": "Alamar Biosciences, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 561,256 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "BNTX",
+      "company": "BioNTech SE",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 119,432 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "MASS",
+      "company": "908 Devices Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 1,836,863 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "LLY",
+      "company": "Eli Lilly and Company",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 11,836 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "GENB",
+      "company": "Generate Biomedicines, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 473,739 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "QSI",
+      "company": "Quantum-Si incorporated",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKG new position: 6,517,870 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "ADYEN",
+      "company": "ADYEN",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 16,214 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "NU UN",
+      "company": "NU UN",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 1,170,765 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "SE",
+      "company": "Sea Limited",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 173,064 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "FUTU",
+      "company": "Futu Holdings Limited",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 89,825 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "KLAR",
+      "company": "Klarna Group plc",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 778,161 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "ETOR",
+      "company": "eToro Group Ltd.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 281,547 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "Z",
+      "company": "Zillow Group, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 166,685 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "KSPI",
+      "company": "Joint Stock Company Kaspi.kz",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 62,632 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "PAYP",
+      "company": "PayPay Corporation",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 267,663 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "ICE",
+      "company": "Intercontinental Exchange, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 22,281 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    },
+    {
+      "ticker": "CNTN",
+      "company": "Canton Strategic Holdings, Inc.",
+      "score": 2,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKF new position: 443,051 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-28"
+    }
+  ],
+  "tier1_alert": [
+    "AMD",
+    "PLTR",
+    "AMZN",
+    "NVDA"
+  ],
+  "stats": {
+    "total_scanned": 109,
+    "tier1_count": 4,
+    "tier2_count": 18,
+    "tier3_count": 28,
+    "tier4_count": 59,
+    "sources_fetched": [
+      "13d",
+      "ark",
+      "reddit",
+      "13f_partial",
+      "google_trends"
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+name: Run WATCHTOWER
+
+on:
+  schedule:
+    # 01:00 UTC = 8:00 PM CDT (UTC-5)
+    - cron: "0 1 * * *"
+  workflow_dispatch: # allow manual runs
+
+permissions:
+  contents: write
+
+jobs:
+  watchtower:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run WATCHTOWER
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+        run: python watchtower.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name "WATCHTOWER Bot"
+          git config user.email "actions@github.com"
+          git add data/watchtower-data.json data/watchtower-previous.json || true
+          git diff --cached --quiet || git commit -m "chore: watchtower update $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push

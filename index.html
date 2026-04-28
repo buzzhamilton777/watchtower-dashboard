@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>WATCHTOWER</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --surface2: #1c1c27;
+    --border: #2a2a3d;
+    --text: #e8e8f0;
+    --muted: #6b6b8a;
+    --accent: #7c6af7;
+
+    --tier1-bg: #1a0a0a;
+    --tier1-border: #8b1a1a;
+    --tier1-badge: #dc2626;
+    --tier1-glow: rgba(220, 38, 38, 0.15);
+    --tier1-text: #fca5a5;
+
+    --tier2-bg: #170f00;
+    --tier2-border: #7c3a00;
+    --tier2-badge: #ea6c00;
+    --tier2-glow: rgba(234, 108, 0, 0.1);
+    --tier2-text: #fdba74;
+
+    --tier3-bg: #141000;
+    --tier3-border: #6b5600;
+    --tier3-badge: #ca9a04;
+    --tier3-glow: rgba(202, 154, 4, 0.08);
+    --tier3-text: #fde68a;
+
+    --tier4-bg: #111118;
+    --tier4-border: #2a2a40;
+    --tier4-badge: #4b5563;
+    --tier4-glow: rgba(75, 85, 99, 0.05);
+    --tier4-text: #9ca3af;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+    min-height: 100vh;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(180deg, #0d0d18 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 16px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .wordmark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .wordmark-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #7c6af7 0%, #a855f7 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .wordmark h1 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    background: linear-gradient(90deg, #e8e8f0, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .tagline {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    display: none;
+  }
+
+  .refresh-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .refresh-btn:active { opacity: 0.7; }
+
+  .timestamp {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  /* ── Stats bar ── */
+  .stats-bar {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .stats-bar::-webkit-scrollbar { display: none; }
+
+  .stat-chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .stat-chip span { color: var(--muted); }
+  .stat-chip strong { color: var(--text); margin-left: 4px; }
+
+  /* ── Main ── */
+  main { padding: 16px; max-width: 900px; margin: 0 auto; }
+
+  /* ── Loading / error states ── */
+  .state-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 15px;
+    margin-top: 24px;
+  }
+  .state-card .icon { font-size: 40px; margin-bottom: 12px; }
+  .state-card .title { color: var(--text); font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+
+  /* ── Tier section ── */
+  .tier-section { margin-bottom: 28px; }
+
+  .tier-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 0 2px;
+  }
+
+  .tier-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .tier-divider {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .tier-count {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* ── Ticker card ── */
+  .ticker-grid {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .ticker-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .ticker-card {
+    border-radius: 14px;
+    border: 1px solid;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.12s, box-shadow 0.12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ticker-card:active { transform: scale(0.985); }
+
+  .card-t1 { background: var(--tier1-bg); border-color: var(--tier1-border); box-shadow: 0 0 0 1px var(--tier1-border) inset, 0 8px 32px var(--tier1-glow); }
+  .card-t2 { background: var(--tier2-bg); border-color: var(--tier2-border); box-shadow: 0 4px 20px var(--tier2-glow); }
+  .card-t3 { background: var(--tier3-bg); border-color: var(--tier3-border); box-shadow: 0 2px 12px var(--tier3-glow); }
+  .card-t4 { background: var(--tier4-bg); border-color: var(--tier4-border); }
+
+  .card-main {
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .card-left { flex: 1; min-width: 0; }
+
+  .ticker-symbol {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .t1 .ticker-symbol { color: var(--tier1-text); }
+  .t2 .ticker-symbol { color: var(--tier2-text); }
+  .t3 .ticker-symbol { color: var(--tier3-text); }
+  .t4 .ticker-symbol { color: var(--tier4-text); }
+
+  .company-name {
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .tier-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .badge-t1 { background: var(--tier1-badge); color: #fff; }
+  .badge-t2 { background: var(--tier2-badge); color: #fff; }
+  .badge-t3 { background: var(--tier3-badge); color: #000; }
+  .badge-t4 { background: var(--tier4-badge); color: #fff; }
+
+  .score-display {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .t1 .score-display { color: var(--tier1-text); }
+  .t2 .score-display { color: var(--tier2-text); }
+  .t3 .score-display { color: var(--tier3-text); }
+  .t4 .score-display { color: var(--tier4-text); }
+
+  .score-label { font-size: 10px; color: var(--muted); text-align: right; }
+
+  .signal-preview {
+    padding: 0 16px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .signal-tag {
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    border: 1px solid;
+  }
+  .card-t1 .signal-tag { border-color: var(--tier1-border); color: var(--tier1-text); background: rgba(139,26,26,0.2); }
+  .card-t2 .signal-tag { border-color: var(--tier2-border); color: var(--tier2-text); background: rgba(124,58,0,0.2); }
+  .card-t3 .signal-tag { border-color: var(--tier3-border); color: var(--tier3-text); background: rgba(107,86,0,0.2); }
+  .card-t4 .signal-tag { border-color: var(--tier4-border); color: var(--tier4-text); background: rgba(42,42,64,0.3); }
+
+  /* ── Expanded signals ── */
+  .signals-expanded {
+    display: none;
+    border-top: 1px solid;
+    padding: 14px 16px;
+    gap: 10px;
+    flex-direction: column;
+  }
+  .card-t1 .signals-expanded { border-color: var(--tier1-border); }
+  .card-t2 .signals-expanded { border-color: var(--tier2-border); }
+  .card-t3 .signals-expanded { border-color: var(--tier3-border); }
+  .card-t4 .signals-expanded { border-color: var(--tier4-border); }
+
+  .ticker-card.expanded .signals-expanded { display: flex; }
+  .ticker-card.expanded .signal-preview { display: none; }
+
+  .signal-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .signal-source {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    padding-top: 1px;
+    min-width: 80px;
+  }
+  .t1 .signal-source { color: var(--tier1-text); }
+  .t2 .signal-source { color: var(--tier2-text); }
+  .t3 .signal-source { color: var(--tier3-text); }
+  .t4 .signal-source { color: var(--tier4-text); }
+
+  .signal-detail {
+    font-size: 13px;
+    color: var(--text);
+    flex: 1;
+    line-height: 1.4;
+  }
+
+  .signal-pts {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    white-space: nowrap;
+    padding-top: 1px;
+  }
+
+  /* ── Empty tier ── */
+  .empty-tier {
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* ── Sources footer ── */
+  .sources-footer {
+    margin-top: 32px;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+  }
+  .sources-footer h3 {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .source-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .source-chip {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid;
+  }
+  .source-chip.ok { border-color: #166534; background: rgba(22,101,52,0.2); color: #86efac; }
+  .source-chip.partial { border-color: #7c3a00; background: rgba(124,58,0,0.2); color: #fdba74; }
+  .source-chip.missing { border-color: var(--border); background: transparent; color: var(--muted); }
+
+  /* ── Tier 1 pulse animation ── */
+  @keyframes pulse-border {
+    0%, 100% { box-shadow: 0 0 0 1px var(--tier1-border) inset, 0 8px 32px var(--tier1-glow); }
+    50% { box-shadow: 0 0 0 1px var(--tier1-border) inset, 0 8px 48px rgba(220,38,38,0.28); }
+  }
+  .card-t1 { animation: pulse-border 3s ease-in-out infinite; }
+
+  /* ── Desktop tagline ── */
+  @media (min-width: 640px) {
+    .tagline { display: block; }
+    .wordmark h1 { font-size: 22px; }
+    main { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-top">
+    <div class="wordmark">
+      <div class="wordmark-icon">&#128301;</div>
+      <div>
+        <h1>WATCHTOWER</h1>
+        <div class="tagline">See everything before the market does.</div>
+      </div>
+    </div>
+    <button class="refresh-btn" onclick="loadData()">&#8635; Refresh</button>
+  </div>
+  <div class="timestamp" id="timestamp">Loading&hellip;</div>
+  <div class="stats-bar" id="statsBar"></div>
+</header>
+
+<main id="main">
+  <div class="state-card">
+    <div class="icon">&#128301;</div>
+    <div class="title">Loading signals&hellip;</div>
+  </div>
+</main>
+
+<script>
+const TIER_CONFIG = {
+  1: { label: "MAX CONVICTION", badgeClass: "badge-t1", cardClass: "card-t1 t1", sectionLabel: "Tier 1 — Max Conviction" },
+  2: { label: "HIGH CONVICTION", badgeClass: "badge-t2", cardClass: "card-t2 t2", sectionLabel: "Tier 2 — High Conviction" },
+  3: { label: "MODERATE", badgeClass: "badge-t3", cardClass: "card-t3 t3", sectionLabel: "Tier 3 — Moderate Signal" },
+  4: { label: "WATCH", badgeClass: "badge-t4", cardClass: "card-t4 t4", sectionLabel: "Tier 4 — Watch List" },
+};
+
+const ALL_SOURCES = ["congressional", "13f", "13d", "ark", "reddit", "google_trends"];
+const SOURCE_LABELS = {
+  congressional: "Congressional",
+  "13f": "13F Whales",
+  "13d": "13D Activist",
+  ark: "ARK Invest",
+  reddit: "Reddit",
+  google_trends: "Google Trends",
+};
+
+async function loadData() {
+  try {
+    const r = await fetch(`./data/watchtower-data.json?_=${Date.now()}`);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const data = await r.json();
+    render(data);
+  } catch (e) {
+    document.getElementById("main").innerHTML = `
+      <div class="state-card">
+        <div class="icon">⚠️</div>
+        <div class="title">Could not load data</div>
+        <div>${e.message}</div>
+      </div>`;
+    document.getElementById("timestamp").textContent = "Failed to load";
+  }
+}
+
+function render(data) {
+  // Timestamp
+  const ts = new Date(data.generated_at);
+  const relative = relativeTime(ts);
+  document.getElementById("timestamp").textContent =
+    `Updated ${relative} · ${ts.toLocaleDateString(undefined, { month: "short", day: "numeric" })} ${ts.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+
+  // Stats bar
+  const s = data.stats;
+  document.getElementById("statsBar").innerHTML = [
+    chip("Scanned", s.total_scanned),
+    chip("Tier 1", s.tier1_count, s.tier1_count > 0 ? "#fca5a5" : null),
+    chip("Tier 2", s.tier2_count, s.tier2_count > 0 ? "#fdba74" : null),
+    chip("Tier 3", s.tier3_count || 0),
+    chip("Tier 4", s.tier4_count || 0),
+  ].join("");
+
+  // Group tickers by tier
+  const byTier = { 1: [], 2: [], 3: [], 4: [] };
+  for (const t of data.tickers) byTier[t.tier]?.push(t);
+
+  // Render tier sections
+  let html = "";
+  for (const tier of [1, 2, 3, 4]) {
+    const cfg = TIER_CONFIG[tier];
+    const tickers = byTier[tier];
+    html += `<section class="tier-section">
+      <div class="tier-header">
+        <span class="tier-badge ${cfg.badgeClass} tier-label">${cfg.sectionLabel}</span>
+        <div class="tier-divider"></div>
+        <span class="tier-count">${tickers.length}</span>
+      </div>`;
+
+    if (tickers.length === 0) {
+      html += `<div class="empty-tier">No signals at this tier</div>`;
+    } else {
+      html += `<div class="ticker-grid">`;
+      for (const t of tickers) html += renderCard(t, cfg);
+      html += `</div>`;
+    }
+    html += `</section>`;
+  }
+
+  // Sources footer
+  const fetched = s.sources_fetched || [];
+  html += `<div class="sources-footer">
+    <h3>Sources this run</h3>
+    <div class="source-chips">
+      ${ALL_SOURCES.map(src => {
+        const ok = fetched.includes(src);
+        const partial = fetched.includes(src + "_partial");
+        const cls = ok ? "ok" : partial ? "partial" : "missing";
+        const icon = ok ? "✓" : partial ? "~" : "–";
+        return `<span class="source-chip ${cls}">${icon} ${SOURCE_LABELS[src]}</span>`;
+      }).join("")}
+    </div>
+  </div>`;
+
+  document.getElementById("main").innerHTML = html;
+
+  // Wire up toggle
+  document.querySelectorAll(".ticker-card").forEach(card => {
+    card.addEventListener("click", () => card.classList.toggle("expanded"));
+  });
+}
+
+function renderCard(t, cfg) {
+  const signalTags = t.signals.slice(0, 4).map(s =>
+    `<span class="signal-tag">${s.source}</span>`
+  ).join("");
+
+  const signalRows = t.signals.map(s => `
+    <div class="signal-row">
+      <div class="signal-source">${esc(s.source)}</div>
+      <div class="signal-detail">${esc(s.detail)}</div>
+      <div class="signal-pts">+${s.pts}pt</div>
+    </div>`).join("");
+
+  return `
+    <div class="ticker-card ${cfg.cardClass}">
+      <div class="card-main">
+        <div class="card-left">
+          <div class="ticker-symbol">${esc(t.ticker)}</div>
+          <div class="company-name">${esc(t.company)}</div>
+        </div>
+        <div class="card-right">
+          <span class="tier-badge ${cfg.badgeClass}">${cfg.label}</span>
+          <div class="score-display">${t.score}</div>
+          <div class="score-label">pts</div>
+        </div>
+      </div>
+      <div class="signal-preview">${signalTags}</div>
+      <div class="signals-expanded">${signalRows}</div>
+    </div>`;
+}
+
+function chip(label, value, color) {
+  const style = color ? `style="color:${color}"` : "";
+  return `<div class="stat-chip"><span>${label}</span><strong ${style}>${value}</strong></div>`;
+}
+
+function esc(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function relativeTime(date) {
+  const seconds = Math.floor((Date.now() - date) / 1000);
+  if (seconds < 60) return "just now";
+  if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+  if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+  return `${Math.floor(seconds / 86400)}d ago`;
+}
+
+loadData();
+</script>
+</body>
+</html>
