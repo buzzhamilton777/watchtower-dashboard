@@ -8,7 +8,6 @@ Runs daily via GitHub Actions. Results written to data/watchtower-data.json.
 import json
 import logging
 import os
-import re
 import time
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
@@ -38,6 +37,9 @@ log = logging.getLogger("watchtower")
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
+# Scoring: ARK new=2, ARK increase>10%=1, 13D=5, 13F freshness-decayed(2/1/0),
+#          Congressional=3, Reddit+corroboration=1, Reddit-solo=0, Trends=1,
+#          Form4 cluster=4 / single>100K=3 / single<100K=2
 SCORE_THRESHOLDS = {1: 4, 2: 3, 3: 2, 4: 1}
 HEADERS = {"User-Agent": "watchtower/1.0 kurtafarmer@gmail.com"}
 
@@ -53,23 +55,6 @@ REDDIT_SUBS = ["investing", "stocks", "options", "pennystocks", "wallstreetbets"
 
 PREVIOUS_DATA_PATH = Path("data/watchtower-previous.json")
 OUTPUT_PATH = Path("data/watchtower-data.json")
-
-# Scoring point values
-PTS_ARK_INCREASE = 1        # ARK increase >10%
-PTS_ARK_NEW = 2             # ARK new position
-PTS_13D = 5                 # 13D activist new stake
-PTS_13F_FRESH = 2           # 13F whale <14 days old
-PTS_13F_MID = 1             # 13F whale 14-30 days old
-PTS_CONGRESSIONAL = 3       # Congressional buy
-PTS_REDDIT = 1              # Reddit spike (corroborated)
-PTS_TRENDS = 1              # Google Trends acceleration
-PTS_F4_CLUSTER = 4          # Form 4: 2+ insiders same 7 days
-PTS_F4_LARGE = 3            # Form 4: single insider >$100K
-PTS_F4_SMALL = 2            # Form 4: single insider <$100K
-PTS_NEWS_SENTIMENT = 1      # News sentiment spike
-PTS_OPTIONS_SWEEP = 3       # Unusual options sweep
-PTS_SHORT_INTEREST = 2      # Short interest velocity decline >20%
-PTS_MEGACAP_PENALTY = -2    # Market cap >$200B penalty
 
 
 # ---------------------------------------------------------------------------
@@ -139,12 +124,11 @@ def fetch_congressional(signals: dict, sell_signals: dict, fetched: list):
                 entity = src.get("entity_name", "Unknown")
                 filed = src.get("file_date", "")
                 detail = f"{entity} Form 4 filed {filed}"
-                signals[ticker].append({"source": "Congressional", "detail": detail, "pts": PTS_CONGRESSIONAL})
+                signals[ticker].append({"source": "Congressional", "detail": detail, "pts": 3})
                 bought += 1
         except Exception as e:
             log.warning("Congressional SEC parse failed: %s", e)
 
-    # Fallback: QuiverQuant public API
     if bought == 0:
         qq_url = "https://api.quiverquant.com/beta/bulk/congresstrading"
         r = safe_get(qq_url)
@@ -165,7 +149,7 @@ def fetch_congressional(signals: dict, sell_signals: dict, fetched: list):
 
                     if "purchase" in txn_type or "buy" in txn_type:
                         detail = f"{rep} purchased {amount} ({date})"
-                        signals[ticker].append({"source": "Congressional", "detail": detail, "pts": PTS_CONGRESSIONAL})
+                        signals[ticker].append({"source": "Congressional", "detail": detail, "pts": 3})
                         bought += 1
                     elif "sale" in txn_type or "sell" in txn_type:
                         detail = f"{rep} sold {amount} ({date})"
@@ -176,6 +160,105 @@ def fetch_congressional(signals: dict, sell_signals: dict, fetched: list):
     log.info("Congressional: %d buy signals found", bought)
     if bought > 0:
         fetched.append("congressional")
+
+
+# ---------------------------------------------------------------------------
+# Source: Form 4 insider buying
+# ---------------------------------------------------------------------------
+def fetch_form4_insiders(signals: dict, fetched: list):
+    log.info("Fetching Form 4 insider buys...")
+    url = (
+        f"https://efts.sec.gov/LATEST/search-index?forms=4&dateRange=custom"
+        f"&startdt={days_ago_str(7)}&enddt={today_str()}&hits.hits._source=true"
+    )
+    r = safe_get(url)
+    if not r:
+        log.error("Form 4 fetch failed")
+        return
+
+    try:
+        data = r.json()
+        hits = data.get("hits", {}).get("hits", [])
+    except Exception as e:
+        log.error("Form 4 JSON parse failed: %s", e)
+        return
+
+    ticker_buys: dict = defaultdict(list)
+
+    for hit in hits:
+        try:
+            src = hit.get("_source", {})
+
+            # Filter for purchase transactions (type "P") when the field is present
+            txn_type = (
+                src.get("transaction_code")
+                or src.get("transactionCode")
+                or src.get("transaction_type", "")
+            )
+            if txn_type and str(txn_type).upper() != "P":
+                continue
+
+            ticker = ""
+            for dn in src.get("display_names", []):
+                t = dn.get("ticker", "")
+                if t:
+                    ticker = t.upper()
+                    break
+            if not ticker:
+                continue
+
+            entity = src.get("entity_name", "Unknown")
+            value = 0.0
+            try:
+                value = float(
+                    src.get("transaction_value")
+                    or src.get("transactionValue")
+                    or src.get("value", 0)
+                    or 0
+                )
+            except (ValueError, TypeError):
+                value = 0.0
+
+            ticker_buys[ticker].append({"name": entity, "value": value})
+        except Exception:
+            continue
+
+    found_any = False
+    for ticker, buys in ticker_buys.items():
+        seen_names: set = set()
+        unique_buys = []
+        for b in buys:
+            if b["name"] not in seen_names:
+                seen_names.add(b["name"])
+                unique_buys.append(b)
+
+        if len(unique_buys) >= 2:
+            names = ", ".join(b["name"] for b in unique_buys[:3])
+            signals[ticker].append({
+                "source": "Form4 Insider",
+                "detail": f"Cluster insider buy: {names}",
+                "pts": 4,
+            })
+            found_any = True
+        elif len(unique_buys) == 1:
+            b = unique_buys[0]
+            if b["value"] >= 100_000:
+                signals[ticker].append({
+                    "source": "Form4 Insider",
+                    "detail": f"{b['name']} bought ${b['value']:,.0f}",
+                    "pts": 3,
+                })
+            else:
+                signals[ticker].append({
+                    "source": "Form4 Insider",
+                    "detail": f"{b['name']} bought ${b['value']:,.0f} (small)",
+                    "pts": 2,
+                })
+            found_any = True
+
+    log.info("Form4: %d tickers with insider buys", len(ticker_buys))
+    if found_any:
+        fetched.append("form4")
 
 
 # ---------------------------------------------------------------------------
@@ -225,21 +308,18 @@ def fetch_13f(signals: dict, fetched: list):
             filing_dt = datetime.strptime(filing_date, "%Y-%m-%d")
             days_old = (datetime.now() - filing_dt).days
 
-            # Skip filings older than 30 days entirely
-            if days_old > 30:
-                log.info("13F: %s filing is %d days old — skipping (stale)", firm, days_old)
-                continue
-
-            infotable_url = f"https://www.sec.gov/Archives/edgar/data/{cik_stripped}/{acc}/"
-            idx_r = safe_get(infotable_url)
-            if idx_r and "infotable" in idx_r.text.lower():
-                links = re.findall(r'href="([^"]*infotable[^"]*)"', idx_r.text, re.I)
-                if links:
-                    it_url = f"https://www.sec.gov{links[0]}" if links[0].startswith("/") else links[0]
-                    it_r = safe_get(it_url)
-                    if it_r:
-                        _parse_infotable(it_r.text, firm, filing_date, days_old, signals)
-                        found_any = True
+            if days_old <= 45:
+                infotable_url = f"https://www.sec.gov/Archives/edgar/data/{cik_stripped}/{acc}/"
+                idx_r = safe_get(infotable_url)
+                if idx_r and "infotable" in idx_r.text.lower():
+                    import re
+                    links = re.findall(r'href="([^"]*infotable[^"]*)"', idx_r.text, re.I)
+                    if links:
+                        it_url = f"https://www.sec.gov{links[0]}" if links[0].startswith("/") else links[0]
+                        it_r = safe_get(it_url)
+                        if it_r:
+                            _parse_infotable(it_r.text, firm, filing_date, days_old, signals)
+                            found_any = True
 
         except Exception as e:
             log.error("13F fetch failed for %s: %s", firm, e)
@@ -252,11 +332,15 @@ def fetch_13f(signals: dict, fetched: list):
 
 
 def _parse_infotable(xml_text: str, firm: str, filing_date: str, days_old: int, signals: dict):
-    # Freshness decay: <14 days = PTS_13F_FRESH, 14-30 days = PTS_13F_MID, >30 = skip
-    if days_old > 30:
+    import re
+    if days_old <= 14:
+        pts = 2
+    elif days_old <= 30:
+        pts = 1
+    else:
+        pts = 0
+    if pts == 0:
         return
-    pts = PTS_13F_FRESH if days_old < 14 else PTS_13F_MID
-
     entries = re.findall(
         r"<nameofissuer>(.*?)</nameofissuer>.*?<cusip>(.*?)</cusip>.*?<value>(.*?)</value>.*?<sshprnamt>(.*?)</sshprnamt>",
         xml_text,
@@ -268,7 +352,7 @@ def _parse_infotable(xml_text: str, firm: str, filing_date: str, days_old: int, 
         if shares_n > 100_000:
             ticker_guess = _name_to_ticker_guess(name)
             if ticker_guess:
-                detail = f"{firm} holds {shares_n:,} shares of {name} (13F filed {filing_date}, {days_old}d ago)"
+                detail = f"{firm} holds {shares_n:,} shares of {name} (13F filed {filing_date})"
                 signals[ticker_guess].append({"source": "13F Whale", "detail": detail, "pts": pts})
 
 
@@ -329,7 +413,7 @@ def fetch_13d(signals: dict, fetched: list):
 
             filed = src.get("file_date", "")
             detail = f"SC 13D: {entity} filed on {subject} ({filed})"
-            signals[ticker].append({"source": "13D Activist", "detail": detail, "pts": PTS_13D})
+            signals[ticker].append({"source": "13D Activist", "detail": detail, "pts": 5})
         except Exception:
             continue
 
@@ -379,7 +463,6 @@ def fetch_ark(signals: dict, sell_signals: dict, fetched: list):
         except Exception as e:
             log.error("ARK %s parse failed: %s", fund, e)
 
-    # Compute diffs — new positions and increases only (holds are noise)
     for key, data in current.items():
         ticker = data["ticker"]
         fund = data["fund"]
@@ -388,17 +471,16 @@ def fetch_ark(signals: dict, sell_signals: dict, fetched: list):
 
         if prev_shares == 0 and shares > 0:
             detail = f"{fund} new position: {int(shares):,} shares added"
-            signals[ticker].append({"source": "ARK", "detail": detail, "pts": PTS_ARK_NEW})
+            signals[ticker].append({"source": "ARK", "detail": detail, "pts": 2})
         elif prev_shares > 0 and shares > prev_shares * 1.10:
             pct = ((shares - prev_shares) / prev_shares) * 100
             detail = f"{fund} increased position +{pct:.0f}% ({int(prev_shares):,}→{int(shares):,} shares)"
-            signals[ticker].append({"source": "ARK", "detail": detail, "pts": PTS_ARK_INCREASE})
+            signals[ticker].append({"source": "ARK", "detail": detail, "pts": 1})
         elif prev_shares > 0 and shares < prev_shares * 0.80:
             pct = ((prev_shares - shares) / prev_shares) * 100
             detail = f"{fund} reduced {ticker} by {pct:.0f}% ({int(prev_shares):,}→{int(shares):,} shares)"
             sell_signals[ticker].append({"source": "ARK", "detail": detail, "reason": "sell"})
 
-    # Detect full ARK exits (was in prev, not in current)
     current_keys = set(current.keys())
     for key, prev_info in prev.items():
         if key not in current_keys and prev_info.get("shares", 0) > 0:
@@ -408,7 +490,6 @@ def fetch_ark(signals: dict, sell_signals: dict, fetched: list):
             sell_signals[ticker].append({"source": "ARK", "detail": detail, "reason": "sell"})
             log.info("ARK full exit detected: %s from %s", ticker, fund)
 
-    # Save current for next run
     try:
         prev_data = json.loads(PREVIOUS_DATA_PATH.read_text()) if PREVIOUS_DATA_PATH.exists() else {}
         prev_data["ark_holdings"] = current
@@ -433,7 +514,6 @@ def fetch_reddit(signals: dict, fetched: list):
     mention_counts: dict[str, int] = defaultdict(int)
     success = False
 
-    # Try PRAW first
     if client_id and client_secret:
         try:
             import praw
@@ -452,7 +532,6 @@ def fetch_reddit(signals: dict, fetched: list):
         except Exception as e:
             log.warning("PRAW init failed: %s — falling back to public JSON", e)
 
-    # Fallback: public Reddit JSON (no auth needed)
     if not success:
         for sub in REDDIT_SUBS:
             url = f"https://www.reddit.com/r/{sub}/top.json?limit=100&t=day"
@@ -465,11 +544,10 @@ def fetch_reddit(signals: dict, fetched: list):
                     d = post.get("data", {})
                     _count_tickers(d.get("title", "") + " " + d.get("selftext", ""), mention_counts)
                 success = True
-                time.sleep(1)  # Reddit rate limiting
+                time.sleep(1)
             except Exception as e:
                 log.warning("Public Reddit r/%s failed: %s", sub, e)
 
-    # Load baseline mention counts
     prev_reddit = {}
     if PREVIOUS_DATA_PATH.exists():
         try:
@@ -486,10 +564,8 @@ def fetch_reddit(signals: dict, fetched: list):
         if count >= SPIKE_THRESHOLD and count >= baseline * SPIKE_MULTIPLIER:
             subs_str = ", ".join([f"r/{s}" for s in REDDIT_SUBS[:3]])
             detail = f"{count} mentions today vs {baseline} baseline ({subs_str})"
-            # pts are provisional; corroboration check in main() zeros out solo-Reddit signals
-            signals[ticker].append({"source": "Reddit", "detail": detail, "pts": PTS_REDDIT})
+            signals[ticker].append({"source": "Reddit", "detail": detail, "pts": 1})
 
-    # Save new baseline
     try:
         prev_data = json.loads(PREVIOUS_DATA_PATH.read_text()) if PREVIOUS_DATA_PATH.exists() else {}
         prev_data["reddit_baseline"] = dict(mention_counts)
@@ -503,9 +579,9 @@ def fetch_reddit(signals: dict, fetched: list):
 
 TICKER_PATTERN = None
 
-
 def _count_tickers(text: str, counts: dict):
     global TICKER_PATTERN
+    import re
     if TICKER_PATTERN is None:
         TICKER_PATTERN = re.compile(r'\b([A-Z]{2,5})\b')
     SKIP = {
@@ -557,9 +633,9 @@ def fetch_google_trends(signals: dict, fetched: list, watchlist: list):
                         pct_change = ((recent - previous) / previous) * 100
                         if pct_change >= 20:
                             detail = f"+{pct_change:.0f}% WoW acceleration (Google Trends)"
-                            signals[ticker].append({"source": "Google Trends", "detail": detail, "pts": PTS_TRENDS})
+                            signals[ticker].append({"source": "Google Trends", "detail": detail, "pts": 1})
 
-                time.sleep(1)  # Rate limiting
+                time.sleep(1)
             except Exception as e:
                 log.warning("Google Trends batch %s failed: %s", batch, e)
 
@@ -569,253 +645,16 @@ def fetch_google_trends(signals: dict, fetched: list, watchlist: list):
 
 
 # ---------------------------------------------------------------------------
-# Source: Form 4 insider buying (EDGAR full-text search)
-# ---------------------------------------------------------------------------
-def fetch_form4_insiders(signals: dict, fetched: list):
-    log.info("Fetching Form 4 insider buys...")
-    url = (
-        f"https://efts.sec.gov/LATEST/search-index?forms=4"
-        f"&dateRange=custom&startdt={days_ago_str(7)}&enddt={today_str()}"
-        f"&hits.hits._source=true&hits.hits.total.value=true"
-    )
-    r = safe_get(url)
-    if not r:
-        log.warning("Form 4 EDGAR fetch failed")
-        return
-
-    try:
-        data = r.json()
-        hits = data.get("hits", {}).get("hits", [])
-    except Exception as e:
-        log.error("Form 4 JSON parse failed: %s", e)
-        return
-
-    # ticker -> list of {insider, value, filed}
-    purchases: dict[str, list] = defaultdict(list)
-
-    for hit in hits:
-        try:
-            src = hit.get("_source", {})
-            display_names = src.get("display_names", [])
-            filer_name = src.get("entity_name", "Unknown insider")
-            filed = src.get("file_date", "")
-
-            ticker = ""
-            company = ""
-            for dn in display_names:
-                t = dn.get("ticker", "")
-                if t:
-                    ticker = t.upper()
-                    company = dn.get("name", ticker)
-                    break
-
-            if not ticker:
-                continue
-
-            # EDGAR search metadata doesn't expose transaction code directly;
-            # we conservatively include all Form 4s and rely on volume/cluster signals
-            purchases[ticker].append({
-                "insider": filer_name,
-                "company": company,
-                "filed": filed,
-                "value": 0,
-            })
-        except Exception:
-            continue
-
-    found = False
-    for ticker, buys in purchases.items():
-        if not buys:
-            continue
-        distinct_insiders = len({b["insider"] for b in buys})
-        company = buys[0]["company"]
-
-        if distinct_insiders >= 2:
-            pts = PTS_F4_CLUSTER
-            detail = f"Form4 Cluster: {distinct_insiders} insiders bought {company} in last 7 days"
-            log.info("Form4 cluster: %d insiders bought %s", distinct_insiders, company)
-        else:
-            insider = buys[0]["insider"]
-            pts = PTS_F4_SMALL
-            detail = f"Form4 Insider: {insider} bought shares of {company}"
-            log.info("Form4 insider: %s bought %s", insider, company)
-
-        signals[ticker].append({"source": "Form4 Insider", "detail": detail, "pts": pts})
-        found = True
-
-    if found:
-        fetched.append("form4")
-    log.info("Form 4: %d tickers with insider activity", len(purchases))
-
-
-# ---------------------------------------------------------------------------
-# Source: Short interest velocity (Finviz screener)
-# ---------------------------------------------------------------------------
-def fetch_short_interest(signals: dict, fetched: list):
-    log.info("Fetching short interest data...")
-    url = "https://finviz.com/screener.ashx?v=111&f=sh_short_o20&ft=4&o=-shortinterestchange"
-    r = safe_get(url, extra_headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"})
-    if not r:
-        log.warning("Finviz short interest fetch failed — skipping")
-        return
-
-    try:
-        ticker_pattern = re.compile(r'screener\.ashx\?v=1&t=([A-Z]{1,5})', re.I)
-        tickers_found = ticker_pattern.findall(r.text)
-
-        found = False
-        for ticker in tickers_found[:30]:
-            if ticker not in signals:
-                continue
-            detail = f"{ticker}: Short interest decline — institutions covering short positions"
-            signals[ticker].append({"source": "Short Interest", "detail": detail, "pts": PTS_SHORT_INTEREST})
-            log.info("Short interest covering signal: %s", ticker)
-            found = True
-
-        if found:
-            fetched.append("short_interest")
-
-    except Exception as e:
-        log.warning("Short interest parse failed: %s — skipping", e)
-
-
-# ---------------------------------------------------------------------------
-# Source: News sentiment velocity (Yahoo Finance RSS)
-# ---------------------------------------------------------------------------
-def fetch_news_sentiment(signals: dict, fetched: list, watchlist: list):
-    log.info("Fetching news sentiment...")
-    if not watchlist:
-        return
-
-    POSITIVE_KEYWORDS = {
-        "upgrade", "beat", "surge", "partnership", "approval", "record", "growth",
-        "raised", "outperform", "bullish", "rally", "breakout", "momentum",
-    }
-    cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
-    found_any = False
-
-    for ticker in watchlist[:25]:
-        try:
-            url = f"https://feeds.finance.yahoo.com/rss/2.0/headline?s={ticker}&region=US&lang=en-US"
-            r = safe_get(url)
-            if not r:
-                continue
-
-            from xml.etree import ElementTree as ET
-            root = ET.fromstring(r.content)
-            channel = root.find("channel")
-            if channel is None:
-                continue
-
-            positive_count = 0
-            for item in channel.findall("item"):
-                pub_date_el = item.find("pubDate")
-                title_el = item.find("title")
-                if pub_date_el is None or title_el is None:
-                    continue
-
-                try:
-                    from email.utils import parsedate_to_datetime
-                    pub_dt = parsedate_to_datetime(pub_date_el.text)
-                    if pub_dt.tzinfo is None:
-                        pub_dt = pub_dt.replace(tzinfo=timezone.utc)
-                    if pub_dt < cutoff:
-                        continue
-                except Exception:
-                    continue
-
-                title_lower = (title_el.text or "").lower()
-                if any(kw in title_lower for kw in POSITIVE_KEYWORDS):
-                    positive_count += 1
-
-            if positive_count >= 3:
-                detail = f"{ticker}: {positive_count} positive news items in 24h"
-                signals[ticker].append({"source": "News Sentiment", "detail": detail, "pts": PTS_NEWS_SENTIMENT})
-                log.info("News sentiment spike: %s — %d positive articles", ticker, positive_count)
-                found_any = True
-
-            time.sleep(0.3)
-        except Exception as e:
-            log.warning("News sentiment for %s failed: %s", ticker, e)
-
-    if found_any:
-        fetched.append("news_sentiment")
-
-
-# ---------------------------------------------------------------------------
-# Source: Unusual options flow (Yahoo Finance options chain)
-# ---------------------------------------------------------------------------
-def fetch_options_flow(signals: dict, fetched: list, watchlist: list):
-    log.info("Fetching options flow...")
-    if not watchlist:
-        return
-
-    found_any = False
-
-    for ticker in watchlist[:20]:
-        try:
-            url = f"https://query1.finance.yahoo.com/v7/finance/options/{ticker}"
-            r = safe_get(url)
-            if not r:
-                continue
-
-            data = r.json()
-            option_chain = data.get("optionChain", {}).get("result", [])
-            if not option_chain:
-                continue
-
-            result = option_chain[0]
-            options_list = result.get("options", [{}])
-            if not options_list:
-                continue
-
-            calls = options_list[0].get("calls", [])
-            puts = options_list[0].get("puts", [])
-
-            if not calls or not puts:
-                continue
-
-            quote = result.get("quote", {})
-            current_price = quote.get("regularMarketPrice", 0)
-
-            total_call_vol = sum(c.get("volume", 0) or 0 for c in calls)
-            total_put_vol = sum(p.get("volume", 0) or 0 for p in puts)
-
-            if total_put_vol == 0:
-                continue
-
-            # OTM calls: strike >5% above current price
-            otm_call_vol = sum(
-                c.get("volume", 0) or 0
-                for c in calls
-                if current_price > 0 and c.get("strike", 0) > current_price * 1.05
-            )
-
-            if total_call_vol > total_put_vol * 3 and otm_call_vol > total_put_vol:
-                detail = (
-                    f"{ticker}: Unusual call sweep — {total_call_vol:,} call vol vs "
-                    f"{total_put_vol:,} put vol (OTM calls dominant)"
-                )
-                signals[ticker].append({"source": "Options Flow", "detail": detail, "pts": PTS_OPTIONS_SWEEP})
-                log.info("Unusual options: %s calls %d vs puts %d", ticker, total_call_vol, total_put_vol)
-                found_any = True
-
-            time.sleep(0.5)
-        except Exception as e:
-            log.warning("Options flow for %s failed: %s", ticker, e)
-
-    if found_any:
-        fetched.append("options_flow")
-
-
-# ---------------------------------------------------------------------------
 # Discord daily brief
 # ---------------------------------------------------------------------------
-def send_daily_brief(tickers_out: list, sell_alerts: list, stats: dict, fetched: list):
+def send_daily_brief(tickers_out: list, sell_alerts: list, stats: dict, speculative_solo: set = None):
     webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
     if not webhook_url:
         log.info("No DISCORD_WEBHOOK_URL set — skipping daily brief")
         return
+
+    if speculative_solo is None:
+        speculative_solo = set()
 
     now = datetime.now(timezone.utc)
     date_str = now.strftime("%a %b %-d")
@@ -826,98 +665,77 @@ def send_daily_brief(tickers_out: list, sell_alerts: list, stats: dict, fetched:
         sep,
     ]
 
-    tier1 = [t for t in tickers_out if t["tier"] == 1 and not t.get("speculative_solo")]
-    tier2 = [t for t in tickers_out if t["tier"] == 2 and not t.get("speculative_solo")]
-    solo_reddit = [t for t in tickers_out if t.get("speculative_solo")]
+    tier1 = [t for t in tickers_out if t["tier"] == 1]
+    tier2 = [t for t in tickers_out if t["tier"] == 2]
 
-    # Tier 1 section
+    def price_emoji(t):
+        flag = t.get("price_flag", "neutral")
+        if flag == "dip":
+            return "📉"
+        if flag == "extended":
+            return "⚠️"
+        return "✅"
+
     lines.append("🔴 TIER 1 — MAX CONVICTION")
     if tier1:
         for t in tier1:
-            flags = ""
-            if t.get("extended"):
-                flags += " ⚠️ext"
-            if t.get("dip"):
-                flags += " 📉dip"
-            top_sigs = [s["detail"] for s in t["signals"][:2] if s.get("pts", 0) > 0]
-            sig_str = ", ".join(top_sigs)[:100]
-            lines.append(f"• {t['ticker']}{flags} ({t['score']}pt) — {sig_str}")
+            top_sigs = [s["detail"] for s in t["signals"][:3] if s.get("pts", 0) > 0]
+            sig_str = ", ".join(top_sigs) if top_sigs else "—"
+            lines.append(f"• {price_emoji(t)} {t['ticker']} (Score: {t['score']}) — {sig_str}")
     else:
         lines.append("• None today")
 
     lines.append("")
 
-    # Tier 2 section (top 5 only)
     lines.append("🟠 TIER 2 — HIGH CONVICTION")
     if tier2:
         for t in tier2[:5]:
-            flags = ""
-            if t.get("extended"):
-                flags += " ⚠️ext"
-            if t.get("dip"):
-                flags += " 📉dip"
             top_sigs = [s["detail"] for s in t["signals"][:2] if s.get("pts", 0) > 0]
-            sig_str = ", ".join(top_sigs)[:100]
-            lines.append(f"• {t['ticker']}{flags} ({t['score']}pt) — {sig_str}")
+            sig_str = ", ".join(top_sigs) if top_sigs else "—"
+            lines.append(f"• {price_emoji(t)} {t['ticker']} (Score: {t['score']}) — {sig_str}")
     else:
         lines.append("• None today")
 
     lines.append("")
 
-    # Sell alerts section
     lines.append("🚨 SELL ALERTS")
     if sell_alerts:
         for alert in sell_alerts:
-            reasons_str = ", ".join(alert["reasons"])[:100]
+            reasons_str = ", ".join(alert["reasons"])
             lines.append(f"• {alert['ticker']} — {reasons_str}")
     else:
         lines.append("• None today")
 
     lines.append("")
 
-    # Reddit-only speculative section
-    if solo_reddit:
-        lines.append("👀 Reddit-Only Speculative Mentions")
-        for t in solo_reddit[:5]:
-            detail = t["signals"][0]["detail"][:80] if t["signals"] else ""
-            lines.append(f"• {t['ticker']} — {detail}")
+    if speculative_solo:
+        lines.append("👀 Speculative (Reddit-only):")
+        lines.append("• " + ", ".join(sorted(speculative_solo)[:10]))
         lines.append("")
 
-    # Stats line
-    sources_active = len(stats.get("sources_fetched", []))
+    health = stats.get("source_health", {})
+
+    def h(key):
+        return "✅" if health.get(key) else "❌"
+
     lines.append(
-        f"📊 {stats['total_scanned']} scanned | "
-        f"{stats['tier1_count']} T1 | {stats['tier2_count']} T2 | "
-        f"{sources_active} sources"
+        f"📡 Sources: ARK {h('ark')} | F4 {h('form4')} | Congressional {h('congressional')} | "
+        f"13F {h('13f')} | Reddit {h('reddit')} | Trends {h('google_trends')}"
     )
 
-    # Source health line
-    source_map = {
-        "ARK": "ark",
-        "Reddit": "reddit",
-        "Congressional": "congressional",
-        "13F": "13f",
-        "Insider F4": "form4",
-        "Trends": "google_trends",
-        "Short Int": "short_interest",
-        "News": "news_sentiment",
-        "Options": "options_flow",
-    }
-    health_parts = []
-    for label, key in source_map.items():
-        if key in fetched:
-            health_parts.append(f"{label} ✅")
-        elif f"{key}_partial" in fetched:
-            health_parts.append(f"{label} ⚠️")
-        else:
-            health_parts.append(f"{label} ❌")
-    lines.append("📡 " + " | ".join(health_parts))
+    lines.append("")
+
+    sources_active = len(stats.get("sources_fetched", []))
+    lines.append(
+        f"📊 Stats: {stats['total_scanned']} tickers scanned | "
+        f"{stats['tier1_count']} Tier 1 | {stats['tier2_count']} Tier 2 | "
+        f"{sources_active} sources active"
+    )
     lines.append(sep)
     lines.append("See everything before the market does. 🗼")
 
     message = "\n".join(lines)
 
-    # Truncate Tier 2 entries if over Discord's 2000-char limit
     if len(message) > 1900:
         lines_trimmed = []
         in_tier2 = False
@@ -955,7 +773,6 @@ def main():
     sell_signals: dict[str, list] = defaultdict(list)
     fetched: list[str] = []
 
-    # Load previous run data for comparisons
     prev_tickers: dict[str, dict] = {}
     if PREVIOUS_DATA_PATH.exists():
         try:
@@ -965,46 +782,42 @@ def main():
         except Exception as e:
             log.warning("Could not load previous tickers for comparison: %s", e)
 
-    # Run all sources — each is isolated; failures don't cascade
     fetch_congressional(signals, sell_signals, fetched)
+    fetch_form4_insiders(signals, fetched)
     fetch_13d(signals, fetched)
     fetch_ark(signals, sell_signals, fetched)
     fetch_reddit(signals, fetched)
     fetch_13f(signals, fetched)
-    fetch_form4_insiders(signals, fetched)
 
     watchlist = list(signals.keys())[:25]
     fetch_google_trends(signals, fetched, watchlist)
-    fetch_short_interest(signals, fetched)
-    fetch_news_sentiment(signals, fetched, watchlist)
-    fetch_options_flow(signals, fetched, watchlist)
 
-    # Reddit corroboration rule: zero out pts for solo-Reddit tickers
+    # Reddit corroboration rule: zero out Reddit pts for tickers with no other source
+    speculative_solo_tickers: set = set()
     for ticker, sigs in signals.items():
         sources = {s["source"] for s in sigs}
-        if sources == {"Reddit"}:
+        if "Reddit" in sources and all(s == "Reddit" for s in sources):
+            speculative_solo_tickers.add(ticker)
             for s in sigs:
                 s["pts"] = 0
+                s["speculative_solo"] = True
+    log.info("Speculative solo (Reddit-only) tickers: %d", len(speculative_solo_tickers))
 
-    # Resolve company names
     log.info("Resolving company names for %d tickers...", len(signals))
     companies = {}
     for ticker in signals:
         companies[ticker] = ticker_to_company(ticker)
         time.sleep(0.1)
 
-    # Build scored ticker list
     tickers_out = []
     total_scanned = len(signals)
 
     for ticker, sigs in signals.items():
         score = sum(s["pts"] for s in sigs)
-        sources = {s["source"] for s in sigs}
-        is_solo_reddit = (sources == {"Reddit"})
-
-        # Include solo-Reddit tickers at score=0 for the speculative section
-        if score == 0 and not is_solo_reddit:
+        if score == 0:
             continue
+        tier = assign_tier(score)
+        last_date = today_str()
 
         seen = set()
         unique_sigs = []
@@ -1014,108 +827,79 @@ def main():
                 seen.add(key)
                 unique_sigs.append(s)
 
-        entry = {
+        tickers_out.append({
             "ticker": ticker,
             "company": companies.get(ticker, ticker),
             "score": score,
-            "tier": assign_tier(score),
+            "tier": tier,
             "signals": unique_sigs,
-            "last_signal_date": today_str(),
-        }
-
-        if is_solo_reddit:
-            entry["speculative_solo"] = True
-            entry["tags"] = ["speculative-solo-reddit"]
-
-        tickers_out.append(entry)
-
-    # Mega-cap penalty: subtract 2 pts for any ticker scoring 3+ with market cap >$200B
-    try:
-        import yfinance as yf
-        for entry in tickers_out:
-            if entry["score"] < 3:
-                continue
-            try:
-                info = yf.Ticker(entry["ticker"]).info
-                mktcap = info.get("marketCap", 0) or 0
-                if mktcap > 200_000_000_000:
-                    entry["score"] = max(0, entry["score"] + PTS_MEGACAP_PENALTY)
-                    entry["signals"].append({
-                        "source": "Mega-cap Penalty",
-                        "detail": "Market cap >$200B — harder to move",
-                        "pts": PTS_MEGACAP_PENALTY,
-                    })
-                    log.info("Mega-cap penalty: %s ($%.0fB)", entry["ticker"], mktcap / 1e9)
-                time.sleep(0.1)
-            except Exception as e:
-                log.warning("Market cap fetch for %s failed: %s", entry["ticker"], e)
-    except Exception as e:
-        log.warning("Mega-cap penalty step failed: %s", e)
-
-    # Re-assign tiers after penalty
-    for entry in tickers_out:
-        entry["tier"] = assign_tier(entry["score"])
+            "last_signal_date": last_date,
+            "price_flag": "neutral",
+            "price_note": "",
+        })
 
     tickers_out.sort(key=lambda x: -x["score"])
 
-    # Price context warnings for Tier 1 and Tier 2
+    # Mega-cap penalty + price context flags (single yfinance pass per ticker)
     try:
         import yfinance as yf
-        for entry in tickers_out:
-            if entry["tier"] not in (1, 2):
-                continue
+        for t in tickers_out:
             try:
-                hist = yf.Ticker(entry["ticker"]).history(period="1y")
-                if hist.empty:
+                yf_obj = yf.Ticker(t["ticker"])
+                info = yf_obj.info
+
+                # Mega-cap penalty for tickers scoring >= 3
+                if t["score"] >= 3:
+                    mc = info.get("marketCap", 0) or 0
+                    if mc > 200_000_000_000:
+                        t["score"] = max(0, t["score"] - 2)
+                        t["signals"].append({
+                            "source": "Mega-cap Penalty",
+                            "detail": f"Market cap >{mc / 1e9:.0f}B — harder to move needle",
+                            "pts": -2,
+                        })
+                        t["tier"] = assign_tier(t["score"])
+
+                # Price context: RSI + 52-week high
+                hist = yf_obj.history(period="3mo")
+                if hist.empty or len(hist) < 15:
                     continue
 
-                current_price = hist["Close"].iloc[-1]
-                high_52w = hist["Close"].max()
+                current_price = float(hist["Close"].iloc[-1])
+                week52_high = float(info.get("fiftyTwoWeekHigh") or 0)
 
-                # RSI (14-day) from price history
-                delta = hist["Close"].diff()
+                closes = hist["Close"]
+                delta = closes.diff()
                 gain = delta.clip(lower=0)
                 loss = (-delta).clip(lower=0)
                 avg_gain = gain.rolling(14).mean()
                 avg_loss = loss.rolling(14).mean()
-                rs = avg_gain / avg_loss.replace(0, float("nan"))
+                rs = avg_gain / avg_loss.where(avg_loss != 0)
                 rsi_series = 100 - (100 / (1 + rs))
-                current_rsi = float(rsi_series.iloc[-1]) if not rsi_series.empty else 50.0
+                rsi_clean = rsi_series.dropna()
+                rsi = float(rsi_clean.iloc[-1]) if not rsi_clean.empty else 50.0
 
-                if current_price > high_52w * 0.95 and current_rsi > 70:
-                    entry["extended"] = True
-                    entry["signals"].append({
-                        "source": "Price Context",
-                        "detail": (
-                            f"⚠️ Potentially Extended: near 52w high "
-                            f"(${current_price:.2f} vs ${high_52w:.2f}), RSI {current_rsi:.0f}"
-                        ),
-                        "pts": 0,
-                    })
-                elif current_price < high_52w * 0.70:
-                    entry["dip"] = True
-                    entry["signals"].append({
-                        "source": "Price Context",
-                        "detail": f"📉 Pullback: 30%+ off highs (${current_price:.2f} vs ${high_52w:.2f} high)",
-                        "pts": 0,
-                    })
+                if week52_high > 0 and current_price > 0.95 * week52_high and rsi > 70:
+                    t["price_flag"] = "extended"
+                    t["price_note"] = "⚠️ Near 52-week high, RSI elevated — wait for pullback"
+                elif week52_high > 0 and current_price < 0.70 * week52_high:
+                    t["price_flag"] = "dip"
+                    t["price_note"] = "📉 30%+ off highs — potential entry"
 
-                time.sleep(0.2)
             except Exception as e:
-                log.warning("Price context for %s failed: %s", entry["ticker"], e)
-    except Exception as e:
-        log.warning("Price context step failed: %s", e)
+                log.warning("yfinance enrichment failed for %s: %s", t["ticker"], e)
+    except ImportError:
+        log.warning("yfinance not available — skipping mega-cap penalty and price context")
 
-    # Current conviction set: tickers in tier 1 or 2 this run or previous run
+    tickers_out.sort(key=lambda x: -x["score"])
+
     curr_map = {t["ticker"]: t for t in tickers_out}
     conviction_tickers = {t["ticker"] for t in tickers_out if t["tier"] in (1, 2)} | \
                          {tk for tk, td in prev_tickers.items() if td.get("tier") in (1, 2)}
 
-    # Build sell alerts
     sell_alerts = []
     processed = set()
 
-    # 1. Tier drop: was tier 1/2 yesterday, now tier 3/4 or missing
     for ticker, prev_t in prev_tickers.items():
         prev_tier = prev_t.get("tier", 4)
         if prev_tier not in (1, 2):
@@ -1130,16 +914,13 @@ def main():
         if curr_tier >= 3:
             reasons.append(f"Tier dropped from {prev_tier}→{curr_tier}")
 
-        # 2. Score collapse: dropped 3+ points
         if prev_score - curr_score >= 3:
             reasons.append(f"Score fell {prev_score}→{curr_score} (-{prev_score - curr_score})")
 
-        # 3. ARK sell signals for this ticker
         for sig in sell_signals.get(ticker, []):
             if sig["source"] == "ARK":
                 reasons.append(sig["detail"])
 
-        # 4. Congressional sell for conviction tickers
         for sig in sell_signals.get(ticker, []):
             if sig["source"] == "Congressional":
                 reasons.append(sig["detail"])
@@ -1154,7 +935,6 @@ def main():
             })
             processed.add(ticker)
 
-    # Also flag ARK/congressional sell signals on current conviction tickers not already processed
     for ticker in conviction_tickers - processed:
         if ticker not in sell_signals:
             continue
@@ -1174,7 +954,6 @@ def main():
 
     log.info("Sell alerts generated: %d", len(sell_alerts))
 
-    # Persist tickers list for next run's tier comparison
     try:
         prev_snapshot = json.loads(PREVIOUS_DATA_PATH.read_text()) if PREVIOUS_DATA_PATH.exists() else {}
         prev_snapshot["tickers"] = tickers_out
@@ -1194,6 +973,15 @@ def main():
         "tier3_count": len(tier3),
         "tier4_count": len(tier4),
         "sources_fetched": fetched,
+        "source_health": {
+            "ark": "ark" in fetched,
+            "congressional": "congressional" in fetched,
+            "form4": "form4" in fetched,
+            "13d": "13d" in fetched,
+            "13f": "13f" in fetched or "13f_partial" in fetched,
+            "reddit": "reddit" in fetched,
+            "google_trends": "google_trends" in fetched,
+        },
     }
 
     output = {
@@ -1201,13 +989,14 @@ def main():
         "tickers": tickers_out,
         "tier1_alert": tier1,
         "sell_alerts": sell_alerts,
+        "speculative_solo": sorted(speculative_solo_tickers),
         "stats": stats,
     }
 
     OUTPUT_PATH.write_text(json.dumps(output, indent=2))
     log.info("Wrote %s (%d tickers, %d sell alerts)", OUTPUT_PATH, len(tickers_out), len(sell_alerts))
 
-    send_daily_brief(tickers_out, sell_alerts, stats, fetched)
+    send_daily_brief(tickers_out, sell_alerts, stats, speculative_solo_tickers)
 
     elapsed = (datetime.now(timezone.utc) - start).total_seconds()
     log.info("=== WATCHTOWER run complete in %.1fs — Tier 1: %s ===", elapsed, tier1 or "none")
