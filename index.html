@@ -3,585 +3,649 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>WATCHTOWER</title>
 <style>
-  :root {
-    --bg: #0a0a0f;
-    --surface: #13131a;
-    --surface2: #1c1c27;
-    --border: #2a2a3d;
-    --text: #e8e8f0;
-    --muted: #6b6b8a;
-    --accent: #7c6af7;
+:root {
+  --bg: #0d0d0d;
+  --surf: #1a1a1a;
+  --surf2: #111;
+  --bd: #1e1e1e;
+  --txt: #ffffff;
+  --muted: #666;
+  --muted2: #888;
+  --gold: #f0c040;
+  --orange: #f97316;
+  --green: #22c55e;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; }
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding-bottom: 52px;
+}
 
-    --tier1-bg: #1a0a0a;
-    --tier1-border: #8b1a1a;
-    --tier1-badge: #dc2626;
-    --tier1-glow: rgba(220, 38, 38, 0.15);
-    --tier1-text: #fca5a5;
+/* ── HEADER ── */
+#hdr {
+  background: rgba(13,13,13,0.96);
+  border-bottom: 1px solid #1a1a1a;
+  padding: 12px 16px 8px;
+  position: sticky; top: 0; z-index: 100;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+#hdr-top {
+  display: flex; align-items: center;
+  justify-content: space-between; margin-bottom: 8px;
+}
+#wordmark { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: .05em; }
+#hdr-right { display: flex; align-items: center; gap: 8px; }
+#refresh-ind {
+  font-size: 11px; color: var(--muted);
+  opacity: 0; transition: opacity .3s;
+}
+#refresh-ind.on { opacity: 1; }
+#timestamp { font-size: 12px; color: var(--muted); white-space: nowrap; }
+#src-health {
+  display: flex; gap: 12px; overflow-x: auto;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  flex-wrap: nowrap; padding: 2px 0; margin-bottom: 4px;
+}
+#src-health::-webkit-scrollbar { display: none; }
+.sh-item { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.sh-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.sh-dot.ok { background: #22c55e; }
+.sh-dot.dead { background: #ef4444; }
+.sh-lbl { font-size: 10px; color: var(--muted2); white-space: nowrap; }
+#tagline { font-size: 12px; color: var(--muted); }
+#stale-warn {
+  display: none;
+  background: #2a2000; border-left: 3px solid var(--gold);
+  color: var(--gold); font-size: 12px;
+  padding: 6px 10px; margin-top: 6px;
+  border-radius: 0 4px 4px 0;
+}
 
-    --tier2-bg: #170f00;
-    --tier2-border: #7c3a00;
-    --tier2-badge: #ea6c00;
-    --tier2-glow: rgba(234, 108, 0, 0.1);
-    --tier2-text: #fdba74;
+/* ── SELL ALERTS ── */
+#sell-zone { padding: 0 16px; }
+.sell-banner {
+  background: #3d0000; border-left: 4px solid #ff2222;
+  padding: 12px 14px; margin: 12px 0 0;
+  border-radius: 0 6px 6px 0;
+}
+.sell-title { color: #ff2222; font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+.sell-item { color: #ff8080; font-size: 13px; padding: 2px 0; }
 
-    --tier3-bg: #141000;
-    --tier3-border: #6b5600;
-    --tier3-badge: #ca9a04;
-    --tier3-glow: rgba(202, 154, 4, 0.08);
-    --tier3-text: #fde68a;
+/* ── MAIN ── */
+main { padding: 16px; max-width: 900px; margin: 0 auto; }
 
-    --tier4-bg: #111118;
-    --tier4-border: #2a2a40;
-    --tier4-badge: #4b5563;
-    --tier4-glow: rgba(75, 85, 99, 0.05);
-    --tier4-text: #9ca3af;
-  }
+/* ── SECTION LABELS ── */
+.sec-lbl {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  margin-bottom: 10px; padding-bottom: 7px;
+  border-bottom: 1px solid #1a1a1a;
+}
+.sec-lbl.gold { color: var(--gold); }
+.sec-lbl.orange { color: var(--orange); }
+.sec-lbl.grey { color: var(--muted2); }
+.sec-lbl.white { color: #fff; }
+.tier-sec { margin-bottom: 24px; }
+.empty-msg { color: var(--muted); font-size: 13px; padding: 10px 0; }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── TIER 1/2 CARDS ── */
+.t-card {
+  background: var(--surf); border-radius: 8px;
+  padding: 16px; margin-bottom: 12px;
+  border-left: 4px solid transparent;
+}
+.t-card.t1 { border-left-color: var(--gold); }
+.t-card.t2 { border-left-color: var(--orange); }
+.card-top {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; margin-bottom: 4px;
+}
+.card-badges {
+  display: flex; align-items: center;
+  gap: 6px; flex-wrap: wrap; justify-content: flex-end;
+}
+.sym-lg { font-size: 28px; font-weight: 700; color: #fff; letter-spacing: -.01em; line-height: 1; }
+.sym-md { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -.01em; line-height: 1; }
+.co-name { font-size: 13px; color: #aaa; margin-bottom: 10px; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif;
-    min-height: 100vh;
-    padding-bottom: env(safe-area-inset-bottom);
-  }
+.score-pill {
+  font-size: 12px; font-weight: 600;
+  padding: 3px 9px; border-radius: 20px; white-space: nowrap;
+}
+.sp-gold { background: rgba(240,192,64,.15); color: var(--gold); border: 1px solid rgba(240,192,64,.3); }
+.sp-orange { background: rgba(249,115,22,.15); color: var(--orange); border: 1px solid rgba(249,115,22,.3); }
+.sp-grey { background: #1a1a1a; color: var(--muted2); border: 1px solid #2a2a2a; }
 
-  /* ── Header ── */
-  .header {
-    background: linear-gradient(180deg, #0d0d18 0%, var(--bg) 100%);
-    border-bottom: 1px solid var(--border);
-    padding: 20px 16px 16px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-  }
+.t-badge {
+  font-size: 10px; font-weight: 700; padding: 3px 8px;
+  border-radius: 4px; white-space: nowrap; letter-spacing: .04em;
+}
+.tb1 { background: var(--gold); color: #000; }
+.tb2 { background: var(--orange); color: #fff; }
+.tb3 { background: #333; color: #aaa; }
+.tb4 { background: #2a2a2a; color: #888; }
 
-  .header-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
-  }
+/* ── ENTRY BADGE ── */
+.entry-bdg {
+  display: block; width: 100%; text-align: center;
+  padding: 7px 12px; border-radius: 6px;
+  font-size: 13px; font-weight: 600; margin-bottom: 10px;
+}
+.eb-dip { background: #0d3d1a; color: #4ade80; }
+.eb-ext { background: #3d3200; color: #fbbf24; }
+.eb-neu { background: #1e1e1e; color: #888; }
 
-  .wordmark {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+/* ── SIGNALS TOGGLE ── */
+.sig-toggle {
+  background: none; border: 1px solid #2a2a2a;
+  color: var(--muted2); font-size: 12px;
+  padding: 8px 12px; border-radius: 6px; cursor: pointer;
+  width: 100%; text-align: left; min-height: 44px;
+  display: flex; align-items: center; gap: 6px;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .15s; font-family: inherit;
+}
+.sig-toggle:active { background: #1a1a1a; }
+.sig-toggle .arr { font-size: 10px; transition: transform .2s; }
+.sig-toggle.open .arr { transform: rotate(90deg); }
+.sig-body { overflow: hidden; max-height: 0; transition: max-height .25s ease; }
+.sig-body.open { max-height: 2000px; }
+.sig-list { padding: 10px 0 2px; display: flex; flex-direction: column; gap: 8px; }
+.sig-row { display: flex; align-items: flex-start; gap: 8px; }
+.sig-src {
+  font-size: 11px; font-weight: 600;
+  padding: 2px 8px; border-radius: 20px;
+  white-space: nowrap; flex-shrink: 0;
+}
+.sig-det { font-size: 13px; color: #ccc; line-height: 1.4; flex: 1; }
 
-  .wordmark-icon {
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(135deg, #7c6af7 0%, #a855f7 100%);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    flex-shrink: 0;
-  }
+/* ── EXIT TRIGGERS ── */
+.exit-box {
+  margin-top: 10px; background: #0f0800;
+  border-radius: 6px; padding: 10px 12px;
+}
+.exit-ttl {
+  font-size: 11px; font-weight: 700; color: var(--orange);
+  text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px;
+}
+.exit-item {
+  font-size: 12px; color: #7a4010;
+  padding: 2px 0 2px 14px; position: relative;
+}
+.exit-item::before { content: "•"; position: absolute; left: 3px; color: var(--orange); }
 
-  .wordmark h1 {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    background: linear-gradient(90deg, #e8e8f0, #a78bfa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+/* ── COMPACT LIST (Tier 3/4) ── */
+.clist { background: var(--surf2); border-radius: 8px; overflow: hidden; border: 1px solid #1a1a1a; }
+.crow { border-bottom: 1px solid #161616; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.crow:last-child { border-bottom: none; }
+.crow-main {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; min-height: 44px;
+}
+.crow-ticker { font-size: 14px; font-weight: 700; color: #fff; min-width: 56px; flex-shrink: 0; }
+.crow-co { font-size: 12px; color: var(--muted); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.crow-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.crow-exp { overflow: hidden; max-height: 0; transition: max-height .25s ease; background: #0a0a0a; }
+.crow-exp.open { max-height: 800px; }
+.crow-exp-inner { padding: 10px 14px 12px; }
 
-  .tagline {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.04em;
-    display: none;
-  }
+/* ── SPECULATIVE ── */
+.spec-card {
+  background: #111; border-left: 2px solid #444;
+  border-radius: 8px; padding: 12px 14px;
+  margin-bottom: 10px; display: flex; align-items: center; gap: 12px;
+}
+.spec-ticker { font-size: 16px; font-weight: 700; color: #ccc; flex-shrink: 0; min-width: 60px; }
+.spec-co { font-size: 12px; color: var(--muted2); margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.spec-note { font-size: 11px; color: var(--muted); font-style: italic; }
 
-  .refresh-btn {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .refresh-btn:active { opacity: 0.7; }
+/* ── TABLE ── */
+.tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; border: 1px solid #1a1a1a; }
+table { width: 100%; border-collapse: collapse; min-width: 480px; font-size: 13px; }
+thead th {
+  background: #111; padding: 10px 14px; text-align: left;
+  font-size: 11px; font-weight: 600; color: var(--muted2);
+  letter-spacing: .05em; cursor: pointer; white-space: nowrap;
+  user-select: none; -webkit-user-select: none;
+  border-bottom: 1px solid #1a1a1a;
+}
+thead th:hover { color: #fff; }
+.sort-arr { margin-left: 4px; font-size: 10px; }
+tbody tr:nth-child(even) { background: #111; }
+tbody tr:nth-child(odd) { background: var(--bg); }
+tbody td { padding: 9px 14px; border-bottom: 1px solid #0f0f0f; white-space: nowrap; }
+tbody tr:last-child td { border-bottom: none; }
+.td-tkr { font-weight: 700; color: #fff; }
+.td-sc { font-weight: 600; }
+.sc-g { color: var(--gold); }
+.sc-o { color: var(--orange); }
+.sc-grey { color: var(--muted2); }
+.td-src { color: var(--muted); font-size: 12px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
+.td-dt { color: var(--muted); }
 
-  .timestamp {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 12px;
-  }
+/* ── STATS FOOTER ── */
+#stats-ft {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #111; border-top: 1px solid #1a1a1a;
+  padding: 8px 16px;
+  padding-bottom: calc(8px + env(safe-area-inset-bottom));
+  display: flex; align-items: center; gap: 14px;
+  font-size: 12px; color: var(--muted);
+  overflow-x: auto; scrollbar-width: none;
+  -webkit-overflow-scrolling: touch; z-index: 90;
+}
+#stats-ft::-webkit-scrollbar { display: none; }
+.st-item { white-space: nowrap; flex-shrink: 0; }
+.st-div { color: #2a2a2a; flex-shrink: 0; }
 
-  /* ── Stats bar ── */
-  .stats-bar {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-  }
-  .stats-bar::-webkit-scrollbar { display: none; }
+/* ── LOADING ── */
+#load-state { text-align: center; padding: 60px 20px; color: var(--muted); font-size: 15px; }
+.spinner {
+  width: 28px; height: 28px;
+  border: 3px solid #222; border-top-color: var(--gold);
+  border-radius: 50%; animation: spin .8s linear infinite;
+  margin: 0 auto 14px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-  .stat-chip {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 5px 12px;
-    font-size: 12px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .stat-chip span { color: var(--muted); }
-  .stat-chip strong { color: var(--text); margin-left: 4px; }
-
-  /* ── Main ── */
-  main { padding: 16px; max-width: 900px; margin: 0 auto; }
-
-  /* ── Loading / error states ── */
-  .state-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 48px 24px;
-    text-align: center;
-    color: var(--muted);
-    font-size: 15px;
-    margin-top: 24px;
-  }
-  .state-card .icon { font-size: 40px; margin-bottom: 12px; }
-  .state-card .title { color: var(--text); font-size: 17px; font-weight: 600; margin-bottom: 6px; }
-
-  /* ── Tier section ── */
-  .tier-section { margin-bottom: 28px; }
-
-  .tier-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-    padding: 0 2px;
-  }
-
-  .tier-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .tier-divider {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  .tier-count {
-    font-size: 12px;
-    color: var(--muted);
-  }
-
-  /* ── Ticker card ── */
-  .ticker-grid {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: 1fr;
-  }
-
-  @media (min-width: 640px) {
-    .ticker-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  .ticker-card {
-    border-radius: 14px;
-    border: 1px solid;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.12s, box-shadow 0.12s;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .ticker-card:active { transform: scale(0.985); }
-
-  .card-t1 { background: var(--tier1-bg); border-color: var(--tier1-border); box-shadow: 0 0 0 1px var(--tier1-border) inset, 0 8px 32px var(--tier1-glow); }
-  .card-t2 { background: var(--tier2-bg); border-color: var(--tier2-border); box-shadow: 0 4px 20px var(--tier2-glow); }
-  .card-t3 { background: var(--tier3-bg); border-color: var(--tier3-border); box-shadow: 0 2px 12px var(--tier3-glow); }
-  .card-t4 { background: var(--tier4-bg); border-color: var(--tier4-border); }
-
-  .card-main {
-    padding: 16px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-  }
-
-  .card-left { flex: 1; min-width: 0; }
-
-  .ticker-symbol {
-    font-size: 26px;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-  .t1 .ticker-symbol { color: var(--tier1-text); }
-  .t2 .ticker-symbol { color: var(--tier2-text); }
-  .t3 .ticker-symbol { color: var(--tier3-text); }
-  .t4 .ticker-symbol { color: var(--tier4-text); }
-
-  .company-name {
-    font-size: 12px;
-    color: var(--muted);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .card-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-    flex-shrink: 0;
-  }
-
-  .tier-badge {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 6px;
-    white-space: nowrap;
-  }
-  .badge-t1 { background: var(--tier1-badge); color: #fff; }
-  .badge-t2 { background: var(--tier2-badge); color: #fff; }
-  .badge-t3 { background: var(--tier3-badge); color: #000; }
-  .badge-t4 { background: var(--tier4-badge); color: #fff; }
-
-  .score-display {
-    font-size: 28px;
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.03em;
-  }
-  .t1 .score-display { color: var(--tier1-text); }
-  .t2 .score-display { color: var(--tier2-text); }
-  .t3 .score-display { color: var(--tier3-text); }
-  .t4 .score-display { color: var(--tier4-text); }
-
-  .score-label { font-size: 10px; color: var(--muted); text-align: right; }
-
-  .signal-preview {
-    padding: 0 16px 14px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-  }
-
-  .signal-tag {
-    font-size: 11px;
-    padding: 2px 7px;
-    border-radius: 4px;
-    border: 1px solid;
-  }
-  .card-t1 .signal-tag { border-color: var(--tier1-border); color: var(--tier1-text); background: rgba(139,26,26,0.2); }
-  .card-t2 .signal-tag { border-color: var(--tier2-border); color: var(--tier2-text); background: rgba(124,58,0,0.2); }
-  .card-t3 .signal-tag { border-color: var(--tier3-border); color: var(--tier3-text); background: rgba(107,86,0,0.2); }
-  .card-t4 .signal-tag { border-color: var(--tier4-border); color: var(--tier4-text); background: rgba(42,42,64,0.3); }
-
-  /* ── Expanded signals ── */
-  .signals-expanded {
-    display: none;
-    border-top: 1px solid;
-    padding: 14px 16px;
-    gap: 10px;
-    flex-direction: column;
-  }
-  .card-t1 .signals-expanded { border-color: var(--tier1-border); }
-  .card-t2 .signals-expanded { border-color: var(--tier2-border); }
-  .card-t3 .signals-expanded { border-color: var(--tier3-border); }
-  .card-t4 .signals-expanded { border-color: var(--tier4-border); }
-
-  .ticker-card.expanded .signals-expanded { display: flex; }
-  .ticker-card.expanded .signal-preview { display: none; }
-
-  .signal-row {
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-  }
-
-  .signal-source {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    white-space: nowrap;
-    padding-top: 1px;
-    min-width: 80px;
-  }
-  .t1 .signal-source { color: var(--tier1-text); }
-  .t2 .signal-source { color: var(--tier2-text); }
-  .t3 .signal-source { color: var(--tier3-text); }
-  .t4 .signal-source { color: var(--tier4-text); }
-
-  .signal-detail {
-    font-size: 13px;
-    color: var(--text);
-    flex: 1;
-    line-height: 1.4;
-  }
-
-  .signal-pts {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--muted);
-    white-space: nowrap;
-    padding-top: 1px;
-  }
-
-  /* ── Empty tier ── */
-  .empty-tier {
-    background: var(--surface);
-    border: 1px dashed var(--border);
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-    font-size: 13px;
-    color: var(--muted);
-  }
-
-  /* ── Sources footer ── */
-  .sources-footer {
-    margin-top: 32px;
-    padding: 16px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-  }
-  .sources-footer h3 {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
-  .source-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .source-chip {
-    font-size: 11px;
-    padding: 3px 10px;
-    border-radius: 20px;
-    border: 1px solid;
-  }
-  .source-chip.ok { border-color: #166534; background: rgba(22,101,52,0.2); color: #86efac; }
-  .source-chip.partial { border-color: #7c3a00; background: rgba(124,58,0,0.2); color: #fdba74; }
-  .source-chip.missing { border-color: var(--border); background: transparent; color: var(--muted); }
-
-  /* ── Tier 1 pulse animation ── */
-  @keyframes pulse-border {
-    0%, 100% { box-shadow: 0 0 0 1px var(--tier1-border) inset, 0 8px 32px var(--tier1-glow); }
-    50% { box-shadow: 0 0 0 1px var(--tier1-border) inset, 0 8px 48px rgba(220,38,38,0.28); }
-  }
-  .card-t1 { animation: pulse-border 3s ease-in-out infinite; }
-
-  /* ── Desktop tagline ── */
-  @media (min-width: 640px) {
-    .tagline { display: block; }
-    .wordmark h1 { font-size: 22px; }
-    main { padding: 24px; }
-  }
+/* ── DESKTOP ── */
+@media (min-width: 768px) {
+  #hdr { padding: 16px 24px 10px; }
+  main { padding: 20px 24px; }
+  body { padding-bottom: 48px; }
+}
 </style>
 </head>
 <body>
 
-<header class="header">
-  <div class="header-top">
-    <div class="wordmark">
-      <div class="wordmark-icon">&#128301;</div>
-      <div>
-        <h1>WATCHTOWER</h1>
-        <div class="tagline">See everything before the market does.</div>
-      </div>
+<header id="hdr">
+  <div id="hdr-top">
+    <div id="wordmark">🗼 WATCHTOWER</div>
+    <div id="hdr-right">
+      <span id="refresh-ind">↻ Refreshing…</span>
+      <span id="timestamp">Loading…</span>
     </div>
-    <button class="refresh-btn" onclick="loadData()">&#8635; Refresh</button>
   </div>
-  <div class="timestamp" id="timestamp">Loading&hellip;</div>
-  <div class="stats-bar" id="statsBar"></div>
+  <div id="src-health"></div>
+  <div id="tagline">See everything before the market does. 🗼</div>
+  <div id="stale-warn"></div>
 </header>
 
-<main id="main">
-  <div class="state-card">
-    <div class="icon">&#128301;</div>
-    <div class="title">Loading signals&hellip;</div>
-  </div>
-</main>
+<div id="sell-zone"></div>
+<main id="main"><div id="load-state"><div class="spinner"></div>Loading signals…</div></main>
+<div id="stats-ft"></div>
 
 <script>
-const TIER_CONFIG = {
-  1: { label: "MAX CONVICTION", badgeClass: "badge-t1", cardClass: "card-t1 t1", sectionLabel: "Tier 1 — Max Conviction" },
-  2: { label: "HIGH CONVICTION", badgeClass: "badge-t2", cardClass: "card-t2 t2", sectionLabel: "Tier 2 — High Conviction" },
-  3: { label: "MODERATE", badgeClass: "badge-t3", cardClass: "card-t3 t3", sectionLabel: "Tier 3 — Moderate Signal" },
-  4: { label: "WATCH", badgeClass: "badge-t4", cardClass: "card-t4 t4", sectionLabel: "Tier 4 — Watch List" },
+const SRC_HEALTH_KEYS = [
+  { key: 'ark',           lbl: 'ARK' },
+  { key: 'form4',         lbl: 'Form4' },
+  { key: '13d',           lbl: '13D' },
+  { key: '13f',           lbl: '13F' },
+  { key: 'congressional', lbl: 'Congress' },
+  { key: 'reddit',        lbl: 'Reddit' },
+  { key: 'google_trends', lbl: 'Trends' },
+];
+
+const SRC_CLRS = {
+  reddit: '#ff4500', ark: '#00d4ff',
+  'form 4': '#a855f7', form4: '#a855f7', insider: '#a855f7',
+  '13d': '#f97316', activist: '#f97316',
+  '13f': '#60a5fa',
+  trends: '#22c55e', google: '#22c55e',
+  congress: '#ec4899', congressional: '#ec4899',
 };
 
-const ALL_SOURCES = ["congressional", "13f", "13d", "ark", "reddit", "google_trends"];
-const SOURCE_LABELS = {
-  congressional: "Congressional",
-  "13f": "13F Whales",
-  "13d": "13D Activist",
-  ark: "ARK Invest",
-  reddit: "Reddit",
-  google_trends: "Google Trends",
-};
-
-async function loadData() {
-  try {
-    const r = await fetch(`./data/watchtower-data.json?_=${Date.now()}`);
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    const data = await r.json();
-    render(data);
-  } catch (e) {
-    document.getElementById("main").innerHTML = `
-      <div class="state-card">
-        <div class="icon">⚠️</div>
-        <div class="title">Could not load data</div>
-        <div>${e.message}</div>
-      </div>`;
-    document.getElementById("timestamp").textContent = "Failed to load";
-  }
-}
-
-function render(data) {
-  // Timestamp
-  const ts = new Date(data.generated_at);
-  const relative = relativeTime(ts);
-  document.getElementById("timestamp").textContent =
-    `Updated ${relative} · ${ts.toLocaleDateString(undefined, { month: "short", day: "numeric" })} ${ts.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
-
-  // Stats bar
-  const s = data.stats;
-  document.getElementById("statsBar").innerHTML = [
-    chip("Scanned", s.total_scanned),
-    chip("Tier 1", s.tier1_count, s.tier1_count > 0 ? "#fca5a5" : null),
-    chip("Tier 2", s.tier2_count, s.tier2_count > 0 ? "#fdba74" : null),
-    chip("Tier 3", s.tier3_count || 0),
-    chip("Tier 4", s.tier4_count || 0),
-  ].join("");
-
-  // Group tickers by tier
-  const byTier = { 1: [], 2: [], 3: [], 4: [] };
-  for (const t of data.tickers) byTier[t.tier]?.push(t);
-
-  // Render tier sections
-  let html = "";
-  for (const tier of [1, 2, 3, 4]) {
-    const cfg = TIER_CONFIG[tier];
-    const tickers = byTier[tier];
-    html += `<section class="tier-section">
-      <div class="tier-header">
-        <span class="tier-badge ${cfg.badgeClass} tier-label">${cfg.sectionLabel}</span>
-        <div class="tier-divider"></div>
-        <span class="tier-count">${tickers.length}</span>
-      </div>`;
-
-    if (tickers.length === 0) {
-      html += `<div class="empty-tier">No signals at this tier</div>`;
-    } else {
-      html += `<div class="ticker-grid">`;
-      for (const t of tickers) html += renderCard(t, cfg);
-      html += `</div>`;
-    }
-    html += `</section>`;
-  }
-
-  // Sources footer
-  const fetched = s.sources_fetched || [];
-  html += `<div class="sources-footer">
-    <h3>Sources this run</h3>
-    <div class="source-chips">
-      ${ALL_SOURCES.map(src => {
-        const ok = fetched.includes(src);
-        const partial = fetched.includes(src + "_partial");
-        const cls = ok ? "ok" : partial ? "partial" : "missing";
-        const icon = ok ? "✓" : partial ? "~" : "–";
-        return `<span class="source-chip ${cls}">${icon} ${SOURCE_LABELS[src]}</span>`;
-      }).join("")}
-    </div>
-  </div>`;
-
-  document.getElementById("main").innerHTML = html;
-
-  // Wire up toggle
-  document.querySelectorAll(".ticker-card").forEach(card => {
-    card.addEventListener("click", () => card.classList.toggle("expanded"));
-  });
-}
-
-function renderCard(t, cfg) {
-  const signalTags = t.signals.slice(0, 4).map(s =>
-    `<span class="signal-tag">${s.source}</span>`
-  ).join("");
-
-  const signalRows = t.signals.map(s => `
-    <div class="signal-row">
-      <div class="signal-source">${esc(s.source)}</div>
-      <div class="signal-detail">${esc(s.detail)}</div>
-      <div class="signal-pts">+${s.pts}pt</div>
-    </div>`).join("");
-
-  return `
-    <div class="ticker-card ${cfg.cardClass}">
-      <div class="card-main">
-        <div class="card-left">
-          <div class="ticker-symbol">${esc(t.ticker)}</div>
-          <div class="company-name">${esc(t.company)}</div>
-        </div>
-        <div class="card-right">
-          <span class="tier-badge ${cfg.badgeClass}">${cfg.label}</span>
-          <div class="score-display">${t.score}</div>
-          <div class="score-label">pts</div>
-        </div>
-      </div>
-      <div class="signal-preview">${signalTags}</div>
-      <div class="signals-expanded">${signalRows}</div>
-    </div>`;
-}
-
-function chip(label, value, color) {
-  const style = color ? `style="color:${color}"` : "";
-  return `<div class="stat-chip"><span>${label}</span><strong ${style}>${value}</strong></div>`;
-}
+let _sortCol = 'score', _sortDir = -1, _lastData = null;
 
 function esc(s) {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+  return String(s ?? '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-function relativeTime(date) {
-  const seconds = Math.floor((Date.now() - date) / 1000);
-  if (seconds < 60) return "just now";
-  if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
-  if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
-  return `${Math.floor(seconds / 86400)}d ago`;
+function srcColor(src) {
+  const s = (src || '').toLowerCase();
+  for (const [k, v] of Object.entries(SRC_CLRS)) {
+    if (s.includes(k)) return v;
+  }
+  return '#666';
 }
 
-loadData();
+function tagText(hex) {
+  const h = hex.replace('#', '');
+  const r = parseInt(h.substr(0, 2), 16);
+  const g = parseInt(h.substr(2, 2), 16);
+  const b = parseInt(h.substr(4, 2), 16);
+  return (r * 299 + g * 587 + b * 114) / 1000 > 155 ? '#000' : '#fff';
+}
+
+function relTime(date) {
+  const sec = Math.floor((Date.now() - date) / 1000);
+  if (sec < 60) return 'just now';
+  if (sec < 3600) return Math.floor(sec / 60) + ' min ago';
+  if (sec < 86400) return Math.floor(sec / 3600) + ' hours ago';
+  return 'Yesterday';
+}
+
+function fmtDate(s) {
+  if (!s) return '—';
+  const d = new Date(s.includes('T') ? s : s + 'T12:00:00');
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+function toUTC(s) {
+  if (!s) return new Date(NaN);
+  return new Date(s.endsWith('Z') || s.includes('+') ? s : s + 'Z');
+}
+
+function fmtTS(s) {
+  const d = toUTC(s);
+  if (isNaN(d.getTime())) return '—';
+  try {
+    const dp = d.toLocaleDateString('en-US', { timeZone: 'America/Chicago', month: 'short', day: 'numeric' });
+    const tp = d.toLocaleTimeString('en-US', { timeZone: 'America/Chicago', hour: 'numeric', minute: '2-digit', hour12: true });
+    return 'Last updated: ' + dp + ' · ' + tp + ' CT';
+  } catch (e) {
+    return 'Last updated: ' + d.toLocaleString();
+  }
+}
+
+function exitTriggers(signals) {
+  const ss = (signals || []).map(s => (s.source || '').toLowerCase());
+  const ex = [];
+  if (ss.some(s => s.includes('ark'))) ex.push('ARK reduces position >20%');
+  if (ss.some(s => s.includes('form 4') || s.includes('form4') || s.includes('insider'))) ex.push('No new insider buying in 60 days');
+  if (ss.some(s => s.includes('reddit'))) ex.push('Reddit mentions return to baseline 5+ days');
+  if (ss.some(s => s.includes('13d') || s.includes('activist'))) ex.push('Activist files exit or reduces below 5%');
+  if (ss.some(s => s.includes('trend') || s.includes('google'))) ex.push('Google Trends momentum reverses');
+  ex.push('Score drops to Tier 3 or below');
+  return ex;
+}
+
+function sigTagHTML(src) {
+  const c = srcColor(src);
+  return '<span class="sig-src" style="background:' + c + ';color:' + tagText(c) + '">' + esc(src) + '</span>';
+}
+
+function sigListHTML(signals) {
+  return (signals || []).map(s =>
+    '<div class="sig-row">' + sigTagHTML(s.source) + '<span class="sig-det">' + esc(s.detail) + '</span></div>'
+  ).join('');
+}
+
+function sigToggleHTML(signals, startOpen) {
+  const n = (signals || []).length;
+  return (
+    '<button class="sig-toggle' + (startOpen ? ' open' : '') + '">' +
+    '<span class="arr">▶</span> What fired (' + n + ' signal' + (n !== 1 ? 's' : '') + ')' +
+    '</button>' +
+    '<div class="sig-body' + (startOpen ? ' open' : '') + '">' +
+    '<div class="sig-list">' + sigListHTML(signals) + '</div>' +
+    '</div>'
+  );
+}
+
+function exitHTML(signals) {
+  return (
+    '<div class="exit-box"><div class="exit-ttl">Exit if:</div>' +
+    exitTriggers(signals).map(e => '<div class="exit-item">' + esc(e) + '</div>').join('') +
+    '</div>'
+  );
+}
+
+function entryHTML(flag) {
+  const f = (flag || '').toLowerCase();
+  if (f === 'dip')      return '<span class="entry-bdg eb-dip">📉 Good Entry — Recent Pullback</span>';
+  if (f === 'extended') return '<span class="entry-bdg eb-ext">⚠️ Wait for Pullback — Extended</span>';
+  return '<span class="entry-bdg eb-neu">✅ Neutral Entry</span>';
+}
+
+function renderT1(t) {
+  const open = window.innerWidth >= 768;
+  return (
+    '<div class="t-card t1">' +
+    '<div class="card-top"><div>' +
+    '<div class="sym-lg">' + esc(t.ticker) + '</div>' +
+    '<div class="co-name">' + esc(t.company) + '</div>' +
+    '</div><div class="card-badges">' +
+    '<span class="score-pill sp-gold">' + (t.score ?? 0) + ' pts</span>' +
+    '<span class="t-badge tb1">T1</span>' +
+    '</div></div>' +
+    entryHTML(t.price_flag) +
+    sigToggleHTML(t.signals, open) +
+    exitHTML(t.signals) +
+    '</div>'
+  );
+}
+
+function renderT2(t) {
+  const open = window.innerWidth >= 768;
+  return (
+    '<div class="t-card t2">' +
+    '<div class="card-top"><div>' +
+    '<div class="sym-md">' + esc(t.ticker) + '</div>' +
+    '<div class="co-name">' + esc(t.company) + '</div>' +
+    '</div><div class="card-badges">' +
+    '<span class="score-pill sp-orange">' + (t.score ?? 0) + ' pts</span>' +
+    '<span class="t-badge tb2">T2</span>' +
+    '</div></div>' +
+    entryHTML(t.price_flag) +
+    sigToggleHTML(t.signals, open) +
+    exitHTML(t.signals) +
+    '</div>'
+  );
+}
+
+function renderCompact(t) {
+  const tn = Math.min(t.tier ?? 4, 4);
+  const sc = tn === 1 ? 'sc-g' : tn === 2 ? 'sc-o' : 'sc-grey';
+  return (
+    '<div class="crow">' +
+    '<div class="crow-main">' +
+    '<div class="crow-ticker">' + esc(t.ticker) + '</div>' +
+    '<div class="crow-co">' + esc(t.company) + '</div>' +
+    '<div class="crow-right">' +
+    '<span class="score-pill sp-grey ' + sc + '">' + (t.score ?? 0) + ' pts</span>' +
+    '<span class="t-badge tb' + tn + '">T' + (t.tier ?? 4) + '</span>' +
+    '</div></div>' +
+    '<div class="crow-exp"><div class="crow-exp-inner">' +
+    '<div class="sig-list">' + sigListHTML(t.signals) + '</div>' +
+    '</div></div></div>'
+  );
+}
+
+function renderSpec(t) {
+  const obj = typeof t === 'string' ? { ticker: t, company: '' } : t;
+  return (
+    '<div class="spec-card">' +
+    '<div class="spec-ticker">' + esc(obj.ticker || obj) + '</div>' +
+    '<div><div class="spec-co">' + esc(obj.company || '') + '</div>' +
+    '<div class="spec-note">Unconfirmed — social signal only</div></div>' +
+    '</div>'
+  );
+}
+
+function renderTable(tickers) {
+  const cols = [
+    { k: 'ticker', l: 'Ticker' },
+    { k: 'score',  l: 'Score' },
+    { k: 'tier',   l: 'Tier' },
+    { k: 'last_signal_date', l: 'Last Signal' },
+    { k: 'sources', l: 'Sources' },
+  ];
+
+  const sorted = [...tickers].sort((a, b) => {
+    let av, bv;
+    if (_sortCol === 'sources') {
+      av = [...new Set((a.signals || []).map(s => s.source))].join(',');
+      bv = [...new Set((b.signals || []).map(s => s.source))].join(',');
+    } else {
+      av = a[_sortCol] ?? '';
+      bv = b[_sortCol] ?? '';
+    }
+    return av < bv ? -_sortDir : av > bv ? _sortDir : 0;
+  });
+
+  const heads = cols.map(c => {
+    const arr = c.k === _sortCol ? (_sortDir === -1 ? '▼' : '▲') : '';
+    return '<th onclick="window._sort(\'' + c.k + '\')">' + c.l + '<span class="sort-arr">' + arr + '</span></th>';
+  }).join('');
+
+  const rows = sorted.map(t => {
+    const srcs = [...new Set((t.signals || []).map(s => s.source))].join(', ');
+    const sc = t.tier === 1 ? 'sc-g' : t.tier === 2 ? 'sc-o' : 'sc-grey';
+    return '<tr>' +
+      '<td class="td-tkr">' + esc(t.ticker) + '</td>' +
+      '<td class="td-sc ' + sc + '">' + (t.score ?? 0) + '</td>' +
+      '<td>' + (t.tier ?? '—') + '</td>' +
+      '<td class="td-dt">' + fmtDate(t.last_signal_date) + '</td>' +
+      '<td class="td-src">' + esc(srcs) + '</td>' +
+      '</tr>';
+  }).join('');
+
+  return '<div class="tbl-wrap"><table><thead><tr>' + heads + '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+}
+
+window._sort = function(col) {
+  if (_sortCol === col) _sortDir *= -1;
+  else { _sortCol = col; _sortDir = col === 'score' ? -1 : 1; }
+  if (_lastData) renderDash(_lastData);
+};
+
+function renderDash(data) {
+  _lastData = data;
+
+  document.getElementById('timestamp').textContent = fmtTS(data.generated_at ?? '');
+
+  const health = data.stats?.source_health ?? {};
+  document.getElementById('src-health').innerHTML = SRC_HEALTH_KEYS.map(s =>
+    '<div class="sh-item"><div class="sh-dot ' + (health[s.key] === true ? 'ok' : 'dead') + '"></div>' +
+    '<span class="sh-lbl">' + s.lbl + '</span></div>'
+  ).join('');
+
+  const genAt = toUTC(data.generated_at ?? '');
+  const hrs = isNaN(genAt.getTime()) ? 0 : (Date.now() - genAt) / 3600000;
+  const sw = document.getElementById('stale-warn');
+  if (hrs > 6) {
+    sw.textContent = '⚠️ Data is stale — last run was ' + Math.round(hrs) + ' hours ago';
+    sw.style.display = 'block';
+  } else {
+    sw.style.display = 'none';
+  }
+
+  const alerts = data.sell_alerts ?? [];
+  const sz = document.getElementById('sell-zone');
+  if (alerts.length > 0) {
+    sz.innerHTML = '<div class="sell-banner"><div class="sell-title">🚨 SELL ALERT</div>' +
+      alerts.map(a => '<div class="sell-item">' + esc(a.ticker ?? a) + ' — ' + esc(a.detail ?? '') + '</div>').join('') +
+      '</div>';
+  } else {
+    sz.innerHTML = '';
+  }
+
+  const allT = data.tickers ?? [];
+  const specArr = [
+    ...(data.speculative_solo ?? []).map(s => typeof s === 'string' ? { ticker: s, company: '', signals: [] } : s),
+    ...allT.filter(t => t.speculative_solo === true),
+  ];
+  const mainT = allT.filter(t => !t.speculative_solo);
+  const by = { 1: [], 2: [], 3: [], 4: [] };
+  for (const t of mainT) (by[t.tier] ?? by[4]).push(t);
+
+  let h = '';
+
+  h += '<div class="tier-sec"><div class="sec-lbl gold">TIER 1 — MAX CONVICTION</div>';
+  if (by[1].length === 0) h += '<div class="empty-msg">No Tier 1 signals today. Patience is a position.</div>';
+  else h += by[1].map(renderT1).join('');
+  h += '</div>';
+
+  h += '<div class="tier-sec"><div class="sec-lbl orange">TIER 2 — HIGH CONVICTION</div>';
+  if (by[2].length === 0) h += '<div class="empty-msg">No Tier 2 signals today.</div>';
+  else h += by[2].map(renderT2).join('');
+  h += '</div>';
+
+  const watch = [...by[3], ...by[4]];
+  h += '<div class="tier-sec"><div class="sec-lbl grey">TIER 3/4 — WATCHING</div>';
+  if (watch.length === 0) h += '<div class="empty-msg">No signals in watch list.</div>';
+  else h += '<div class="clist">' + watch.map(renderCompact).join('') + '</div>';
+  h += '</div>';
+
+  if (specArr.length > 0) {
+    h += '<div class="tier-sec"><div class="sec-lbl grey">👀 SPECULATIVE — Reddit Only</div>';
+    h += specArr.map(renderSpec).join('');
+    h += '</div>';
+  }
+
+  h += '<div class="tier-sec"><div class="sec-lbl white">ALL SIGNALS</div>';
+  h += renderTable(allT);
+  h += '</div>';
+
+  document.getElementById('main').innerHTML = h;
+
+  const s = data.stats ?? {};
+  const live = Object.values(s.source_health ?? {}).filter(v => v === true).length;
+  document.getElementById('stats-ft').innerHTML =
+    '<span class="st-item">📊 ' + (s.total_scanned ?? 0) + ' Scanned</span>' +
+    '<span class="st-div">|</span>' +
+    '<span class="st-item">✅ ' + live + ' Sources Live</span>' +
+    '<span class="st-div">|</span>' +
+    '<span class="st-item">🕐 ' + (isNaN(genAt.getTime()) ? '—' : relTime(genAt)) + '</span>';
+}
+
+// Event delegation — signals toggle + compact row accordion
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('.sig-toggle');
+  if (btn) {
+    e.stopPropagation();
+    btn.classList.toggle('open');
+    const body = btn.nextElementSibling;
+    if (body && body.classList.contains('sig-body')) body.classList.toggle('open');
+    return;
+  }
+  const crowMain = e.target.closest('.crow-main');
+  if (crowMain) {
+    const crow = crowMain.closest('.crow');
+    if (crow) {
+      const exp = crow.querySelector('.crow-exp');
+      if (exp) exp.classList.toggle('open');
+    }
+  }
+}, false);
+
+async function loadData(isRefresh) {
+  if (isRefresh) {
+    const ri = document.getElementById('refresh-ind');
+    ri.classList.add('on');
+    setTimeout(() => ri.classList.remove('on'), 1500);
+  }
+  try {
+    const res = await fetch('./data/watchtower-data.json?t=' + Date.now());
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    renderDash(data);
+  } catch (e) {
+    if (!isRefresh) {
+      document.getElementById('main').innerHTML =
+        '<div style="background:#1a0000;border:1px solid #ff2222;border-radius:8px;' +
+        'padding:20px 16px;color:#ff8080;font-size:14px;margin-top:8px">' +
+        '⚠️ Could not load signal data. Check back shortly.</div>';
+    }
+  }
+}
+
+loadData(false);
+setInterval(() => loadData(true), 5 * 60 * 1000);
 </script>
 </body>
 </html>
