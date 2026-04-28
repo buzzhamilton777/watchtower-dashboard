@@ -10,9 +10,10 @@ import json
 import logging
 import os
 import re
+import sys
 import time
 from collections import defaultdict
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
@@ -1242,6 +1243,15 @@ def send_daily_brief(tickers_out: list, sell_alerts: list, stats: dict, speculat
 # ---------------------------------------------------------------------------
 def main(mode: str = "full"):
     log.info("=== WATCHTOWER run started — mode: %s ===", mode)
+
+    import pandas_market_calendars as mcal
+    nyse = mcal.get_calendar("NYSE")
+    today = date.today()
+    schedule = nyse.schedule(start_date=today, end_date=today)
+    if schedule.empty:
+        log.info("Market closed today (holiday or weekend) — exiting.")
+        sys.exit(0)
+
     start = datetime.now(timezone.utc)
 
     signals: dict[str, list] = defaultdict(list)
