@@ -56,6 +56,32 @@ REDDIT_SUBS = ["investing", "stocks", "options", "pennystocks", "wallstreetbets"
 PREVIOUS_DATA_PATH = Path("data/watchtower-previous.json")
 OUTPUT_PATH = Path("data/watchtower-data.json")
 
+# Camillo behavioral signal layer
+CAMILLO_SCORES = {
+    "app_store_climb": 1,      # app rank improvement >10 positions WoW
+    "job_acceleration": 2,     # job postings up >50% WoW
+    "subreddit_growth": 1,     # relevant subreddit gained >5% subscribers in 7 days
+    "news_sentiment": 1,       # net positive news score >= 3 in 24h
+    "short_interest_cover": 2, # short interest fell >20% vs prior period
+}
+
+# Subreddit → ticker mapping for Camillo layer
+SUBREDDIT_TICKER_MAP = {
+    "peptides": "BCHMY",
+    "glp1": "HIMS",
+    "hims": "HIMS",
+    "himsandhers": "HIMS",
+    "robinhoodapp": "HOOD",
+    "robinhood": "HOOD",
+    "palantir": "PLTR",
+    "nvidia": "NVDA",
+    "amazon": "AMZN",
+    "arkinvest": "ARKK",
+}
+
+# Consumer-facing tickers that benefit from review velocity tracking
+CONSUMER_TICKERS = ["HIMS", "AMZN", "HOOD", "PLTR"]
+
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -68,10 +94,10 @@ def days_ago_str(n):
     return (datetime.now(timezone.utc) - timedelta(days=n)).strftime("%Y-%m-%d")
 
 
-def safe_get(url, extra_headers=None, **kwargs):
+def safe_get(url, extra_headers=None, timeout=20, **kwargs):
     h = {**HEADERS, **(extra_headers or {})}
     try:
-        r = requests.get(url, headers=h, timeout=20, **kwargs)
+        r = requests.get(url, headers=h, timeout=timeout, **kwargs)
         r.raise_for_status()
         return r
     except Exception as e:
@@ -645,6 +671,282 @@ def fetch_google_trends(signals: dict, fetched: list, watchlist: list):
 
 
 # ---------------------------------------------------------------------------
+# Camillo behavioral signal layer
+# ---------------------------------------------------------------------------
+def fetch_news_sentiment(signals: dict, sell_signals: dict, fetched: list, watchlist: list):
+    import xml.etree.ElementTree as ET
+    from email.utils import parsedate_to_datetime
+    log.info("Fetching news sentiment (Camillo layer)...")
+    found_any = False
+
+    POS_WORDS = {"upgrade", "partnership", "approval", "record", "beat", "growth",
+                 "surge", "buyback", "dividend", "breakthrough"}
+    NEG_WORDS = {"downgrade", "miss", "investigation", "recall", "lawsuit",
+                 "decline", "loss", "cut", "warning", "fraud"}
+
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
+
+    for ticker in watchlist[:30]:
+        try:
+            url = f"https://feeds.finance.yahoo.com/rss/2.0/headline?s={ticker}&region=US&lang=en-US"
+            r = safe_get(url, timeout=10)
+            if not r:
+                time.sleep(0.3)
+                continue
+
+            try:
+                root = ET.fromstring(r.text)
+            except Exception as e:
+                log.warning("News XML parse failed for %s: %s", ticker, e)
+                time.sleep(0.3)
+                continue
+
+            net_score = 0
+            for item in root.iter("item"):
+                pub_el = item.find("pubDate")
+                if pub_el is None or not pub_el.text:
+                    continue
+                try:
+                    pub_dt = parsedate_to_datetime(pub_el.text)
+                    if pub_dt.tzinfo is None:
+                        pub_dt = pub_dt.replace(tzinfo=timezone.utc)
+                    if pub_dt < cutoff:
+                        continue
+                except Exception:
+                    continue
+
+                title_el = item.find("title")
+                title = (title_el.text or "").lower() if title_el is not None else ""
+                for word in POS_WORDS:
+                    if word in title:
+                        net_score += 1
+                for word in NEG_WORDS:
+                    if word in title:
+                        net_score -= 1
+
+            if net_score >= 3:
+                signals[ticker].append({
+                    "source": "News",
+                    "detail": f"{ticker}: {net_score} net positive headlines in 24h",
+                    "pts": 1,
+                })
+                found_any = True
+            elif net_score <= -3:
+                sell_signals[ticker].append({
+                    "source": "News Negative",
+                    "detail": f"{ticker}: {abs(net_score)} negative headlines — bearish sentiment",
+                    "reason": "sell",
+                })
+                found_any = True
+
+        except Exception as e:
+            log.warning("News sentiment failed for %s: %s", ticker, e)
+
+        time.sleep(0.3)
+
+    if found_any:
+        fetched.append("news")
+    log.info("News sentiment: done")
+
+
+def fetch_subreddit_growth(signals: dict, fetched: list):
+    log.info("Fetching subreddit growth (Camillo layer)...")
+    found_any = False
+
+    prev_counts = {}
+    if PREVIOUS_DATA_PATH.exists():
+        try:
+            prev_data = json.loads(PREVIOUS_DATA_PATH.read_text())
+            prev_counts = prev_data.get("subreddit_counts", {})
+        except Exception:
+            pass
+
+    curr_counts = {}
+
+    for subreddit, ticker in SUBREDDIT_TICKER_MAP.items():
+        try:
+            url = f"https://www.reddit.com/r/{subreddit}/about.json"
+            r = safe_get(url, extra_headers={"User-Agent": "watchtower:v1.0 (by watchtower)"})
+            if not r:
+                continue
+
+            curr_count = r.json().get("data", {}).get("subscribers", 0)
+            if not curr_count:
+                continue
+
+            curr_counts[subreddit] = curr_count
+            prev_count = prev_counts.get(subreddit, 0)
+
+            if prev_count and curr_count > prev_count * 1.05:
+                signals[ticker].append({
+                    "source": "Subreddit Growth",
+                    "detail": f"r/{subreddit} growing fast: {prev_count:,} → {curr_count:,} subscribers",
+                    "pts": 1,
+                })
+                found_any = True
+
+        except Exception as e:
+            log.warning("Subreddit growth failed for r/%s: %s", subreddit, e)
+
+    try:
+        prev_data = json.loads(PREVIOUS_DATA_PATH.read_text()) if PREVIOUS_DATA_PATH.exists() else {}
+        prev_data["subreddit_counts"] = curr_counts
+        PREVIOUS_DATA_PATH.write_text(json.dumps(prev_data))
+    except Exception as e:
+        log.warning("Could not save subreddit counts: %s", e)
+
+    if found_any:
+        fetched.append("subreddit_growth")
+    log.info("Subreddit growth: %d subreddits checked", len(curr_counts))
+
+
+def fetch_job_signals(signals: dict, fetched: list, watchlist: list):
+    import xml.etree.ElementTree as ET
+    from email.utils import parsedate_to_datetime
+    log.info("Fetching job signals (Camillo layer)...")
+    found_any = False
+
+    TICKER_COMPANY_SEARCH = {
+        "HIMS": "Hims Hers", "BCHMY": "Bachem", "HOOD": "Robinhood",
+        "PLTR": "Palantir", "NVDA": "NVIDIA", "AMZN": "Amazon",
+        "TSLA": "Tesla", "MSFT": "Microsoft", "AAPL": "Apple",
+    }
+
+    prev_job_counts = {}
+    if PREVIOUS_DATA_PATH.exists():
+        try:
+            prev_data = json.loads(PREVIOUS_DATA_PATH.read_text())
+            prev_job_counts = prev_data.get("job_counts", {})
+        except Exception:
+            pass
+
+    curr_job_counts = {}
+    cutoff = datetime.now(timezone.utc) - timedelta(days=7)
+
+    for ticker in watchlist:
+        if ticker not in TICKER_COMPANY_SEARCH:
+            continue
+        company = TICKER_COMPANY_SEARCH[ticker]
+        try:
+            url = f"https://www.indeed.com/rss?q={requests.utils.quote(company)}&sort=date&limit=25"
+            r = safe_get(url, timeout=10)
+            if not r:
+                time.sleep(1)
+                continue
+
+            try:
+                root = ET.fromstring(r.text)
+            except Exception as e:
+                log.warning("Job RSS parse failed for %s: %s", company, e)
+                time.sleep(1)
+                continue
+
+            current_count = 0
+            for item in root.iter("item"):
+                pub_el = item.find("pubDate")
+                if pub_el is None or not pub_el.text:
+                    continue
+                try:
+                    pub_dt = parsedate_to_datetime(pub_el.text)
+                    if pub_dt.tzinfo is None:
+                        pub_dt = pub_dt.replace(tzinfo=timezone.utc)
+                    if pub_dt >= cutoff:
+                        current_count += 1
+                except Exception:
+                    continue
+
+            curr_job_counts[ticker] = current_count
+            prev_count = prev_job_counts.get(ticker, 0)
+
+            if prev_count > 0 and current_count >= prev_count * 1.5 and current_count >= 5:
+                pct = ((current_count - prev_count) / prev_count) * 100
+                signals[ticker].append({
+                    "source": "Job Growth",
+                    "detail": f"{company}: {current_count} postings this week vs {prev_count} last week (+{pct:.0f}%)",
+                    "pts": 2,
+                })
+                found_any = True
+
+        except Exception as e:
+            log.warning("Job signals failed for %s: %s", ticker, e)
+
+        time.sleep(1)
+
+    try:
+        prev_data = json.loads(PREVIOUS_DATA_PATH.read_text()) if PREVIOUS_DATA_PATH.exists() else {}
+        prev_data["job_counts"] = curr_job_counts
+        PREVIOUS_DATA_PATH.write_text(json.dumps(prev_data))
+    except Exception as e:
+        log.warning("Could not save job counts: %s", e)
+
+    if found_any:
+        fetched.append("job_growth")
+    log.info("Job signals: %d tickers checked", len(curr_job_counts))
+
+
+def fetch_short_interest(signals: dict, fetched: list, watchlist: list):
+    import re
+    log.info("Fetching short interest (Camillo layer)...")
+    found_any = False
+
+    prev_short = {}
+    if PREVIOUS_DATA_PATH.exists():
+        try:
+            prev_data = json.loads(PREVIOUS_DATA_PATH.read_text())
+            prev_short = prev_data.get("short_interest", {})
+        except Exception:
+            pass
+
+    curr_short = {}
+
+    for ticker in watchlist[:20]:
+        try:
+            url = f"https://finviz.com/quote.ashx?t={ticker}"
+            r = safe_get(url, extra_headers={
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+            })
+            if not r:
+                time.sleep(1)
+                continue
+
+            match = re.search(r'Short Float</td>\s*<td[^>]*>([0-9.]+)%', r.text, re.I)
+            if not match:
+                match = re.search(r'Short Float[^%]{0,300}?([0-9]+\.[0-9]+)%', r.text, re.I | re.DOTALL)
+            if not match:
+                log.debug("Short float not found for %s", ticker)
+                time.sleep(1)
+                continue
+
+            curr = float(match.group(1))
+            curr_short[ticker] = curr
+            prev = prev_short.get(ticker)
+
+            if prev is not None and curr < prev * 0.80:
+                signals[ticker].append({
+                    "source": "Short Cover",
+                    "detail": f"{ticker}: short interest fell from {prev:.1f}% to {curr:.1f}% — institutions covering",
+                    "pts": 2,
+                })
+                found_any = True
+
+        except Exception as e:
+            log.warning("Short interest failed for %s: %s", ticker, e)
+
+        time.sleep(1)
+
+    try:
+        prev_data = json.loads(PREVIOUS_DATA_PATH.read_text()) if PREVIOUS_DATA_PATH.exists() else {}
+        prev_data["short_interest"] = curr_short
+        PREVIOUS_DATA_PATH.write_text(json.dumps(prev_data))
+    except Exception as e:
+        log.warning("Could not save short interest: %s", e)
+
+    if found_any:
+        fetched.append("short_interest")
+    log.info("Short interest: %d tickers checked", len(curr_short))
+
+
+# ---------------------------------------------------------------------------
 # Discord daily brief
 # ---------------------------------------------------------------------------
 def send_daily_brief(tickers_out: list, sell_alerts: list, stats: dict, speculative_solo: set = None):
@@ -801,6 +1103,13 @@ def main():
             pass
 
     watchlist = list(set(list(signals.keys()) + ark_universe))[:50]
+
+    # Camillo behavioral layer
+    fetch_news_sentiment(signals, sell_signals, fetched, watchlist[:30])
+    fetch_subreddit_growth(signals, fetched)
+    fetch_job_signals(signals, fetched, watchlist[:15])
+    fetch_short_interest(signals, fetched, watchlist[:20])
+
     fetch_google_trends(signals, fetched, watchlist[:25])
 
     # Reddit corroboration rule: zero out Reddit pts for tickers with no other source
