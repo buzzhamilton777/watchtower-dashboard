@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-28T16:22:51",
+  "generated_at": "2026-04-28T17:11:18",
   "tickers": [
     {
       "ticker": "FMAO",
@@ -156,14 +156,14 @@
       "price_note": ""
     },
     {
-      "ticker": "MELI",
-      "company": "MercadoLibre, Inc.",
+      "ticker": "HOOD",
+      "company": "Robinhood Markets, Inc.",
       "score": 1,
       "tier": 4,
       "signals": [
         {
           "source": "News",
-          "detail": "MELI: 3 net positive headlines in 24h",
+          "detail": "HOOD: 3 net positive headlines in 24h",
           "pts": 1
         }
       ],
@@ -173,17 +173,7 @@
     }
   ],
   "tier1_alert": [],
-  "sell_alerts": [
-    {
-      "ticker": "NEE",
-      "company": "NextEra Energy, Inc.",
-      "prev_tier": 2,
-      "curr_tier": 4,
-      "reasons": [
-        "Tier dropped from 2\u21924"
-      ]
-    }
-  ],
+  "sell_alerts": [],
   "speculative_solo": [],
   "stats": {
     "total_scanned": 10,
