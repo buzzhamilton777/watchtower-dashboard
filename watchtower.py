@@ -1300,6 +1300,7 @@ def main(mode: str = "full"):
             return []
 
     if mode == "fast":
+        fetch_congressional(signals, sell_signals, fetched)
         fetch_form4_insiders(signals, fetched)
         fetch_ark(signals, sell_signals, fetched)
         ark_universe = _load_ark_universe()
