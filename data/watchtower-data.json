@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-28T14:45:57",
+  "generated_at": "2026-04-28T16:22:51",
   "tickers": [
     {
       "ticker": "FMAO",
@@ -36,22 +36,6 @@
     {
       "ticker": "CASY",
       "company": "Casey's General Stores, Inc.",
-      "score": 3,
-      "tier": 2,
-      "signals": [
-        {
-          "source": "Congressional",
-          "detail": "Rep. Richard Larsen bought $8,000 (2026-04-07)",
-          "pts": 3
-        }
-      ],
-      "last_signal_date": "2026-04-28",
-      "price_flag": "neutral",
-      "price_note": ""
-    },
-    {
-      "ticker": "NEE",
-      "company": "NextEra Energy, Inc.",
       "score": 3,
       "tier": 2,
       "signals": [
@@ -142,7 +126,28 @@
         },
         {
           "source": "Mega-cap Penalty",
-          "detail": "Market cap >2008B \u2014 harder to move needle",
+          "detail": "Market cap >2021B \u2014 harder to move needle",
+          "pts": -2
+        }
+      ],
+      "last_signal_date": "2026-04-28",
+      "price_flag": "neutral",
+      "price_note": ""
+    },
+    {
+      "ticker": "NEE",
+      "company": "NextEra Energy, Inc.",
+      "score": 1,
+      "tier": 4,
+      "signals": [
+        {
+          "source": "Congressional",
+          "detail": "Rep. Richard Larsen bought $8,000 (2026-04-07)",
+          "pts": 3
+        },
+        {
+          "source": "Mega-cap Penalty",
+          "detail": "Market cap >201B \u2014 harder to move needle",
           "pts": -2
         }
       ],
@@ -168,14 +173,24 @@
     }
   ],
   "tier1_alert": [],
-  "sell_alerts": [],
+  "sell_alerts": [
+    {
+      "ticker": "NEE",
+      "company": "NextEra Energy, Inc.",
+      "prev_tier": 2,
+      "curr_tier": 4,
+      "reasons": [
+        "Tier dropped from 2\u21924"
+      ]
+    }
+  ],
   "speculative_solo": [],
   "stats": {
     "total_scanned": 10,
     "tier1_count": 0,
-    "tier2_count": 8,
+    "tier2_count": 7,
     "tier3_count": 0,
-    "tier4_count": 2,
+    "tier4_count": 3,
     "sources_fetched": [
       "congressional",
       "ark",
