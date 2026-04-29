@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-29T17:00:06",
+  "generated_at": "2026-04-29T18:55:22",
   "tickers": [
     {
       "ticker": "FMAO",
@@ -36,6 +36,22 @@
     {
       "ticker": "CASY",
       "company": "Casey's General Stores, Inc.",
+      "score": 3,
+      "tier": 2,
+      "signals": [
+        {
+          "source": "Congressional",
+          "detail": "Rep. Richard Larsen bought $8,000 (2026-04-07)",
+          "pts": 3
+        }
+      ],
+      "last_signal_date": "2026-04-29",
+      "price_flag": "neutral",
+      "price_note": ""
+    },
+    {
+      "ticker": "NEE",
+      "company": "NextEra Energy, Inc.",
       "score": 3,
       "tier": 2,
       "signals": [
@@ -110,7 +126,7 @@
         },
         {
           "source": "Mega-cap Penalty",
-          "detail": "Market cap >2035B \u2014 harder to move needle",
+          "detail": "Market cap >2043B \u2014 harder to move needle",
           "pts": -2
         }
       ],
@@ -119,39 +135,35 @@
       "price_note": ""
     },
     {
-      "ticker": "NEE",
-      "company": "NextEra Energy, Inc.",
+      "ticker": "SPOT",
+      "company": "Spotify Technology S.A.",
       "score": 1,
       "tier": 4,
       "signals": [
         {
-          "source": "Congressional",
-          "detail": "Rep. Richard Larsen bought $8,000 (2026-04-07)",
-          "pts": 3
-        },
-        {
-          "source": "Mega-cap Penalty",
-          "detail": "Market cap >201B \u2014 harder to move needle",
-          "pts": -2
+          "source": "News",
+          "detail": "SPOT: 3 net positive headlines in 24h",
+          "pts": 1
         }
       ],
       "last_signal_date": "2026-04-29",
-      "price_flag": "neutral",
-      "price_note": ""
+      "price_flag": "dip",
+      "price_note": "\ud83d\udcc9 30%+ off highs \u2014 potential entry"
     }
   ],
   "tier1_alert": [],
   "sell_alerts": [],
   "speculative_solo": [],
   "stats": {
-    "total_scanned": 8,
+    "total_scanned": 9,
     "tier1_count": 0,
-    "tier2_count": 6,
+    "tier2_count": 7,
     "tier3_count": 0,
     "tier4_count": 2,
     "sources_fetched": [
       "congressional",
-      "ark"
+      "ark",
+      "news"
     ],
     "source_health": {
       "ark": true,
