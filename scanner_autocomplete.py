@@ -123,11 +123,20 @@ def _score_keyword_presence(
     else:
         score = 1
 
-    # Category breadth: how many distinct suggestions contain the keyword
-    # More variants = broader consumer interest
+    # Category breadth — INVERTED logic per Opus calibration:
+    # Narrow breadth (few matches) = niche/emerging term = HIGH signal
+    # Wide breadth (many matches) = established mainstream term = LOWER signal
+    # If a term fills all 10 autocomplete slots it's not emerging, it's Amazon staple
     category_breadth = len(matching_suggestions)
-    if category_breadth >= 5:
-        score = min(score + 1, 3)  # Breadth bonus, capped at 3
+    if category_breadth >= 20:
+        # Too broad — this term is an established Amazon category, not a trend signal
+        score = max(0, score - 2)
+    elif category_breadth >= 12:
+        # Broad — mainstream, reduce by 1
+        score = max(0, score - 1)
+    elif category_breadth <= 3 and best_position <= 5:
+        # Niche term appearing in top suggestions = strong emerging signal
+        score = min(score + 1, 3)
 
     return {
         "score": score,

@@ -195,8 +195,38 @@ def scan_google_trends(keywords: list[str], previous: dict) -> dict:
         except Exception as e:
             log.warning(f"Google Trends batch {batch} failed: {e}")
             if "429" in str(e):
-                log.info("  Rate limited by Google — waiting 60s")
-                time.sleep(60)
+                # Exponential backoff on rate limit
+                wait = 90
+                log.info(f"  Rate limited by Google — waiting {wait}s (exponential backoff)")
+                time.sleep(wait)
+                # Retry once with smaller batch (single keyword)
+                for single_kw in batch[:1]:
+                    try:
+                        pytrends.build_payload([single_kw], timeframe="today 3-m", geo="US")
+                        df_retry = pytrends.interest_over_time()
+                        time.sleep(30)
+                        if single_kw in df_retry.columns:
+                            series = df_retry[single_kw].dropna()
+                            if len(series) >= 4:
+                                current = float(series.iloc[-1])
+                                avg_12w = float(series.iloc[-13:-1].mean()) if len(series) >= 13 else float(series[:-1].mean())
+                                ratio = current / avg_12w if avg_12w > 0 else 0
+                                is_90d_high = current == series.max() and current > 0
+                                score = 0
+                                if ratio > 2.0 and is_90d_high:
+                                    score = 3
+                                elif ratio > 1.5 and is_90d_high:
+                                    score = 1
+                                results[single_kw] = {
+                                    "score": score, "current": current,
+                                    "avg_12w": round(avg_12w, 1), "ratio": round(ratio, 2),
+                                    "is_90d_high": is_90d_high,
+                                    "is_mainstream": current > MAINSTREAM_THRESHOLD,
+                                    "shopping_ratio": 0.0, "shopping_score": 0,
+                                    "from_retry": True,
+                                }
+                    except Exception:
+                        pass
             else:
                 time.sleep(15)
 
@@ -634,7 +664,10 @@ def score_trend(
 
     # Wall Street awareness (use GT absolute score as proxy)
     gt_absolute = gt_data.get("current", 0)
-    low_awareness_bonus = 2 if gt_absolute < 30 else 0
+    gt_has_real_data = bool(gt_data)  # Empty dict = GT was rate-limited or returned nothing
+    # Only grant low-awareness bonus if GT actually returned data confirming low awareness
+    # If GT was rate-limited (gt_absolute=0 due to no data), don't assume low awareness
+    low_awareness_bonus = 2 if (gt_has_real_data and gt_absolute < 30) else 0
 
     # Penalties
     is_mainstream = gt_data.get("is_mainstream", False) or gt_absolute > MAINSTREAM_THRESHOLD
@@ -665,8 +698,14 @@ def score_trend(
         final_score = max(0, final_score - 1)
 
     # Determine tier
-    if final_score >= TIER1_THRESHOLD:
+    # Tier 1 requires 2+ days of multi-platform firing to prevent day-1 false urgency
+    tier1_confirmed = platforms_firing >= 2 and days_active >= 2
+    if final_score >= TIER1_THRESHOLD and tier1_confirmed:
         tier = 1
+    elif final_score >= TIER1_THRESHOLD:
+        # Score qualifies for Tier 1 but not yet confirmed — hold at Tier 2
+        tier = 2
+        log.info(f"  {trend_name}: Tier 1 score ({final_score}) but day {days_active} — holding at Tier 2 (needs 2+ days)")
     elif final_score >= TIER2_THRESHOLD:
         tier = 2
     elif final_score >= TIER3_THRESHOLD:
