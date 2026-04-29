@@ -217,9 +217,14 @@ footer a:hover{color:var(--text2)}
     </div>
   </main>
 
+  <section id="sourceHealth" style="margin:32px 0 8px;padding:20px;background:var(--card);border:1px solid var(--border);border-radius:12px;display:none">
+    <div style="font-size:.8rem;font-weight:600;color:var(--text2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px">⚙️ Source Health</div>
+    <div id="healthGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px"></div>
+  </section>
+
   <footer>
     <div class="powered">Powered by Hamilton &amp; Opus · Camillo Social Arbitrage Methodology</div>
-    <a href="https://kurtafarmer.github.io/watchtower/" target="_blank">kurtafarmer.github.io/watchtower</a>
+    <a href="https://buzzhamilton777.github.io/watchtower-dashboard/" target="_blank">buzzhamilton777.github.io/watchtower-dashboard</a>
   </footer>
 </div>
 
@@ -527,6 +532,33 @@ function renderDashboard(data) {
   }
 
   main.innerHTML = html;
+
+  // Source health bar
+  const health = data.source_health || {};
+  const healthSection = document.getElementById('sourceHealth');
+  const healthGrid = document.getElementById('healthGrid');
+  if (Object.keys(health).length > 0) {
+    healthSection.style.display = 'block';
+    const labels = {
+      google_trends: '📈 Google Trends',
+      reddit: '💬 Reddit',
+      amazon_bsr: '📦 Amazon BSR',
+      yfinance: '💵 Stock Prices',
+      opus_thesis: '🧠 Opus Thesis',
+      discord_webhook: '🔔 Discord Alerts',
+    };
+    healthGrid.innerHTML = Object.entries(health).map(([key, val]) => {
+      const label = labels[key] || key;
+      const status = val.status || 'unknown';
+      const color = status === 'active' ? '#22c55e' : status === 'skipped' ? '#f59e0b' : '#ef4444';
+      const dot = `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${color};margin-right:6px"></span>`;
+      return `<div style="background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:.75rem">
+        <div style="font-weight:600;margin-bottom:4px;color:var(--text1)">${dot}${label}</div>
+        <div style="color:var(--text3)">${val.note || status}</div>
+        ${val.signals_fired !== undefined ? `<div style="color:var(--text3);margin-top:2px">${val.signals_fired} signals fired</div>` : ''}
+      </div>`;
+    }).join('');
+  }
 }
 
 function showError(msg) {

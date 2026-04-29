@@ -828,12 +828,49 @@ def main():
 
     # ── Build Output ──────────────────────────────────────────────────────────
 
+    # Build source health
+    source_health = {
+        "google_trends": {
+            "status": "active" if gt_output.get("signals") else ("skipped" if args.mode == "fast" else "error"),
+            "signals_fired": sum(1 for v in gt_output.get("signals", {}).values() if v.get("score", 0) > 0),
+            "last_run": datetime.now().isoformat() if args.mode != "fast" else None,
+            "note": "Morning/full mode only" if args.mode == "fast" else "Active",
+        },
+        "reddit": {
+            "status": "active" if reddit_signals else "error",
+            "signals_fired": sum(1 for v in reddit_signals.values() if v.get("score", 0) > 0),
+            "subreddits_scanned": len(TARGET_SUBREDDITS),
+            "last_run": datetime.now().isoformat(),
+            "note": "PRAW authenticated" if (REDDIT_CLIENT_ID and REDDIT_CLIENT_SECRET) else "Public HTTP fallback",
+        },
+        "amazon_bsr": {
+            "status": "active" if (args.mode in ["morning", "full"] and bsr_signals) else ("skipped" if args.mode == "fast" else "error"),
+            "signals_fired": sum(1 for v in bsr_signals.values() if v.get("score", 0) > 0),
+            "last_run": datetime.now().isoformat() if args.mode != "fast" else None,
+            "note": "Morning/full mode only" if args.mode == "fast" else "Active",
+        },
+        "yfinance": {
+            "status": "active",
+            "note": "Free, no rate limits",
+            "last_run": datetime.now().isoformat(),
+        },
+        "opus_thesis": {
+            "status": "active" if ANTHROPIC_API_KEY else "missing_key",
+            "note": "Fires on NEW Tier 1 hits only" if ANTHROPIC_API_KEY else "ANTHROPIC_API_KEY not set",
+        },
+        "discord_webhook": {
+            "status": "active" if DISCORD_WEBHOOK_URL else "missing",
+            "note": "Tier 1 alerts" if DISCORD_WEBHOOK_URL else "DISCORD_WEBHOOK_URL not set",
+        },
+    }
+
     output = {
         "generated_at": datetime.now().isoformat(),
         "mode": args.mode,
         "active_signals": active_signals,
         "new_trends_discovered": gt_output.get("discovery", []),
         "exit_warnings": exit_warnings,
+        "source_health": source_health,
         "run_stats": {
             "duration_sec": round(time.time() - start, 1),
             "keywords_scanned": len(set(all_keywords)),
