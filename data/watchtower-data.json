@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-29T16:11:26",
+  "generated_at": "2026-04-29T17:00:06",
   "tickers": [
     {
       "ticker": "FMAO",
@@ -110,7 +110,7 @@
         },
         {
           "source": "Mega-cap Penalty",
-          "detail": "Market cap >2032B \u2014 harder to move needle",
+          "detail": "Market cap >2035B \u2014 harder to move needle",
           "pts": -2
         }
       ],
@@ -131,40 +131,8 @@
         },
         {
           "source": "Mega-cap Penalty",
-          "detail": "Market cap >200B \u2014 harder to move needle",
+          "detail": "Market cap >201B \u2014 harder to move needle",
           "pts": -2
-        }
-      ],
-      "last_signal_date": "2026-04-29",
-      "price_flag": "neutral",
-      "price_note": ""
-    },
-    {
-      "ticker": "PLTR",
-      "company": "Palantir Technologies Inc.",
-      "score": 1,
-      "tier": 4,
-      "signals": [
-        {
-          "source": "News",
-          "detail": "PLTR: 3 net positive headlines in 24h",
-          "pts": 1
-        }
-      ],
-      "last_signal_date": "2026-04-29",
-      "price_flag": "dip",
-      "price_note": "\ud83d\udcc9 30%+ off highs \u2014 potential entry"
-    },
-    {
-      "ticker": "AVGO",
-      "company": "Broadcom Inc.",
-      "score": 1,
-      "tier": 4,
-      "signals": [
-        {
-          "source": "News",
-          "detail": "AVGO: 6 net positive headlines in 24h",
-          "pts": 1
         }
       ],
       "last_signal_date": "2026-04-29",
@@ -173,39 +141,17 @@
     }
   ],
   "tier1_alert": [],
-  "sell_alerts": [
-    {
-      "ticker": "XE",
-      "company": "X-Energy, Inc.",
-      "prev_tier": 1,
-      "curr_tier": 4,
-      "reasons": [
-        "Tier dropped from 1\u21924",
-        "Score fell 4\u21920 (-4)"
-      ]
-    },
-    {
-      "ticker": "EQT",
-      "company": "EQT Corporation",
-      "prev_tier": 2,
-      "curr_tier": 4,
-      "reasons": [
-        "Tier dropped from 2\u21924",
-        "Score fell 3\u21920 (-3)"
-      ]
-    }
-  ],
+  "sell_alerts": [],
   "speculative_solo": [],
   "stats": {
-    "total_scanned": 10,
+    "total_scanned": 8,
     "tier1_count": 0,
     "tier2_count": 6,
     "tier3_count": 0,
-    "tier4_count": 4,
+    "tier4_count": 2,
     "sources_fetched": [
       "congressional",
-      "ark",
-      "news"
+      "ark"
     ],
     "source_health": {
       "ark": true,
