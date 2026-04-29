@@ -2,650 +2,562 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0d0d0d">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>WATCHTOWER</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WATCHTOWER 2.0</title>
 <style>
-:root {
-  --bg: #0d0d0d;
-  --surf: #1a1a1a;
-  --surf2: #111;
-  --bd: #1e1e1e;
-  --txt: #ffffff;
-  --muted: #666;
-  --muted2: #888;
-  --gold: #f0c040;
-  --orange: #f97316;
-  --green: #22c55e;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0b0d;--surface:#111318;--surface2:#181b22;--surface3:#1e222b;
+  --border:#2a2e38;--text:#e8eaed;--text2:#9aa0ac;--text3:#5c6370;
+  --red:#ff4757;--red-dim:#ff475730;--amber:#ffa502;--amber-dim:#ffa50225;
+  --green:#2ed573;--green-dim:#2ed57325;--yellow:#ffd43b;--yellow-dim:#ffd43b25;
+  --blue:#4dabf7;--blue-dim:#4dabf725;--purple:#9775fa;
+  --tier1:#ff6b35;--tier1-bg:#ff6b3512;--tier1-border:#ff6b3540;
+  --tier2:#ffa502;--tier2-bg:#ffa50210;--tier2-border:#ffa50235;
+  --tier3:#4dabf7;--tier3-bg:#4dabf710;--tier3-border:#4dabf730;
+  --radius:10px;--radius-sm:6px;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 14px; }
-body {
-  background: var(--bg);
-  color: var(--txt);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-  padding-bottom: 52px;
-}
+html{font-size:15px}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Helvetica,Arial,sans-serif;line-height:1.5;min-height:100vh}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
 
-/* ── HEADER ── */
-#hdr {
-  background: rgba(13,13,13,0.96);
-  border-bottom: 1px solid #1a1a1a;
-  padding: 12px 16px 8px;
-  position: sticky; top: 0; z-index: 100;
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-}
-#hdr-top {
-  display: flex; align-items: center;
-  justify-content: space-between; margin-bottom: 8px;
-}
-#wordmark { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: .05em; }
-#hdr-right { display: flex; align-items: center; gap: 8px; }
-#refresh-ind {
-  font-size: 11px; color: var(--muted);
-  opacity: 0; transition: opacity .3s;
-}
-#refresh-ind.on { opacity: 1; }
-#timestamp { font-size: 12px; color: var(--muted); white-space: nowrap; }
-#src-health {
-  display: flex; gap: 12px; overflow-x: auto;
-  scrollbar-width: none; -webkit-overflow-scrolling: touch;
-  flex-wrap: nowrap; padding: 2px 0; margin-bottom: 4px;
-}
-#src-health::-webkit-scrollbar { display: none; }
-.sh-item { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
-.sh-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.sh-dot.ok { background: #22c55e; }
-.sh-dot.dead { background: #ef4444; }
-.sh-lbl { font-size: 10px; color: var(--muted2); white-space: nowrap; }
-#tagline { font-size: 12px; color: var(--muted); }
-#stale-warn {
-  display: none;
-  background: #2a2000; border-left: 3px solid var(--gold);
-  color: var(--gold); font-size: 12px;
-  padding: 6px 10px; margin-top: 6px;
-  border-radius: 0 4px 4px 0;
-}
+/* Layout */
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+header{padding:36px 0 24px;border-bottom:1px solid var(--border);margin-bottom:32px}
+.header-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.logo{font-size:1.8rem;font-weight:700;letter-spacing:-.02em}
+.logo span{opacity:.7}
+.tagline{color:var(--text2);font-size:.9rem;margin-top:4px;font-style:italic}
+.live-badge{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:600;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em}
+.live-badge.live{background:var(--green-dim);color:var(--green);border:1px solid var(--green)}
+.live-badge.live .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.live-badge.stale{background:var(--amber-dim);color:var(--amber);border:1px solid var(--amber)}
+.live-badge.stale .dot{width:7px;height:7px;border-radius:50%;background:var(--amber)}
+.live-badge.offline{background:var(--red-dim);color:var(--red);border:1px solid var(--red)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* ── SELL ALERTS ── */
-#sell-zone { padding: 0 16px; }
-.sell-banner {
-  background: #3d0000; border-left: 4px solid #ff2222;
-  padding: 12px 14px; margin: 12px 0 0;
-  border-radius: 0 6px 6px 0;
-}
-.sell-title { color: #ff2222; font-weight: 700; font-size: 14px; margin-bottom: 6px; }
-.sell-item { color: #ff8080; font-size: 13px; padding: 2px 0; }
+.stats-bar{display:flex;gap:24px;margin-top:16px;flex-wrap:wrap}
+.stat{display:flex;align-items:center;gap:6px;font-size:.85rem;color:var(--text2)}
+.stat strong{color:var(--text);font-size:1.1rem;font-weight:700}
+.updated{font-size:.78rem;color:var(--text3);margin-top:8px}
 
-/* ── MAIN ── */
-main { padding: 16px; max-width: 900px; margin: 0 auto; }
+/* Sections */
+.section{margin-bottom:40px}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.section-title{font-size:1.15rem;font-weight:700;letter-spacing:.01em}
+.section-badge{font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.06em}
+.tier1-badge{background:var(--tier1);color:#fff}
+.tier2-badge{background:var(--tier2);color:#000}
+.tier3-badge{background:var(--tier3);color:#000}
 
-/* ── SECTION LABELS ── */
-.sec-lbl {
-  font-size: 11px; font-weight: 700;
-  letter-spacing: .08em; text-transform: uppercase;
-  margin-bottom: 10px; padding-bottom: 7px;
-  border-bottom: 1px solid #1a1a1a;
-}
-.sec-lbl.gold { color: var(--gold); }
-.sec-lbl.orange { color: var(--orange); }
-.sec-lbl.grey { color: var(--muted2); }
-.sec-lbl.white { color: #fff; }
-.tier-sec { margin-bottom: 24px; }
-.empty-msg { color: var(--muted); font-size: 13px; padding: 10px 0; }
+/* Signal Cards */
+.signal-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;position:relative;overflow:hidden}
+.signal-card.tier1{border-color:var(--tier1-border);background:var(--tier1-bg)}
+.signal-card.tier1::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--tier1)}
+.signal-card.tier2{border-color:var(--tier2-border);background:var(--tier2-bg)}
+.signal-card.tier2::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--tier2)}
+.signal-card.tier3{border-color:var(--tier3-border);background:var(--tier3-bg)}
 
-/* ── TIER 1/2 CARDS ── */
-.t-card {
-  background: var(--surf); border-radius: 8px;
-  padding: 16px; margin-bottom: 12px;
-  border-left: 4px solid transparent;
-}
-.t-card.t1 { border-left-color: var(--gold); }
-.t-card.t2 { border-left-color: var(--orange); }
-.card-top {
-  display: flex; align-items: flex-start;
-  justify-content: space-between; margin-bottom: 4px;
-}
-.card-badges {
-  display: flex; align-items: center;
-  gap: 6px; flex-wrap: wrap; justify-content: flex-end;
-}
-.sym-lg { font-size: 28px; font-weight: 700; color: #fff; letter-spacing: -.01em; line-height: 1; }
-.sym-md { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -.01em; line-height: 1; }
-.co-name { font-size: 13px; color: #aaa; margin-bottom: 10px; }
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.card-main{flex:1;min-width:200px}
+.card-title-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.trend-name{font-size:1.3rem;font-weight:700}
+.category-tag{font-size:.68rem;padding:2px 8px;border-radius:12px;background:var(--surface3);color:var(--text2);text-transform:uppercase;letter-spacing:.04em}
+.card-meta{display:flex;gap:16px;margin-top:6px;flex-wrap:wrap;font-size:.82rem;color:var(--text2)}
+.card-meta .days{color:var(--amber)}
+.card-desc{margin-top:10px;font-size:.88rem;color:var(--text2);line-height:1.55}
 
-.score-pill {
-  font-size: 12px; font-weight: 600;
-  padding: 3px 9px; border-radius: 20px; white-space: nowrap;
-}
-.sp-gold { background: rgba(240,192,64,.15); color: var(--gold); border: 1px solid rgba(240,192,64,.3); }
-.sp-orange { background: rgba(249,115,22,.15); color: var(--orange); border: 1px solid rgba(249,115,22,.3); }
-.sp-grey { background: #1a1a1a; color: var(--muted2); border: 1px solid #2a2a2a; }
+/* Score Badge */
+.score-badge{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;flex-shrink:0;position:relative}
+.score-badge .out-of{font-size:.65rem;font-weight:400;opacity:.7}
+.score-high{background:linear-gradient(135deg,#ff6b35,#ff4757);color:#fff;box-shadow:0 0 24px #ff6b3540}
+.score-mid{background:linear-gradient(135deg,#ffa502,#ff9f1a);color:#000;box-shadow:0 0 20px #ffa50230}
+.score-low{background:linear-gradient(135deg,#4dabf7,#339af0);color:#fff;box-shadow:0 0 18px #4dabf730}
 
-.t-badge {
-  font-size: 10px; font-weight: 700; padding: 3px 8px;
-  border-radius: 4px; white-space: nowrap; letter-spacing: .04em;
-}
-.tb1 { background: var(--gold); color: #000; }
-.tb2 { background: var(--orange); color: #fff; }
-.tb3 { background: #333; color: #aaa; }
-.tb4 { background: #2a2a2a; color: #888; }
+/* Signal Icons */
+.signals-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.signal-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:var(--radius-sm);font-size:.76rem;font-weight:600;border:1px solid var(--border);background:var(--surface2);color:var(--text3);transition:all .2s}
+.signal-chip.active{color:var(--text);border-color:var(--green);background:var(--green-dim)}
+.signal-chip .emoji{font-size:.9rem}
 
-/* ── ENTRY BADGE ── */
-.entry-bdg {
-  display: block; width: 100%; text-align: center;
-  padding: 7px 12px; border-radius: 6px;
-  font-size: 13px; font-weight: 600; margin-bottom: 10px;
-}
-.eb-dip { background: #0d3d1a; color: #4ade80; }
-.eb-ext { background: #3d3200; color: #fbbf24; }
-.eb-neu { background: #1e1e1e; color: #888; }
+/* Score Breakdown */
+.score-breakdown{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.breakdown-pill{font-size:.68rem;padding:2px 7px;border-radius:4px;background:var(--surface3);color:var(--text3)}
+.breakdown-pill.has-score{color:var(--text2)}
 
-/* ── SIGNALS TOGGLE ── */
-.sig-toggle {
-  background: none; border: 1px solid #2a2a2a;
-  color: var(--muted2); font-size: 12px;
-  padding: 8px 12px; border-radius: 6px; cursor: pointer;
-  width: 100%; text-align: left; min-height: 44px;
-  display: flex; align-items: center; gap: 6px;
-  -webkit-tap-highlight-color: transparent;
-  transition: background .15s; font-family: inherit;
-}
-.sig-toggle:active { background: #1a1a1a; }
-.sig-toggle .arr { font-size: 10px; transition: transform .2s; }
-.sig-toggle.open .arr { transform: rotate(90deg); }
-.sig-body { overflow: hidden; max-height: 0; transition: max-height .25s ease; }
-.sig-body.open { max-height: 2000px; }
-.sig-list { padding: 10px 0 2px; display: flex; flex-direction: column; gap: 8px; }
-.sig-row { display: flex; align-items: flex-start; gap: 8px; }
-.sig-src {
-  font-size: 11px; font-weight: 600;
-  padding: 2px 8px; border-radius: 20px;
-  white-space: nowrap; flex-shrink: 0;
-}
-.sig-det { font-size: 13px; color: #ccc; line-height: 1.4; flex: 1; }
+/* Awareness Bar */
+.awareness{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:.82rem}
+.awareness-label{color:var(--text3)}
+.awareness-value{font-weight:700}
+.awareness-value.low{color:var(--green)}
+.awareness-value.medium{color:var(--yellow)}
+.awareness-value.high{color:var(--red)}
+.awareness-bar{display:flex;gap:3px;margin-left:4px}
+.awareness-bar span{width:24px;height:6px;border-radius:3px;background:var(--surface3)}
+.awareness-bar.low span:nth-child(1){background:var(--green)}
+.awareness-bar.medium span:nth-child(1),.awareness-bar.medium span:nth-child(2){background:var(--yellow)}
+.awareness-bar.high span:nth-child(1),.awareness-bar.high span:nth-child(2),.awareness-bar.high span:nth-child(3){background:var(--red)}
 
-/* ── EXIT TRIGGERS ── */
-.exit-box {
-  margin-top: 10px; background: #0f0800;
-  border-radius: 6px; padding: 10px 12px;
-}
-.exit-ttl {
-  font-size: 11px; font-weight: 700; color: var(--orange);
-  text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px;
-}
-.exit-item {
-  font-size: 12px; color: #7a4010;
-  padding: 2px 0 2px 14px; position: relative;
-}
-.exit-item::before { content: "•"; position: absolute; left: 3px; color: var(--orange); }
+/* Data Details */
+.data-details{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
+.data-detail{font-size:.76rem;padding:6px 10px;border-radius:var(--radius-sm);background:var(--surface2);border:1px solid var(--border)}
+.data-detail .label{color:var(--text3);margin-right:4px}
+.data-detail .value{color:var(--text);font-weight:600}
+.data-detail .ratio{color:var(--green);font-weight:700}
+.data-detail .flag{color:var(--amber);margin-left:3px;font-size:.7rem}
 
-/* ── COMPACT LIST (Tier 3/4) ── */
-.clist { background: var(--surf2); border-radius: 8px; overflow: hidden; border: 1px solid #1a1a1a; }
-.crow { border-bottom: 1px solid #161616; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-.crow:last-child { border-bottom: none; }
-.crow-main {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 14px; min-height: 44px;
-}
-.crow-ticker { font-size: 14px; font-weight: 700; color: #fff; min-width: 56px; flex-shrink: 0; }
-.crow-co { font-size: 12px; color: var(--muted); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.crow-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-.crow-exp { overflow: hidden; max-height: 0; transition: max-height .25s ease; background: #0a0a0a; }
-.crow-exp.open { max-height: 800px; }
-.crow-exp-inner { padding: 10px 14px 12px; }
+/* Company Cards */
+.companies-section{margin-top:18px}
+.companies-label{font-size:.75rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;font-weight:600}
+.company-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.company-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;transition:border-color .2s}
+.company-card:hover{border-color:var(--text3)}
+.company-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ticker{font-size:1.05rem;font-weight:800;font-family:'SF Mono',Menlo,Consolas,monospace;letter-spacing:.02em}
+.ps-badge{font-size:.65rem;padding:2px 6px;border-radius:4px;background:var(--purple);color:#fff;font-weight:700;margin-left:6px}
+.price{font-size:.88rem;color:var(--text2)}
+.change{font-size:.82rem;font-weight:700;margin-left:8px}
+.change.up{color:var(--green)}
+.change.down{color:var(--red)}
+.company-thesis{font-size:.78rem;color:var(--text3);margin-top:6px;line-height:1.45}
 
-/* ── SPECULATIVE ── */
-.spec-card {
-  background: #111; border-left: 2px solid #444;
-  border-radius: 8px; padding: 12px 14px;
-  margin-bottom: 10px; display: flex; align-items: center; gap: 12px;
-}
-.spec-ticker { font-size: 16px; font-weight: 700; color: #ccc; flex-shrink: 0; min-width: 60px; }
-.spec-co { font-size: 12px; color: var(--muted2); margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.spec-note { font-size: 11px; color: var(--muted); font-style: italic; }
+/* Thesis Expandable */
+.thesis-toggle{display:inline-flex;align-items:center;gap:5px;margin-top:14px;padding:6px 14px;border-radius:var(--radius-sm);background:var(--surface2);border:1px solid var(--border);color:var(--text2);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;user-select:none}
+.thesis-toggle:hover{background:var(--surface3);color:var(--text);border-color:var(--text3)}
+.thesis-toggle .arrow{transition:transform .2s;font-size:.7rem}
+.thesis-toggle.open .arrow{transform:rotate(90deg)}
+.thesis-content{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease}
+.thesis-content.open{max-height:2000px;padding-top:12px}
+.thesis-text{font-size:.85rem;color:var(--text2);line-height:1.65;padding:16px;background:var(--surface2);border-radius:var(--radius-sm);border:1px solid var(--border);white-space:pre-wrap}
 
-/* ── TABLE ── */
-.tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; border: 1px solid #1a1a1a; }
-table { width: 100%; border-collapse: collapse; min-width: 480px; font-size: 13px; }
-thead th {
-  background: #111; padding: 10px 14px; text-align: left;
-  font-size: 11px; font-weight: 600; color: var(--muted2);
-  letter-spacing: .05em; cursor: pointer; white-space: nowrap;
-  user-select: none; -webkit-user-select: none;
-  border-bottom: 1px solid #1a1a1a;
-}
-thead th:hover { color: #fff; }
-.sort-arr { margin-left: 4px; font-size: 10px; }
-tbody tr:nth-child(even) { background: #111; }
-tbody tr:nth-child(odd) { background: var(--bg); }
-tbody td { padding: 9px 14px; border-bottom: 1px solid #0f0f0f; white-space: nowrap; }
-tbody tr:last-child td { border-bottom: none; }
-.td-tkr { font-weight: 700; color: #fff; }
-.td-sc { font-weight: 600; }
-.sc-g { color: var(--gold); }
-.sc-o { color: var(--orange); }
-.sc-grey { color: var(--muted2); }
-.td-src { color: var(--muted); font-size: 12px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
-.td-dt { color: var(--muted); }
+/* Tier 3 Table */
+.tier3-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.tier3-table th{text-align:left;padding:10px 14px;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);font-weight:600;border-bottom:1px solid var(--border)}
+.tier3-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2)}
+.tier3-table tr:hover td{background:var(--surface2)}
+.tier3-table .t-name{font-weight:700;color:var(--text)}
 
-/* ── STATS FOOTER ── */
-#stats-ft {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: #111; border-top: 1px solid #1a1a1a;
-  padding: 8px 16px;
-  padding-bottom: calc(8px + env(safe-area-inset-bottom));
-  display: flex; align-items: center; gap: 14px;
-  font-size: 12px; color: var(--muted);
-  overflow-x: auto; scrollbar-width: none;
-  -webkit-overflow-scrolling: touch; z-index: 90;
-}
-#stats-ft::-webkit-scrollbar { display: none; }
-.st-item { white-space: nowrap; flex-shrink: 0; }
-.st-div { color: #2a2a2a; flex-shrink: 0; }
+/* New Trends */
+.new-trend-list{display:flex;gap:8px;flex-wrap:wrap}
+.new-trend-chip{padding:8px 16px;border-radius:20px;background:var(--surface2);border:1px dashed var(--border);color:var(--text2);font-size:.85rem}
+.new-trend-chip::before{content:'✨ '}
+.mapper-hint{font-size:.78rem;color:var(--text3);margin-top:10px;font-style:italic}
 
-/* ── LOADING ── */
-#load-state { text-align: center; padding: 60px 20px; color: var(--muted); font-size: 15px; }
-.spinner {
-  width: 28px; height: 28px;
-  border: 3px solid #222; border-top-color: var(--gold);
-  border-radius: 50%; animation: spin .8s linear infinite;
-  margin: 0 auto 14px;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
+/* Exit Warnings */
+.exit-banner{padding:16px 20px;border-radius:var(--radius);background:var(--red-dim);border:1px solid var(--red);margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.exit-banner .icon{font-size:1.3rem}
+.exit-banner .exit-text{font-size:.88rem}
+.exit-banner .exit-trend{font-weight:700;color:var(--red)}
 
-/* ── DESKTOP ── */
-@media (min-width: 768px) {
-  #hdr { padding: 16px 24px 10px; }
-  main { padding: 20px 24px; }
-  body { padding-bottom: 48px; }
+/* Empty States */
+.empty-state{text-align:center;padding:40px 20px;color:var(--text3);font-size:.95rem}
+.empty-state .empty-icon{font-size:2rem;margin-bottom:8px}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:24px 0 32px;margin-top:40px;text-align:center;color:var(--text3);font-size:.78rem}
+footer .powered{margin-bottom:6px}
+footer a{color:var(--text3)}
+footer a:hover{color:var(--text2)}
+
+/* Loading */
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;color:var(--text3)}
+.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--tier1);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Error */
+.error-state{text-align:center;padding:60px 20px}
+.error-state .error-icon{font-size:2.5rem;margin-bottom:12px}
+.error-state .error-msg{color:var(--red);font-size:1rem;font-weight:600}
+.error-state .error-detail{color:var(--text3);font-size:.85rem;margin-top:6px}
+.error-state .retry-btn{margin-top:16px;padding:8px 20px;border-radius:var(--radius-sm);background:var(--surface2);border:1px solid var(--border);color:var(--text);font-size:.85rem;cursor:pointer}
+.error-state .retry-btn:hover{background:var(--surface3)}
+
+/* Responsive */
+@media(max-width:640px){
+  html{font-size:14px}
+  .container{padding:0 14px}
+  header{padding:24px 0 16px}
+  .logo{font-size:1.5rem}
+  .stats-bar{gap:14px}
+  .score-badge{width:56px;height:56px;font-size:1.25rem}
+  .signal-card{padding:16px}
+  .company-grid{grid-template-columns:1fr}
+  .data-details{flex-direction:column;gap:6px}
+  .tier3-table{font-size:.8rem}
+  .tier3-table th,.tier3-table td{padding:8px 10px}
 }
 </style>
 </head>
 <body>
-
-<header id="hdr">
-  <div id="hdr-top">
-    <div id="wordmark">🗼 WATCHTOWER</div>
-    <div id="hdr-right">
-      <span id="refresh-ind">↻ Refreshing…</span>
-      <span id="timestamp">Loading…</span>
+<div class="container">
+  <header>
+    <div class="header-top">
+      <div>
+        <div class="logo">🗼 WATCHTOWER <span>2.0</span></div>
+        <div class="tagline">See everything before the market does.</div>
+      </div>
+      <div id="liveBadge" class="live-badge offline">
+        <span class="dot"></span>
+        <span class="label">OFFLINE</span>
+      </div>
     </div>
-  </div>
-  <div id="src-health"></div>
-  <div id="tagline">See everything before the market does. 🗼</div>
-  <div id="stale-warn"></div>
-</header>
+    <div class="stats-bar" id="statsBar">
+      <div class="stat"><strong id="statSignals">—</strong>&nbsp;active signals</div>
+      <div class="stat"><strong id="statTier1">—</strong>&nbsp;Tier 1</div>
+      <div class="stat"><strong id="statKeywords">—</strong>&nbsp;keywords tracked</div>
+    </div>
+    <div class="updated" id="updatedTime">Last updated: —</div>
+  </header>
 
-<div id="sell-zone"></div>
-<main id="main"><div id="load-state"><div class="spinner"></div>Loading signals…</div></main>
-<div id="stats-ft"></div>
+  <main id="main">
+    <div class="loading" id="loadingState">
+      <div class="spinner"></div>
+      <div>Loading signal data…</div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="powered">Powered by Hamilton &amp; Opus · Camillo Social Arbitrage Methodology</div>
+    <a href="https://kurtafarmer.github.io/watchtower/" target="_blank">kurtafarmer.github.io/watchtower</a>
+  </footer>
+</div>
 
 <script>
-const SRC_HEALTH_KEYS = [
-  { key: 'ark',           lbl: 'ARK' },
-  { key: 'form4',         lbl: 'Form4' },
-  { key: '13d',           lbl: '13D' },
-  { key: '13f',           lbl: '13F' },
-  { key: 'congressional', lbl: 'Congress' },
-  { key: 'reddit',        lbl: 'Reddit' },
-  { key: 'google_trends', lbl: 'Trends' },
-];
+const DATA_URL = '/data/watchtower-data.json';
+const REFRESH_MS = 5 * 60 * 1000;
+const FRESH_MS = 30 * 60 * 1000;
 
-const SRC_CLRS = {
-  reddit: '#ff4500', ark: '#00d4ff',
-  'form 4': '#a855f7', form4: '#a855f7', insider: '#a855f7',
-  '13d': '#f97316', activist: '#f97316',
-  '13f': '#60a5fa',
-  trends: '#22c55e', google: '#22c55e',
-  congress: '#ec4899', congressional: '#ec4899',
-};
+const $ = id => document.getElementById(id);
+const main = $('main');
 
-let _sortCol = 'score', _sortDir = -1, _lastData = null;
-
-function esc(s) {
-  return String(s ?? '')
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+function escHtml(s) {
+  if (!s) return '';
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
 }
 
-function srcColor(src) {
-  const s = (src || '').toLowerCase();
-  for (const [k, v] of Object.entries(SRC_CLRS)) {
-    if (s.includes(k)) return v;
-  }
-  return '#666';
+function relTime(iso) {
+  const d = new Date(iso);
+  if (isNaN(d)) return iso;
+  const diff = Date.now() - d.getTime();
+  if (diff < 60000) return 'just now';
+  if (diff < 3600000) return Math.floor(diff/60000) + 'm ago';
+  if (diff < 86400000) return Math.floor(diff/3600000) + 'h ago';
+  return d.toLocaleDateString('en-US', {month:'short',day:'numeric'}) + ' ' + d.toLocaleTimeString('en-US', {hour:'numeric',minute:'2-digit'});
 }
 
-function tagText(hex) {
-  const h = hex.replace('#', '');
-  const r = parseInt(h.substr(0, 2), 16);
-  const g = parseInt(h.substr(2, 2), 16);
-  const b = parseInt(h.substr(4, 2), 16);
-  return (r * 299 + g * 587 + b * 114) / 1000 > 155 ? '#000' : '#fff';
+function formatDate(iso) {
+  const d = new Date(iso);
+  if (isNaN(d)) return iso;
+  return d.toLocaleDateString('en-US', {weekday:'short',month:'short',day:'numeric',year:'numeric'}) + ' ' + d.toLocaleTimeString('en-US', {hour:'numeric',minute:'2-digit',timeZoneName:'short'});
 }
 
-function relTime(date) {
-  const sec = Math.floor((Date.now() - date) / 1000);
-  if (sec < 60) return 'just now';
-  if (sec < 3600) return Math.floor(sec / 60) + ' min ago';
-  if (sec < 86400) return Math.floor(sec / 3600) + ' hours ago';
-  return 'Yesterday';
-}
-
-function fmtDate(s) {
-  if (!s) return '—';
-  const d = new Date(s.includes('T') ? s : s + 'T12:00:00');
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-}
-
-function toUTC(s) {
-  if (!s) return new Date(NaN);
-  return new Date(s.endsWith('Z') || s.includes('+') ? s : s + 'Z');
-}
-
-function fmtTS(s) {
-  const d = toUTC(s);
-  if (isNaN(d.getTime())) return '—';
-  try {
-    const dp = d.toLocaleDateString('en-US', { timeZone: 'America/Chicago', month: 'short', day: 'numeric' });
-    const tp = d.toLocaleTimeString('en-US', { timeZone: 'America/Chicago', hour: 'numeric', minute: '2-digit', hour12: true });
-    return 'Last updated: ' + dp + ' · ' + tp + ' CT';
-  } catch (e) {
-    return 'Last updated: ' + d.toLocaleString();
-  }
-}
-
-function exitTriggers(signals) {
-  const ss = (signals || []).map(s => (s.source || '').toLowerCase());
-  const ex = [];
-  if (ss.some(s => s.includes('ark'))) ex.push('ARK reduces position >20%');
-  if (ss.some(s => s.includes('form 4') || s.includes('form4') || s.includes('insider'))) ex.push('No new insider buying in 60 days');
-  if (ss.some(s => s.includes('reddit'))) ex.push('Reddit mentions return to baseline 5+ days');
-  if (ss.some(s => s.includes('13d') || s.includes('activist'))) ex.push('Activist files exit or reduces below 5%');
-  if (ss.some(s => s.includes('trend') || s.includes('google'))) ex.push('Google Trends momentum reverses');
-  ex.push('Score drops to Tier 3 or below');
-  return ex;
-}
-
-function sigTagHTML(src) {
-  const c = srcColor(src);
-  return '<span class="sig-src" style="background:' + c + ';color:' + tagText(c) + '">' + esc(src) + '</span>';
-}
-
-function sigListHTML(signals) {
-  return (signals || []).map(s =>
-    '<div class="sig-row">' + sigTagHTML(s.source) + '<span class="sig-det">' + esc(s.detail) + '</span></div>'
-  ).join('');
-}
-
-function sigToggleHTML(signals, startOpen) {
-  const n = (signals || []).length;
-  return (
-    '<button class="sig-toggle' + (startOpen ? ' open' : '') + '">' +
-    '<span class="arr">▶</span> What fired (' + n + ' signal' + (n !== 1 ? 's' : '') + ')' +
-    '</button>' +
-    '<div class="sig-body' + (startOpen ? ' open' : '') + '">' +
-    '<div class="sig-list">' + sigListHTML(signals) + '</div>' +
-    '</div>'
-  );
-}
-
-function exitHTML(signals) {
-  return (
-    '<div class="exit-box"><div class="exit-ttl">Exit if:</div>' +
-    exitTriggers(signals).map(e => '<div class="exit-item">' + esc(e) + '</div>').join('') +
-    '</div>'
-  );
-}
-
-function entryHTML(flag) {
-  const f = (flag || '').toLowerCase();
-  if (f === 'dip')      return '<span class="entry-bdg eb-dip">📉 Good Entry — Recent Pullback</span>';
-  if (f === 'extended') return '<span class="entry-bdg eb-ext">⚠️ Wait for Pullback — Extended</span>';
-  return '<span class="entry-bdg eb-neu">✅ Neutral Entry</span>';
-}
-
-function renderT1(t) {
-  const open = window.innerWidth >= 768;
-  return (
-    '<div class="t-card t1">' +
-    '<div class="card-top"><div>' +
-    '<div class="sym-lg">' + esc(t.ticker) + '</div>' +
-    '<div class="co-name">' + esc(t.company) + '</div>' +
-    '</div><div class="card-badges">' +
-    '<span class="score-pill sp-gold">' + (t.score ?? 0) + ' pts</span>' +
-    '<span class="t-badge tb1">T1</span>' +
-    '</div></div>' +
-    entryHTML(t.price_flag) +
-    sigToggleHTML(t.signals, open) +
-    exitHTML(t.signals) +
-    '</div>'
-  );
-}
-
-function renderT2(t) {
-  const open = window.innerWidth >= 768;
-  return (
-    '<div class="t-card t2">' +
-    '<div class="card-top"><div>' +
-    '<div class="sym-md">' + esc(t.ticker) + '</div>' +
-    '<div class="co-name">' + esc(t.company) + '</div>' +
-    '</div><div class="card-badges">' +
-    '<span class="score-pill sp-orange">' + (t.score ?? 0) + ' pts</span>' +
-    '<span class="t-badge tb2">T2</span>' +
-    '</div></div>' +
-    entryHTML(t.price_flag) +
-    sigToggleHTML(t.signals, open) +
-    exitHTML(t.signals) +
-    '</div>'
-  );
-}
-
-function renderCompact(t) {
-  const tn = Math.min(t.tier ?? 4, 4);
-  const sc = tn === 1 ? 'sc-g' : tn === 2 ? 'sc-o' : 'sc-grey';
-  return (
-    '<div class="crow">' +
-    '<div class="crow-main">' +
-    '<div class="crow-ticker">' + esc(t.ticker) + '</div>' +
-    '<div class="crow-co">' + esc(t.company) + '</div>' +
-    '<div class="crow-right">' +
-    '<span class="score-pill sp-grey ' + sc + '">' + (t.score ?? 0) + ' pts</span>' +
-    '<span class="t-badge tb' + tn + '">T' + (t.tier ?? 4) + '</span>' +
-    '</div></div>' +
-    '<div class="crow-exp"><div class="crow-exp-inner">' +
-    '<div class="sig-list">' + sigListHTML(t.signals) + '</div>' +
-    '</div></div></div>'
-  );
-}
-
-function renderSpec(t) {
-  const obj = typeof t === 'string' ? { ticker: t, company: '' } : t;
-  return (
-    '<div class="spec-card">' +
-    '<div class="spec-ticker">' + esc(obj.ticker || obj) + '</div>' +
-    '<div><div class="spec-co">' + esc(obj.company || '') + '</div>' +
-    '<div class="spec-note">Unconfirmed — social signal only</div></div>' +
-    '</div>'
-  );
-}
-
-function renderTable(tickers) {
-  const cols = [
-    { k: 'ticker', l: 'Ticker' },
-    { k: 'score',  l: 'Score' },
-    { k: 'tier',   l: 'Tier' },
-    { k: 'last_signal_date', l: 'Last Signal' },
-    { k: 'sources', l: 'Sources' },
-  ];
-
-  const sorted = [...tickers].sort((a, b) => {
-    let av, bv;
-    if (_sortCol === 'sources') {
-      av = [...new Set((a.signals || []).map(s => s.source))].join(',');
-      bv = [...new Set((b.signals || []).map(s => s.source))].join(',');
-    } else {
-      av = a[_sortCol] ?? '';
-      bv = b[_sortCol] ?? '';
-    }
-    return av < bv ? -_sortDir : av > bv ? _sortDir : 0;
-  });
-
-  const heads = cols.map(c => {
-    const arr = c.k === _sortCol ? (_sortDir === -1 ? '▼' : '▲') : '';
-    return '<th onclick="window._sort(\'' + c.k + '\')">' + c.l + '<span class="sort-arr">' + arr + '</span></th>';
-  }).join('');
-
-  const rows = sorted.map(t => {
-    const srcs = [...new Set((t.signals || []).map(s => s.source))].join(', ');
-    const sc = t.tier === 1 ? 'sc-g' : t.tier === 2 ? 'sc-o' : 'sc-grey';
-    return '<tr>' +
-      '<td class="td-tkr">' + esc(t.ticker) + '</td>' +
-      '<td class="td-sc ' + sc + '">' + (t.score ?? 0) + '</td>' +
-      '<td>' + (t.tier ?? '—') + '</td>' +
-      '<td class="td-dt">' + fmtDate(t.last_signal_date) + '</td>' +
-      '<td class="td-src">' + esc(srcs) + '</td>' +
-      '</tr>';
-  }).join('');
-
-  return '<div class="tbl-wrap"><table><thead><tr>' + heads + '</tr></thead><tbody>' + rows + '</tbody></table></div>';
-}
-
-window._sort = function(col) {
-  if (_sortCol === col) _sortDir *= -1;
-  else { _sortCol = col; _sortDir = col === 'score' ? -1 : 1; }
-  if (_lastData) renderDash(_lastData);
-};
-
-function renderDash(data) {
-  _lastData = data;
-
-  document.getElementById('timestamp').textContent = fmtTS(data.generated_at ?? '');
-
-  const health = data.stats?.source_health ?? {};
-  document.getElementById('src-health').innerHTML = SRC_HEALTH_KEYS.map(s =>
-    '<div class="sh-item"><div class="sh-dot ' + (health[s.key] === true ? 'ok' : 'dead') + '"></div>' +
-    '<span class="sh-lbl">' + s.lbl + '</span></div>'
-  ).join('');
-
-  const genAt = toUTC(data.generated_at ?? '');
-  const hrs = isNaN(genAt.getTime()) ? 0 : (Date.now() - genAt) / 3600000;
-  const sw = document.getElementById('stale-warn');
-  if (hrs > 6) {
-    sw.textContent = '⚠️ Data is stale — last run was ' + Math.round(hrs) + ' hours ago';
-    sw.style.display = 'block';
+function updateFreshness(iso) {
+  const badge = $('liveBadge');
+  const d = new Date(iso);
+  const diff = Date.now() - d.getTime();
+  badge.className = 'live-badge';
+  if (isNaN(d)) {
+    badge.classList.add('offline');
+    badge.querySelector('.label').textContent = 'OFFLINE';
+  } else if (diff < FRESH_MS) {
+    badge.classList.add('live');
+    badge.querySelector('.label').textContent = 'LIVE';
   } else {
-    sw.style.display = 'none';
+    badge.classList.add('stale');
+    badge.querySelector('.label').textContent = 'STALE · ' + relTime(iso);
   }
+}
 
-  const alerts = data.sell_alerts ?? [];
-  const sz = document.getElementById('sell-zone');
-  if (alerts.length > 0) {
-    sz.innerHTML = '<div class="sell-banner"><div class="sell-title">🚨 SELL ALERT</div>' +
-      alerts.map(a => '<div class="sell-item">' + esc(a.ticker ?? a) + ' — ' + esc(a.detail ?? '') + '</div>').join('') +
-      '</div>';
-  } else {
-    sz.innerHTML = '';
-  }
+function scoreClass(score) {
+  if (score >= 7) return 'score-high';
+  if (score >= 4) return 'score-mid';
+  return 'score-low';
+}
 
-  const allT = data.tickers ?? [];
-  const specArr = [
-    ...(data.speculative_solo ?? []).map(s => typeof s === 'string' ? { ticker: s, company: '', signals: [] } : s),
-    ...allT.filter(t => t.speculative_solo === true),
+function changeHtml(val) {
+  if (val == null) return '';
+  const cls = val >= 0 ? 'up' : 'down';
+  const arrow = val >= 0 ? '▲' : '▼';
+  return `<span class="change ${cls}">${arrow} ${Math.abs(val).toFixed(1)}%</span>`;
+}
+
+function awarenessHtml(level) {
+  const l = (level || 'unknown').toUpperCase();
+  const map = {LOW:'low',MEDIUM:'medium',HIGH:'high'};
+  const icon = {LOW:'🟢',MEDIUM:'🟡',HIGH:'🔴'};
+  const cls = map[l] || 'low';
+  return `
+    <div class="awareness">
+      <span class="awareness-label">Wall St. Awareness:</span>
+      <span class="awareness-value ${cls}">${icon[l]||'⚪'} ${l}</span>
+      <div class="awareness-bar ${cls}"><span></span><span></span><span></span></div>
+    </div>`;
+}
+
+function signalChipsHtml(firing) {
+  const all = [
+    {key:'google_trends', emoji:'📈', label:'Google Trends'},
+    {key:'reddit', emoji:'💬', label:'Reddit'},
+    {key:'amazon_bsr', emoji:'📦', label:'Amazon BSR'}
   ];
-  const mainT = allT.filter(t => !t.speculative_solo);
-  const by = { 1: [], 2: [], 3: [], 4: [] };
-  for (const t of mainT) (by[t.tier] ?? by[4]).push(t);
-
-  let h = '';
-
-  h += '<div class="tier-sec"><div class="sec-lbl gold">TIER 1 — MAX CONVICTION</div>';
-  if (by[1].length === 0) h += '<div class="empty-msg">No Tier 1 signals today. Patience is a position.</div>';
-  else h += by[1].map(renderT1).join('');
-  h += '</div>';
-
-  h += '<div class="tier-sec"><div class="sec-lbl orange">TIER 2 — HIGH CONVICTION</div>';
-  if (by[2].length === 0) h += '<div class="empty-msg">No Tier 2 signals today.</div>';
-  else h += by[2].map(renderT2).join('');
-  h += '</div>';
-
-  const watch = [...by[3], ...by[4]];
-  h += '<div class="tier-sec"><div class="sec-lbl grey">TIER 3/4 — WATCHING</div>';
-  if (watch.length === 0) h += '<div class="empty-msg">No signals in watch list.</div>';
-  else h += '<div class="clist">' + watch.map(renderCompact).join('') + '</div>';
-  h += '</div>';
-
-  if (specArr.length > 0) {
-    h += '<div class="tier-sec"><div class="sec-lbl grey">👀 SPECULATIVE — Reddit Only</div>';
-    h += specArr.map(renderSpec).join('');
-    h += '</div>';
-  }
-
-  h += '<div class="tier-sec"><div class="sec-lbl white">ALL SIGNALS</div>';
-  h += renderTable(allT);
-  h += '</div>';
-
-  document.getElementById('main').innerHTML = h;
-
-  const s = data.stats ?? {};
-  const live = Object.values(s.source_health ?? {}).filter(v => v === true).length;
-  document.getElementById('stats-ft').innerHTML =
-    '<span class="st-item">📊 ' + (s.total_scanned ?? 0) + ' Scanned</span>' +
-    '<span class="st-div">|</span>' +
-    '<span class="st-item">✅ ' + live + ' Sources Live</span>' +
-    '<span class="st-div">|</span>' +
-    '<span class="st-item">🕐 ' + (isNaN(genAt.getTime()) ? '—' : relTime(genAt)) + '</span>';
+  return '<div class="signals-row">' + all.map(s =>
+    `<span class="signal-chip ${(firing||[]).includes(s.key)?'active':''}">`+
+    `<span class="emoji">${s.emoji}</span>${s.label}</span>`
+  ).join('') + '</div>';
 }
 
-// Event delegation — signals toggle + compact row accordion
-document.addEventListener('click', function(e) {
-  const btn = e.target.closest('.sig-toggle');
-  if (btn) {
-    e.stopPropagation();
-    btn.classList.toggle('open');
-    const body = btn.nextElementSibling;
-    if (body && body.classList.contains('sig-body')) body.classList.toggle('open');
-    return;
+function dataDetailsHtml(sig) {
+  let parts = [];
+  if (sig.google_trends) {
+    const g = sig.google_trends;
+    let flags = '';
+    if (g.is_90d_high) flags += '<span class="flag">90d HIGH</span>';
+    if (g.is_mainstream) flags += '<span class="flag">MAINSTREAM</span>';
+    parts.push(`<div class="data-detail"><span class="label">GТrends:</span><span class="value">${g.current}</span> / avg ${g.avg_12w} · <span class="ratio">${g.ratio?.toFixed(2)}x</span>${flags}</div>`);
   }
-  const crowMain = e.target.closest('.crow-main');
-  if (crowMain) {
-    const crow = crowMain.closest('.crow');
-    if (crow) {
-      const exp = crow.querySelector('.crow-exp');
-      if (exp) exp.classList.toggle('open');
-    }
+  if (sig.reddit) {
+    const r = sig.reddit;
+    let flags = '';
+    if (r.novelty_bonus) flags += '<span class="flag">NOVEL</span>';
+    parts.push(`<div class="data-detail"><span class="label">Reddit 7d:</span><span class="value">${r.total_7d}</span> / avg ${r.avg_30d} · <span class="ratio">${r.ratio?.toFixed(2)}x</span>${flags}</div>`);
   }
-}, false);
+  if (sig.amazon_bsr) {
+    const a = sig.amazon_bsr;
+    parts.push(`<div class="data-detail"><span class="label">Amazon BSR:</span><span class="value">${a.match_count} products</span></div>`);
+  }
+  return parts.length ? '<div class="data-details">' + parts.join('') + '</div>' : '';
+}
 
-async function loadData(isRefresh) {
-  if (isRefresh) {
-    const ri = document.getElementById('refresh-ind');
-    ri.classList.add('on');
-    setTimeout(() => ri.classList.remove('on'), 1500);
+function breakdownHtml(bd) {
+  if (!bd) return '';
+  return '<div class="score-breakdown">' +
+    Object.entries(bd).map(([k,v]) =>
+      `<span class="breakdown-pill ${v>0?'has-score':''}">${k.replace(/_/g,' ')} +${v}</span>`
+    ).join('') + '</div>';
+}
+
+function companyCardsHtml(companies) {
+  if (!companies) return '';
+  let html = '';
+  if (companies.direct?.length) {
+    html += '<div class="companies-section"><div class="companies-label">Direct Plays</div><div class="company-grid">';
+    html += companies.direct.map(c => `
+      <div class="company-card">
+        <div class="company-top">
+          <div><span class="ticker">${escHtml(c.ticker)}</span></div>
+          <div><span class="price">$${c.price?.toFixed(2) ?? '—'}</span>${changeHtml(c.change_30d)}</div>
+        </div>
+        ${c.thesis ? `<div class="company-thesis">${escHtml(c.thesis)}</div>` : ''}
+      </div>`).join('');
+    html += '</div></div>';
   }
+  if (companies.picks_and_shovels?.length) {
+    html += '<div class="companies-section"><div class="companies-label">Picks &amp; Shovels</div><div class="company-grid">';
+    html += companies.picks_and_shovels.map(c => `
+      <div class="company-card">
+        <div class="company-top">
+          <div><span class="ticker">${escHtml(c.ticker)}</span><span class="ps-badge">⚒️ P&S</span></div>
+          <div><span class="price">$${c.price?.toFixed(2) ?? '—'}</span>${changeHtml(c.change_30d)}</div>
+        </div>
+        ${c.thesis ? `<div class="company-thesis">${escHtml(c.thesis)}</div>` : ''}
+      </div>`).join('');
+    html += '</div></div>';
+  }
+  return html;
+}
+
+function thesisHtml(thesis, id) {
+  if (!thesis) return '';
+  return `
+    <button class="thesis-toggle" onclick="toggleThesis('${id}')">
+      <span class="arrow">▶</span> View Thesis
+    </button>
+    <div class="thesis-content" id="${id}">
+      <div class="thesis-text">${escHtml(thesis)}</div>
+    </div>`;
+}
+
+function toggleThesis(id) {
+  const el = document.getElementById(id);
+  const btn = el.previousElementSibling;
+  el.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+
+function renderSignalCard(sig, idx, compact) {
+  const tierCls = sig.tier === 1 ? 'tier1' : sig.tier === 2 ? 'tier2' : 'tier3';
+  const thesisId = 'thesis-' + idx;
+  return `
+    <div class="signal-card ${tierCls}">
+      <div class="card-top">
+        <div class="card-main">
+          <div class="card-title-row">
+            <span class="trend-name">${escHtml(sig.display_name || sig.trend_name)}</span>
+            ${sig.category ? `<span class="category-tag">${escHtml(sig.category)}</span>` : ''}
+          </div>
+          <div class="card-meta">
+            <span class="days">Day ${sig.days_active || 1} of signal</span>
+            <span>First seen: ${sig.signal_first_seen || '—'}</span>
+            ${sig.peak_score ? `<span>Peak: ${sig.peak_score}/10</span>` : ''}
+          </div>
+          ${!compact && sig.description ? `<div class="card-desc">${escHtml(sig.description)}</div>` : ''}
+        </div>
+        <div class="score-badge ${scoreClass(sig.score)}">
+          ${sig.score}<span class="out-of">/10</span>
+        </div>
+      </div>
+      ${signalChipsHtml(sig.signals_firing)}
+      ${!compact ? dataDetailsHtml(sig) : ''}
+      ${!compact ? breakdownHtml(sig.score_breakdown) : ''}
+      ${awarenessHtml(sig.wall_street_awareness)}
+      ${companyCardsHtml(sig.companies)}
+      ${!compact ? thesisHtml(sig.thesis, thesisId) : ''}
+      ${sig.exit_warning ? '<div class="exit-banner" style="margin-top:14px"><span class="icon">⚠️</span><span class="exit-text"><span class="exit-trend">EXIT WARNING</span> — Trend approaching mainstream. Review exit timeline.</span></div>' : ''}
+    </div>`;
+}
+
+function renderDashboard(data) {
+  const signals = data.active_signals || [];
+  const tier1 = signals.filter(s => s.tier === 1);
+  const tier2 = signals.filter(s => s.tier === 2);
+  const tier3 = signals.filter(s => s.tier === 3);
+  const stats = data.run_stats || {};
+
+  // Update header
+  $('statSignals').textContent = signals.length;
+  $('statTier1').textContent = tier1.length;
+  $('statKeywords').textContent = stats.keywords_scanned || '—';
+  $('updatedTime').textContent = 'Last updated: ' + (data.generated_at ? formatDate(data.generated_at) : '—');
+  updateFreshness(data.generated_at);
+
+  let html = '';
+
+  // Section 1: Tier 1
+  html += `<div class="section">
+    <div class="section-header">
+      <span class="section-badge tier1-badge">Tier 1</span>
+      <span class="section-title">🔴 HIGH CONVICTION</span>
+    </div>`;
+  if (tier1.length) {
+    html += tier1.map((s,i) => renderSignalCard(s, 't1-'+i, false)).join('');
+  } else {
+    html += '<div class="empty-state"><div class="empty-icon">👁️</div>No Tier 1 signals active — system is watching</div>';
+  }
+  html += '</div>';
+
+  // Section 2: Tier 2
+  html += `<div class="section">
+    <div class="section-header">
+      <span class="section-badge tier2-badge">Tier 2</span>
+      <span class="section-title">🟡 WATCHING</span>
+    </div>`;
+  if (tier2.length) {
+    html += tier2.map((s,i) => renderSignalCard(s, 't2-'+i, true)).join('');
+  } else {
+    html += '<div class="empty-state">No Tier 2 signals</div>';
+  }
+  html += '</div>';
+
+  // Section 3: Tier 3
+  html += `<div class="section">
+    <div class="section-header">
+      <span class="section-badge tier3-badge">Tier 3</span>
+      <span class="section-title">📡 RADAR</span>
+    </div>`;
+  if (tier3.length) {
+    html += `<table class="tier3-table"><thead><tr>
+      <th>Keyword</th><th>Score</th><th>Signals</th><th>Top Ticker</th></tr></thead><tbody>`;
+    html += tier3.map(s => {
+      const topTicker = s.companies?.direct?.[0]?.ticker || s.companies?.picks_and_shovels?.[0]?.ticker || '—';
+      const sigs = (s.signals_firing || []).map(f => {
+        const icons = {google_trends:'📈',reddit:'💬',amazon_bsr:'📦'};
+        return icons[f] || f;
+      }).join(' ');
+      return `<tr>
+        <td class="t-name">${escHtml(s.display_name || s.trend_name)}</td>
+        <td><strong>${s.score}</strong>/10</td>
+        <td>${sigs}</td>
+        <td><span class="ticker" style="font-size:.85rem">${escHtml(topTicker)}</span></td>
+      </tr>`;
+    }).join('');
+    html += '</tbody></table>';
+  } else {
+    html += '<div class="empty-state">No Tier 3 signals on radar</div>';
+  }
+  html += '</div>';
+
+  // Section 4: New Trends
+  const newTrends = data.new_trends_discovered || [];
+  html += `<div class="section">
+    <div class="section-header">
+      <span class="section-title">✨ NEW TRENDS DISCOVERED</span>
+    </div>`;
+  if (newTrends.length) {
+    html += '<div class="new-trend-list">' + newTrends.map(t => `<span class="new-trend-chip">${escHtml(t)}</span>`).join('') + '</div>';
+    html += '<div class="mapper-hint">Add to mapper.json to track these trends.</div>';
+  } else {
+    html += '<div class="empty-state">No new trends discovered this run</div>';
+  }
+  html += '</div>';
+
+  // Section 5: Exit Warnings
+  const exitWarnings = (data.exit_warnings || []).length
+    ? data.exit_warnings
+    : signals.filter(s => s.exit_warning);
+  if (exitWarnings.length) {
+    html += `<div class="section">
+      <div class="section-header">
+        <span class="section-title">🚨 EXIT WARNINGS</span>
+      </div>`;
+    html += exitWarnings.map(w => {
+      const name = typeof w === 'string' ? w : (w.display_name || w.trend_name || w);
+      return `<div class="exit-banner"><span class="icon">⚠️</span><span class="exit-text"><span class="exit-trend">${escHtml(name)}</span> — Trend approaching mainstream. Review exit timeline.</span></div>`;
+    }).join('');
+    html += '</div>';
+  }
+
+  // Run stats
+  if (stats.duration_sec) {
+    html += `<div style="text-align:center;padding:8px 0;font-size:.72rem;color:var(--text3)">
+      Scan completed in ${stats.duration_sec}s · ${stats.keywords_scanned || 0} keywords · ${stats.tier1_count || 0} T1 / ${stats.tier2_count || 0} T2 / ${stats.tier3_count || 0} T3
+    </div>`;
+  }
+
+  main.innerHTML = html;
+}
+
+function showError(msg) {
+  main.innerHTML = `
+    <div class="error-state">
+      <div class="error-icon">📡</div>
+      <div class="error-msg">Signal data unavailable</div>
+      <div class="error-detail">${escHtml(msg)}</div>
+      <button class="retry-btn" onclick="loadData()">Retry</button>
+    </div>`;
+  updateFreshness(null);
+}
+
+async function loadData() {
   try {
-    const res = await fetch('./data/watchtower-data.json?t=' + Date.now());
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    renderDash(data);
+    const resp = await fetch(DATA_URL + '?t=' + Date.now());
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    renderDashboard(data);
   } catch (e) {
-    if (!isRefresh) {
-      document.getElementById('main').innerHTML =
-        '<div style="background:#1a0000;border:1px solid #ff2222;border-radius:8px;' +
-        'padding:20px 16px;color:#ff8080;font-size:14px;margin-top:8px">' +
-        '⚠️ Could not load signal data. Check back shortly.</div>';
+    // Only show error if we haven't loaded anything yet
+    if (main.querySelector('.loading') || main.querySelector('.error-state')) {
+      showError(e.message);
     }
+    console.warn('Watchtower fetch error:', e);
   }
 }
 
-loadData(false);
-setInterval(() => loadData(true), 5 * 60 * 1000);
+// Init
+loadData();
+setInterval(loadData, REFRESH_MS);
 </script>
 </body>
 </html>
