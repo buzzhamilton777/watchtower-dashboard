@@ -1,11 +1,45 @@
 {
-  "generated_at": "2026-04-29T14:36:38.223467",
+  "generated_at": "2026-04-29T14:45:07.975323",
   "mode": "fast",
   "active_signals": [],
   "new_trends_discovered": [],
   "exit_warnings": [],
+  "source_health": {
+    "google_trends": {
+      "status": "skipped",
+      "signals_fired": 0,
+      "last_run": null,
+      "note": "Morning/full mode only"
+    },
+    "reddit": {
+      "status": "active",
+      "signals_fired": 0,
+      "subreddits_scanned": 20,
+      "last_run": "2026-04-29T14:45:07.975318",
+      "note": "Public HTTP fallback"
+    },
+    "amazon_bsr": {
+      "status": "skipped",
+      "signals_fired": 0,
+      "last_run": null,
+      "note": "Morning/full mode only"
+    },
+    "yfinance": {
+      "status": "active",
+      "note": "Free, no rate limits",
+      "last_run": "2026-04-29T14:45:07.975321"
+    },
+    "opus_thesis": {
+      "status": "active",
+      "note": "Fires on NEW Tier 1 hits only"
+    },
+    "discord_webhook": {
+      "status": "active",
+      "note": "Tier 1 alerts"
+    }
+  },
   "run_stats": {
-    "duration_sec": 48.9,
+    "duration_sec": 48.4,
     "keywords_scanned": 13,
     "trends_evaluated": 13,
     "tier1_count": 0,
