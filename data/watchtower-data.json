@@ -1,6 +1,27 @@
 {
-  "generated_at": "2026-04-28T22:12:10",
+  "generated_at": "2026-04-29T13:36:10",
   "tickers": [
+    {
+      "ticker": "XE",
+      "company": "X-Energy, Inc.",
+      "score": 4,
+      "tier": 1,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKK new position: 2,808,454 shares added",
+          "pts": 2
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKQ new position: 868,823 shares added",
+          "pts": 2
+        }
+      ],
+      "last_signal_date": "2026-04-29",
+      "price_flag": "neutral",
+      "price_note": ""
+    },
     {
       "ticker": "FMAO",
       "company": "Farmers & Merchants Bancorp, Inc.",
@@ -13,7 +34,7 @@
           "pts": 3
         }
       ],
-      "last_signal_date": "2026-04-28",
+      "last_signal_date": "2026-04-29",
       "price_flag": "neutral",
       "price_note": ""
     },
@@ -29,7 +50,7 @@
           "pts": 3
         }
       ],
-      "last_signal_date": "2026-04-28",
+      "last_signal_date": "2026-04-29",
       "price_flag": "neutral",
       "price_note": ""
     },
@@ -45,7 +66,7 @@
           "pts": 3
         }
       ],
-      "last_signal_date": "2026-04-28",
+      "last_signal_date": "2026-04-29",
       "price_flag": "neutral",
       "price_note": ""
     },
@@ -61,7 +82,7 @@
           "pts": 3
         }
       ],
-      "last_signal_date": "2026-04-28",
+      "last_signal_date": "2026-04-29",
       "price_flag": "neutral",
       "price_note": ""
     },
@@ -77,7 +98,7 @@
           "pts": 3
         }
       ],
-      "last_signal_date": "2026-04-28",
+      "last_signal_date": "2026-04-29",
       "price_flag": "neutral",
       "price_note": ""
     },
@@ -93,7 +114,7 @@
           "pts": 3
         }
       ],
-      "last_signal_date": "2026-04-28",
+      "last_signal_date": "2026-04-29",
       "price_flag": "neutral",
       "price_note": ""
     },
@@ -109,9 +130,30 @@
           "pts": 3
         }
       ],
-      "last_signal_date": "2026-04-28",
+      "last_signal_date": "2026-04-29",
       "price_flag": "neutral",
       "price_note": ""
+    },
+    {
+      "ticker": "SPOT",
+      "company": "Spotify Technology S.A.",
+      "score": 2,
+      "tier": 3,
+      "signals": [
+        {
+          "source": "ARK",
+          "detail": "ARKW increased position +24% (31,364\u219239,029 shares)",
+          "pts": 1
+        },
+        {
+          "source": "ARK",
+          "detail": "ARKF increased position +16% (24,414\u219228,294 shares)",
+          "pts": 1
+        }
+      ],
+      "last_signal_date": "2026-04-29",
+      "price_flag": "dip",
+      "price_note": "\ud83d\udcc9 30%+ off highs \u2014 potential entry"
     },
     {
       "ticker": "TSM",
@@ -126,11 +168,11 @@
         },
         {
           "source": "Mega-cap Penalty",
-          "detail": "Market cap >2035B \u2014 harder to move needle",
+          "detail": "Market cap >2023B \u2014 harder to move needle",
           "pts": -2
         }
       ],
-      "last_signal_date": "2026-04-28",
+      "last_signal_date": "2026-04-29",
       "price_flag": "neutral",
       "price_note": ""
     },
@@ -151,40 +193,42 @@
           "pts": -2
         }
       ],
-      "last_signal_date": "2026-04-28",
+      "last_signal_date": "2026-04-29",
       "price_flag": "neutral",
       "price_note": ""
     },
     {
-      "ticker": "PLTR",
-      "company": "Palantir Technologies Inc.",
+      "ticker": "GOOG",
+      "company": "Alphabet Inc.",
       "score": 1,
       "tier": 4,
       "signals": [
         {
-          "source": "News",
-          "detail": "PLTR: 3 net positive headlines in 24h",
+          "source": "ARK",
+          "detail": "ARKK increased position +20% (184,215\u2192221,735 shares)",
           "pts": 1
         }
       ],
-      "last_signal_date": "2026-04-28",
-      "price_flag": "dip",
-      "price_note": "\ud83d\udcc9 30%+ off highs \u2014 potential entry"
+      "last_signal_date": "2026-04-29",
+      "price_flag": "extended",
+      "price_note": "\u26a0\ufe0f Near 52-week high, RSI elevated \u2014 wait for pullback"
     }
   ],
-  "tier1_alert": [],
+  "tier1_alert": [
+    "XE"
+  ],
   "sell_alerts": [],
   "speculative_solo": [],
   "stats": {
-    "total_scanned": 10,
-    "tier1_count": 0,
+    "total_scanned": 12,
+    "tier1_count": 1,
     "tier2_count": 7,
-    "tier3_count": 0,
+    "tier3_count": 1,
     "tier4_count": 3,
     "sources_fetched": [
       "congressional",
       "ark",
-      "news"
+      "google_trends"
     ],
     "source_health": {
       "ark": true,
@@ -193,7 +237,7 @@
       "13d": false,
       "13f": false,
       "reddit": false,
-      "google_trends": false
+      "google_trends": true
     }
   }
 }
