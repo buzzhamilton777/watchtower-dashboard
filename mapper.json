@@ -1,147 +1,647 @@
 {
   "peptides": {
-    "keywords": ["peptides", "peptide", "BPC-157", "BPC157", "TB-500", "TB500", "GLP-1", "GLP1", "semaglutide", "tirzepatide", "peptide therapy", "bpc 157", "tb 500"],
+    "keywords": [
+      "peptides",
+      "peptide",
+      "BPC-157",
+      "BPC157",
+      "TB-500",
+      "TB500",
+      "GLP-1",
+      "GLP1",
+      "semaglutide",
+      "tirzepatide",
+      "peptide therapy",
+      "bpc 157",
+      "tb 500"
+    ],
     "direct": [
-      {"ticker": "HIMS", "thesis": "Telehealth platform dispensing compounded GLP-1s. Novo Nordisk partnership is key catalyst."},
-      {"ticker": "NVO", "thesis": "Ozempic/Wegovy maker. GLP-1 category leader."},
-      {"ticker": "LLY", "thesis": "Mounjaro/Zepbound. Dominant GLP-1 pipeline."},
-      {"ticker": "AMGN", "thesis": "MariTide obesity drug in late-stage trials."}
+      {
+        "ticker": "HIMS",
+        "thesis": "Telehealth platform dispensing compounded GLP-1s. Novo Nordisk partnership is key catalyst."
+      },
+      {
+        "ticker": "NVO",
+        "thesis": "Ozempic/Wegovy maker. GLP-1 category leader."
+      },
+      {
+        "ticker": "LLY",
+        "thesis": "Mounjaro/Zepbound. Dominant GLP-1 pipeline."
+      },
+      {
+        "ticker": "AMGN",
+        "thesis": "MariTide obesity drug in late-stage trials."
+      }
     ],
     "picks_and_shovels": [
-      {"ticker": "BCHMY", "thesis": "Bachem. Peptide API manufacturer. Wins regardless of which drug or brand wins. ~$3B cap, minimal analyst coverage on this angle."},
-      {"ticker": "BRKR", "thesis": "Bruker. Analytical instruments used in peptide R&D and quality testing."}
+      {
+        "ticker": "BCHMY",
+        "thesis": "Bachem. Peptide API manufacturer. Wins regardless of which drug or brand wins. ~$3B cap, minimal analyst coverage on this angle."
+      },
+      {
+        "ticker": "BRKR",
+        "thesis": "Bruker. Analytical instruments used in peptide R&D and quality testing."
+      }
     ],
     "category": "health",
-    "description": "Peptide self-administration trend — GLP-1 weight loss, BPC-157 healing, TB-500 recovery. Moving from bodybuilding niche into mainstream wellness."
+    "description": "Peptide self-administration trend \u2014 GLP-1 weight loss, BPC-157 healing, TB-500 recovery. Moving from bodybuilding niche into mainstream wellness."
   },
   "longevity": {
-    "keywords": ["longevity", "NMN", "NAD+", "rapamycin", "senolytic", "anti-aging supplements", "lifespan", "healthspan", "methylene blue", "nad supplement", "nmn supplement"],
-    "direct": [
-      {"ticker": "UNITY", "thesis": "Unity Biotechnology. Senolytic pipeline targeting age-related diseases. Micro-cap, speculative but real science."}
+    "keywords": [
+      "longevity",
+      "NMN",
+      "NAD+",
+      "rapamycin",
+      "senolytic",
+      "anti-aging supplements",
+      "lifespan",
+      "healthspan",
+      "methylene blue",
+      "nad supplement",
+      "nmn supplement"
     ],
+    "direct": [],
     "picks_and_shovels": [
-      {"ticker": "GILD", "thesis": "Gilead Sciences. Aging biology research programs."}
+      {
+        "ticker": "GILD",
+        "thesis": "Gilead Sciences. Aging biology research programs."
+      }
     ],
     "category": "health",
     "description": "Anti-aging and longevity supplement/therapy trend. NMN, NAD+ precursors, rapamycin interest growing in biohacking communities."
   },
   "pickleball": {
-    "keywords": ["pickleball", "pickleball court", "pickleball paddle", "padel", "paddle sport", "pickleball tournament"],
+    "keywords": [
+      "pickleball",
+      "pickleball court",
+      "pickleball paddle",
+      "padel",
+      "paddle sport",
+      "pickleball tournament"
+    ],
     "direct": [
-      {"ticker": "LTH", "thesis": "Life Time Health. Building dedicated pickleball courts at locations nationwide."},
-      {"ticker": "ACSH", "thesis": "Acushnet Holdings. Racquet and ball sports equipment expansion."}
+      {
+        "ticker": "LTH",
+        "thesis": "Life Time Health. Building dedicated pickleball courts at locations nationwide."
+      },
+      {
+        "ticker": "GOLF",
+        "thesis": "Acushnet Holdings (GOLF). Golf/racquet sports equipment. Expanding into pickleball/padel."
+      }
     ],
     "picks_and_shovels": [
-      {"ticker": "NKE", "thesis": "Nike. Court shoes and apparel expanding into pickleball/padel."},
-      {"ticker": "UA", "thesis": "Under Armour. Racquet sports apparel expansion."}
+      {
+        "ticker": "NKE",
+        "thesis": "Nike. Court shoes and apparel expanding into pickleball/padel."
+      },
+      {
+        "ticker": "UA",
+        "thesis": "Under Armour. Racquet sports apparel expansion."
+      }
     ],
     "category": "lifestyle",
-    "description": "Fastest-growing sport in America. Court construction boom. Equipment market fragmented — no dominant pure-play public company yet."
+    "description": "Fastest-growing sport in America. Court construction boom. Equipment market fragmented \u2014 no dominant pure-play public company yet."
   },
   "water_quality": {
-    "keywords": ["PFAS filter", "microplastics", "water filter", "water quality", "forever chemicals", "reverse osmosis home", "pfas", "water purifier"],
+    "keywords": [
+      "PFAS filter",
+      "microplastics",
+      "water filter",
+      "water quality",
+      "forever chemicals",
+      "reverse osmosis home",
+      "pfas",
+      "water purifier"
+    ],
     "direct": [
-      {"ticker": "PNR", "thesis": "Pentair. Water treatment and filtration systems. Direct beneficiary of PFAS anxiety."},
-      {"ticker": "AOS", "thesis": "A.O. Smith. Water heaters and filtration. Consumer home water quality play."}
+      {
+        "ticker": "PNR",
+        "thesis": "Pentair. Water treatment and filtration systems. Direct beneficiary of PFAS anxiety."
+      },
+      {
+        "ticker": "AOS",
+        "thesis": "A.O. Smith. Water heaters and filtration. Consumer home water quality play."
+      }
     ],
     "picks_and_shovels": [
-      {"ticker": "WTS", "thesis": "Watts Water Technologies. Flow control and water quality infrastructure."}
+      {
+        "ticker": "WTS",
+        "thesis": "Watts Water Technologies. Flow control and water quality infrastructure."
+      }
     ],
     "category": "home",
     "description": "PFAS/microplastics anxiety driving home water filtration upgrades. Regulatory tailwinds adding urgency."
   },
   "red_light_therapy": {
-    "keywords": ["red light therapy", "photobiomodulation", "infrared therapy", "red light panel", "red light device"],
+    "keywords": [
+      "red light therapy",
+      "photobiomodulation",
+      "infrared therapy",
+      "red light panel",
+      "red light device"
+    ],
     "direct": [],
     "picks_and_shovels": [],
     "category": "health",
-    "description": "At-home red light therapy devices exploding on Amazon. No clear pure-play public company yet — monitor for IPOs and acquisitions."
+    "description": "At-home red light therapy devices exploding on Amazon. No clear pure-play public company yet \u2014 monitor for IPOs and acquisitions."
   },
   "creatine_wellness": {
-    "keywords": ["creatine", "creatine monohydrate", "creatine wellness", "creatine for women", "creatine brain", "creatine cognitive"],
+    "keywords": [
+      "creatine",
+      "creatine monohydrate",
+      "creatine wellness",
+      "creatine for women",
+      "creatine brain",
+      "creatine cognitive"
+    ],
     "direct": [
-      {"ticker": "CELH", "thesis": "Celsius Holdings. Functional supplement brand with creatine-adjacent wellness products."}
+      {
+        "ticker": "CELH",
+        "thesis": "Celsius Holdings. Functional supplement brand with creatine-adjacent wellness products."
+      }
     ],
     "picks_and_shovels": [
-      {"ticker": "INGR", "thesis": "Ingredion. Specialty ingredient supplier for nutrition and supplement manufacturers."}
+      {
+        "ticker": "INGR",
+        "thesis": "Ingredion. Specialty ingredient supplier for nutrition and supplement manufacturers."
+      }
     ],
     "category": "health",
-    "description": "Creatine crossing from gym culture into mainstream wellness — brain health, women's fitness, aging. Massive category expansion."
+    "description": "Creatine crossing from gym culture into mainstream wellness \u2014 brain health, women's fitness, aging. Massive category expansion."
   },
   "functional_beverages": {
-    "keywords": ["adaptogen drink", "nootropic drink", "electrolyte drink", "mushroom coffee", "functional beverage", "mushroom tea", "lion's mane drink", "athletic greens"],
+    "keywords": [
+      "adaptogen drink",
+      "nootropic drink",
+      "electrolyte drink",
+      "mushroom coffee",
+      "functional beverage",
+      "mushroom tea",
+      "lion's mane drink",
+      "athletic greens"
+    ],
     "direct": [
-      {"ticker": "MNST", "thesis": "Monster Beverage. Functional energy category leader expanding into wellness drinks."},
-      {"ticker": "CELH", "thesis": "Celsius Holdings. Fitness/wellness functional energy drink. Strong Gen Z adoption."}
+      {
+        "ticker": "MNST",
+        "thesis": "Monster Beverage. Functional energy category leader expanding into wellness drinks."
+      },
+      {
+        "ticker": "CELH",
+        "thesis": "Celsius Holdings. Fitness/wellness functional energy drink. Strong Gen Z adoption."
+      }
     ],
     "picks_and_shovels": [
-      {"ticker": "INGR", "thesis": "Ingredion. Specialty ingredient supplier for functional beverage manufacturers."}
+      {
+        "ticker": "INGR",
+        "thesis": "Ingredion. Specialty ingredient supplier for functional beverage manufacturers."
+      }
     ],
     "category": "consumer",
     "description": "Adaptogen, nootropic, and electrolyte drink explosion. Moving from niche health stores to mainstream grocery."
   },
   "sleep_optimization": {
-    "keywords": ["sleep optimization", "sleep tracking", "magnesium glycinate", "sleep supplement", "circadian rhythm", "sleep quality", "sleep stack", "sleep hack"],
+    "keywords": [
+      "sleep optimization",
+      "sleep tracking",
+      "magnesium glycinate",
+      "sleep supplement",
+      "circadian rhythm",
+      "sleep quality",
+      "sleep stack",
+      "sleep hack"
+    ],
     "direct": [],
     "picks_and_shovels": [
-      {"ticker": "AAPL", "thesis": "Apple Watch sleep tracking driving device upgrade cycles."},
-      {"ticker": "GRMN", "thesis": "Garmin. Sleep tracking wearables with broad consumer adoption."}
+      {
+        "ticker": "AAPL",
+        "thesis": "Apple Watch sleep tracking driving device upgrade cycles."
+      },
+      {
+        "ticker": "GRMN",
+        "thesis": "Garmin. Sleep tracking wearables with broad consumer adoption."
+      }
     ],
     "category": "health",
     "description": "Sleep optimization moving from biohackers to mainstream. Wearables, supplements, and environment products all growing."
   },
   "home_energy": {
-    "keywords": ["home battery", "residential solar", "EV charger home", "Powerwall", "home energy storage", "grid outage prep", "solar battery", "home generator"],
+    "keywords": [
+      "home battery",
+      "residential solar",
+      "EV charger home",
+      "Powerwall",
+      "home energy storage",
+      "grid outage prep",
+      "solar battery",
+      "home generator"
+    ],
     "direct": [
-      {"ticker": "ENPH", "thesis": "Enphase Energy. Residential solar microinverters and battery storage. Market leader."},
-      {"ticker": "SEDG", "thesis": "SolarEdge. Residential solar optimizer."},
-      {"ticker": "RUN", "thesis": "Sunrun. Residential solar installer. Direct consumer play."}
+      {
+        "ticker": "ENPH",
+        "thesis": "Enphase Energy. Residential solar microinverters and battery storage. Market leader."
+      },
+      {
+        "ticker": "SEDG",
+        "thesis": "SolarEdge. Residential solar optimizer."
+      },
+      {
+        "ticker": "RUN",
+        "thesis": "Sunrun. Residential solar installer. Direct consumer play."
+      }
     ],
     "picks_and_shovels": [
-      {"ticker": "ALB", "thesis": "Albemarle. Lithium producer. Wins on battery storage growth regardless of brand."}
+      {
+        "ticker": "ALB",
+        "thesis": "Albemarle. Lithium producer. Wins on battery storage growth regardless of brand."
+      }
     ],
     "category": "home",
     "description": "Grid anxiety and energy independence driving residential battery + solar adoption."
   },
   "oral_health": {
-    "keywords": ["hydroxyapatite toothpaste", "water flosser", "oral health", "remineralizing toothpaste", "tongue scraper", "oil pulling", "nano hydroxyapatite"],
+    "keywords": [
+      "hydroxyapatite toothpaste",
+      "water flosser",
+      "oral health",
+      "remineralizing toothpaste",
+      "tongue scraper",
+      "oil pulling",
+      "nano hydroxyapatite"
+    ],
     "direct": [
-      {"ticker": "CHD", "thesis": "Church & Dwight. Arm & Hammer and Waterpik brands. Direct oral health beneficiary."}
+      {
+        "ticker": "CHD",
+        "thesis": "Church & Dwight. Arm & Hammer and Waterpik brands. Direct oral health beneficiary."
+      }
     ],
     "picks_and_shovels": [],
     "category": "consumer",
-    "description": "Oral health reinvention — hydroxyapatite replacing fluoride, water flossers going mainstream, holistic oral care trend."
+    "description": "Oral health reinvention \u2014 hydroxyapatite replacing fluoride, water flossers going mainstream, holistic oral care trend."
   },
   "cold_plunge": {
-    "keywords": ["cold plunge", "cold water immersion", "ice bath", "cold therapy", "cryotherapy home", "cold shower benefits"],
+    "keywords": [
+      "cold plunge",
+      "cold water immersion",
+      "ice bath",
+      "cold therapy",
+      "cryotherapy home",
+      "cold shower benefits"
+    ],
     "direct": [],
     "picks_and_shovels": [
-      {"ticker": "DXCM", "thesis": "Dexcom. Cold therapy drives interest in biometric tracking."}
+      {
+        "ticker": "DXCM",
+        "thesis": "Dexcom. Cold therapy drives interest in biometric tracking."
+      }
     ],
     "category": "lifestyle",
     "description": "Cold plunge going from elite athlete recovery to mainstream wellness. Home cold plunge unit market emerging."
   },
   "continuous_glucose_monitor": {
-    "keywords": ["CGM", "continuous glucose monitor", "glucose tracking", "metabolic health", "blood sugar monitor", "glucose wearable"],
+    "keywords": [
+      "CGM",
+      "continuous glucose monitor",
+      "glucose tracking",
+      "metabolic health",
+      "blood sugar monitor",
+      "glucose wearable"
+    ],
     "direct": [
-      {"ticker": "DXCM", "thesis": "Dexcom. CGM market leader expanding beyond diabetics into wellness monitoring."},
-      {"ticker": "ABBV", "thesis": "AbbVie (FreeStyle Libre). CGM device expanding into metabolic wellness."}
+      {
+        "ticker": "DXCM",
+        "thesis": "Dexcom. CGM market leader expanding beyond diabetics into wellness monitoring."
+      },
+      {
+        "ticker": "ABBV",
+        "thesis": "AbbVie (FreeStyle Libre). CGM device expanding into metabolic wellness."
+      }
     ],
     "picks_and_shovels": [],
     "category": "health",
     "description": "Continuous glucose monitors crossing from diabetes management to mainstream metabolic health tracking."
   },
   "weight_loss_behavior": {
-    "keywords": ["protein intake", "high protein diet", "muscle preservation", "body recomposition", "ozempic diet", "glp-1 diet", "weight loss plateau"],
+    "keywords": [
+      "protein intake",
+      "high protein diet",
+      "muscle preservation",
+      "body recomposition",
+      "ozempic diet",
+      "glp-1 diet",
+      "weight loss plateau"
+    ],
     "direct": [
-      {"ticker": "FRPT", "thesis": "Freshpet. Fresh pet food — high protein trend extends to pet owners."},
-      {"ticker": "BYND", "thesis": "Beyond Meat. Plant protein trends connected to weight loss behavior change."}
+      {
+        "ticker": "FRPT",
+        "thesis": "Freshpet. Fresh pet food \u2014 high protein trend extends to pet owners."
+      },
+      {
+        "ticker": "BYND",
+        "thesis": "Beyond Meat. Plant protein trends connected to weight loss behavior change."
+      }
     ],
     "picks_and_shovels": [
-      {"ticker": "BCHMY", "thesis": "Bachem. GLP-1 drug manufacturing. Downstream of weight loss drug trend."},
-      {"ticker": "INGR", "thesis": "Ingredion. Protein ingredient supplier benefiting from high-protein food trend."}
+      {
+        "ticker": "BCHMY",
+        "thesis": "Bachem. GLP-1 drug manufacturing. Downstream of weight loss drug trend."
+      },
+      {
+        "ticker": "INGR",
+        "thesis": "Ingredion. Protein ingredient supplier benefiting from high-protein food trend."
+      }
     ],
     "category": "health",
     "description": "GLP-1 drugs creating downstream behavior changes: high-protein eating, muscle preservation focus, resistance training surge."
+  },
+  "testosterone_mens_health": {
+    "keywords": [
+      "TRT",
+      "testosterone replacement",
+      "testosterone clinic",
+      "hormone optimization",
+      "enclomiphene",
+      "enclo",
+      "testosterone booster",
+      "low testosterone",
+      "mens hormone",
+      "testosterone therapy"
+    ],
+    "direct": [
+      {
+        "ticker": "HIMS",
+        "thesis": "Hims & Hers. Telehealth testosterone treatment platform. Direct consumer channel for TRT prescriptions and hormone panels."
+      },
+      {
+        "ticker": "ABBV",
+        "thesis": "AbbVie. AndroGel manufacturer. Legacy TRT brand benefiting from category destigmatization."
+      }
+    ],
+    "picks_and_shovels": [
+      {
+        "ticker": "BCHMY",
+        "thesis": "Bachem. Peptide/hormone API manufacturing. Supplies compounding pharmacies filling TRT prescriptions."
+      },
+      {
+        "ticker": "DGX",
+        "thesis": "Quest Diagnostics. Hormone panel blood work. Every TRT patient needs regular testing."
+      }
+    ],
+    "category": "health",
+    "description": "Men's hormone optimization going mainstream. TRT clinics proliferating, testosterone testing normalized. Enclomiphene as monotherapy alternative gaining traction in biohacking communities before FDA action."
+  },
+  "glp1_second_order": {
+    "keywords": [
+      "ozempic face",
+      "protein after ozempic",
+      "alcohol decline",
+      "sober curious",
+      "glp-1 side effects",
+      "ozempic muscle loss",
+      "compounded semaglutide",
+      "wegovy shortage",
+      "mounjaro results",
+      "glp-1 protein"
+    ],
+    "direct": [
+      {
+        "ticker": "HIMS",
+        "thesis": "Hims & Hers. Compounded GLP-1 dispensing. Novo Nordisk partnership. Direct beneficiary of GLP-1 demand overflow."
+      },
+      {
+        "ticker": "BCHMY",
+        "thesis": "Bachem. Peptide API manufacturer for GLP-1 compounds. Wins on total volume regardless of brand."
+      }
+    ],
+    "picks_and_shovels": [
+      {
+        "ticker": "FRPT",
+        "thesis": "Freshpet. GLP-1 users shifting to high-protein diets \u2014 extends to premium pet food."
+      },
+      {
+        "ticker": "INGR",
+        "thesis": "Ingredion. Protein ingredient supplier. GLP-1 users need more protein to prevent muscle loss."
+      }
+    ],
+    "category": "health",
+    "description": "Second-order effects of GLP-1 adoption: 'Ozempic face' driving cosmetic procedures, protein intake surging to prevent muscle loss, alcohol consumption declining, compounding pharmacy demand exploding."
+  },
+  "ai_wearables": {
+    "keywords": [
+      "smart ring",
+      "oura ring",
+      "galaxy ring",
+      "whoop band",
+      "health wearable",
+      "fitness tracker",
+      "wearable health monitor",
+      "AI health device",
+      "ring wearable",
+      "continuous health monitoring"
+    ],
+    "direct": [
+      {
+        "ticker": "GRMN",
+        "thesis": "Garmin. Wearable health/fitness market leader. Expanding into advanced health metrics."
+      },
+      {
+        "ticker": "AAPL",
+        "thesis": "Apple. Apple Watch health features driving upgrade cycles. Blood oxygen, temperature, potential glucose."
+      }
+    ],
+    "picks_and_shovels": [
+      {
+        "ticker": "SWKS",
+        "thesis": "Skyworks Solutions. RF/sensor chips used in wearable devices. Wins on unit volume growth."
+      },
+      {
+        "ticker": "STM",
+        "thesis": "STMicroelectronics. MEMS sensors and low-power chips in smart rings and wearables."
+      }
+    ],
+    "category": "health",
+    "description": "AI-powered wearables beyond watches \u2014 smart rings (Oura, Galaxy Ring), continuous health monitors, Whoop. Form factor shrinking while data capabilities expand."
+  },
+  "gut_health_microbiome": {
+    "keywords": [
+      "probiotics",
+      "gut health",
+      "microbiome",
+      "fermented foods",
+      "prebiotic",
+      "gut brain axis",
+      "kefir",
+      "kimchi benefits",
+      "leaky gut",
+      "digestive health",
+      "glp-1 gut"
+    ],
+    "direct": [
+      {
+        "ticker": "CHD",
+        "thesis": "Church & Dwight. Digestive health supplement brands. Direct beneficiary of gut health awareness."
+      }
+    ],
+    "picks_and_shovels": [
+      {
+        "ticker": "INGR",
+        "thesis": "Ingredion. Prebiotic fiber and specialty ingredient supplier for gut health products."
+      },
+      {
+        "ticker": "BCHMY",
+        "thesis": "Bachem. GLP-1 connection to gut microbiome research driving new peptide compound demand."
+      }
+    ],
+    "category": "health",
+    "description": "Gut health moving from alternative medicine to mainstream science. GLP-1 drugs working partly through gut mechanisms accelerating research interest. Fermented foods, probiotics, prebiotics all surging."
+  },
+  "retail_trading_behavior": {
+    "keywords": [
+      "options trading",
+      "retail investor",
+      "meme stocks",
+      "wallstreetbets",
+      "robinhood trading",
+      "options flow",
+      "YOLO trade",
+      "retail trading",
+      "0DTE options",
+      "stock trading app",
+      "day trading"
+    ],
+    "direct": [
+      {
+        "ticker": "HOOD",
+        "thesis": "Robinhood. Dominant retail trading platform. Direct beneficiary of every surge in retail trading activity."
+      },
+      {
+        "ticker": "IBKR",
+        "thesis": "Interactive Brokers. Advanced retail/prosumer trading. Benefits from options volume growth."
+      }
+    ],
+    "picks_and_shovels": [
+      {
+        "ticker": "CBOE",
+        "thesis": "Cboe Global Markets. Options exchange operator. Wins on total options volume regardless of platform."
+      },
+      {
+        "ticker": "NDAQ",
+        "thesis": "Nasdaq. Market infrastructure. Transaction revenue grows with retail volume."
+      }
+    ],
+    "category": "finance",
+    "description": "Retail trading behavior cycles \u2014 0DTE options explosion, meme stock waves, social media-driven trades. Robinhood as direct proxy for retail activity intensity."
+  },
+  "energy_transition": {
+    "keywords": [
+      "residential solar",
+      "battery storage",
+      "grid independence",
+      "solar panels home",
+      "EV charger",
+      "home energy storage",
+      "grid outage",
+      "renewable energy home",
+      "electricity rates",
+      "energy bill"
+    ],
+    "direct": [
+      {
+        "ticker": "TAC",
+        "thesis": "TransAlta. Power generation transitioning to renewables. Clean energy capacity expansion in Alberta and US."
+      },
+      {
+        "ticker": "ENPH",
+        "thesis": "Enphase Energy. Residential solar microinverters. Market leader in home solar systems."
+      }
+    ],
+    "picks_and_shovels": [
+      {
+        "ticker": "ALB",
+        "thesis": "Albemarle. Lithium producer. Battery storage growth drives lithium demand regardless of brand."
+      },
+      {
+        "ticker": "FSLR",
+        "thesis": "First Solar. US-manufactured solar panels. IRA subsidy beneficiary."
+      }
+    ],
+    "category": "energy",
+    "description": "Rising electricity rates and grid reliability anxiety driving residential solar + battery adoption. IRA subsidies accelerating transition. Smart grid and V2G (vehicle-to-grid) emerging."
+  },
+  "outdoor_sports_fitness": {
+    "keywords": [
+      "trail running",
+      "hiking gear",
+      "athleisure",
+      "outdoor recreation",
+      "running shoes",
+      "fitness apparel",
+      "Arc'teryx",
+      "Salomon",
+      "Wilson sporting",
+      "Amer Sports",
+      "paddle tennis"
+    ],
+    "direct": [
+      {
+        "ticker": "AS",
+        "thesis": "Amer Sports. Arc'teryx, Salomon, Wilson. Premium outdoor/sports portfolio riding secular fitness trend."
+      },
+      {
+        "ticker": "NKE",
+        "thesis": "Nike. Trail running and outdoor fitness categories growing faster than core sneakers."
+      },
+      {
+        "ticker": "DECK",
+        "thesis": "Deckers Outdoor. HOKA running shoes. Fastest-growing performance running brand."
+      }
+    ],
+    "picks_and_shovels": [
+      {
+        "ticker": "GOOS",
+        "thesis": "Canada Goose. Premium outdoor apparel expanding beyond winter into active lifestyle."
+      },
+      {
+        "ticker": "LULU",
+        "thesis": "Lululemon. Athleisure as lifestyle category expansion beneficiary."
+      }
+    ],
+    "category": "lifestyle",
+    "description": "Outdoor fitness participation accelerating post-COVID. Trail running, hiking, padel/paddle sports all growing. Premium gear brands (Arc'teryx, Salomon, HOKA) outperforming mass market."
+  },
+  "dividend_income_investing": {
+    "keywords": [
+      "dividend stocks",
+      "passive income",
+      "BDC investing",
+      "monthly dividend",
+      "dividend portfolio",
+      "income investing",
+      "high yield dividend",
+      "FIRE movement",
+      "financial independence",
+      "dividend ETF"
+    ],
+    "direct": [
+      {
+        "ticker": "GAIN",
+        "thesis": "Gladstone Investment. Monthly-paying BDC. Direct beneficiary of retail income-seeking behavior. 6%+ yield."
+      },
+      {
+        "ticker": "MAIN",
+        "thesis": "Main Street Capital. Premium BDC. Monthly dividends, strong track record. Retail investor favorite."
+      }
+    ],
+    "picks_and_shovels": [
+      {
+        "ticker": "HOOD",
+        "thesis": "Robinhood. Retail platform adding income-focused features. Retirement accounts + dividend reinvestment driving engagement."
+      },
+      {
+        "ticker": "SCHW",
+        "thesis": "Charles Schwab. Income-focused ETFs and retirement accounts. Benefits from dividend investing trend."
+      }
+    ],
+    "category": "finance",
+    "description": "Income investing surge driven by FIRE movement, high interest rate environment, and Gen X/Millennial retirement planning. BDCs and monthly dividend stocks gaining retail attention."
   }
 }

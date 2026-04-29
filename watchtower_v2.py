@@ -30,6 +30,16 @@ import yfinance as yf
 
 load_dotenv()
 
+# Local scanner modules
+try:
+    from scanner_autocomplete import scan_amazon_autocomplete
+    from scanner_tiktok import scan_tiktok, is_available as tiktok_available
+except ImportError as e:
+    log.warning(f"Scanner module import failed: {e}")
+    def scan_amazon_autocomplete(trend_keywords, previous): return {}
+    def scan_tiktok(trend_keywords, previous): return {}
+    def tiktok_available(): return False
+
 # ─── Logging ───────────────────────────────────────────────────────────────────
 logging.basicConfig(
     level=logging.INFO,
@@ -67,7 +77,9 @@ TARGET_SUBREDDITS = [
     "biohacking", "peptides", "longevity", "supplements", "fitness",
     "pickleball", "skincareaddiction", "solotravel", "DIY", "nootropics",
     "Testosterone", "intermittentfasting", "investing", "stocks", "wallstreetbets",
-    "personalfinance", "nutrition", "weightloss", "bodybuilding", "running"
+    "personalfinance", "nutrition", "weightloss", "bodybuilding", "running",
+    "financialindependence", "dividends", "options", "hiking", "trailrunning",
+    "solarenergy", "testosterone", "microbiome"
 ]
 
 # Exit signal: if absolute Google Trends score exceeds this, trend is going mainstream
@@ -119,6 +131,15 @@ def scan_google_trends(keywords: list[str], previous: dict) -> dict:
             df = pytrends.interest_over_time()
             time.sleep(15)  # Rate limit — Google is strict, need generous delay
 
+            # Google Shopping trends (gprop='froogle') — consumer purchase intent
+            shopping_df = None
+            try:
+                pytrends.build_payload(batch, timeframe="today 3-m", geo="US", gprop="froogle")
+                shopping_df = pytrends.interest_over_time()
+                time.sleep(15)
+            except Exception as shop_e:
+                log.warning(f"  Google Shopping Trends failed for {batch}: {shop_e}")
+
             for kw in batch:
                 if kw not in df.columns:
                     continue
@@ -131,12 +152,28 @@ def scan_google_trends(keywords: list[str], previous: dict) -> dict:
                 is_90d_high = current == series.max() and current > 0
                 ratio = current / avg_12w if avg_12w > 0 else 0
 
-                # Score
+                # Score (web search)
                 score = 0
                 if ratio > 2.0 and is_90d_high:
                     score = 3
                 elif ratio > 1.5 and is_90d_high:
                     score = 1
+
+                # Google Shopping boost — purchase intent is stronger signal
+                shopping_score = 0
+                shopping_ratio = 0.0
+                if shopping_df is not None and kw in shopping_df.columns:
+                    shop_series = shopping_df[kw].dropna()
+                    if len(shop_series) >= 4:
+                        shop_current = float(shop_series.iloc[-1])
+                        shop_avg = float(shop_series.iloc[:-1].mean()) if len(shop_series) > 1 else 1
+                        shopping_ratio = shop_current / shop_avg if shop_avg > 0 else 0
+                        if shopping_ratio > 2.0:
+                            shopping_score = 2
+                        elif shopping_ratio > 1.5:
+                            shopping_score = 1
+                        if shopping_score > 0 and score > 0:
+                            score = min(score + 1, 3)  # Confirmation bonus
 
                 # Exit warning check
                 is_mainstream = current > MAINSTREAM_THRESHOLD
@@ -148,10 +185,12 @@ def scan_google_trends(keywords: list[str], previous: dict) -> dict:
                     "ratio": round(ratio, 2),
                     "is_90d_high": is_90d_high,
                     "is_mainstream": is_mainstream,
+                    "shopping_ratio": round(shopping_ratio, 2),
+                    "shopping_score": shopping_score,
                 }
 
                 if score > 0:
-                    log.info(f"  Google Trends: {kw} | ratio={ratio:.2f} | score={score}")
+                    log.info(f"  Google Trends: {kw} | ratio={ratio:.2f} | shopping_ratio={shopping_ratio:.2f} | score={score}")
 
         except Exception as e:
             log.warning(f"Google Trends batch {batch} failed: {e}")
@@ -368,6 +407,128 @@ def scan_amazon_bsr(trend_keywords: dict[str, list[str]], previous: dict) -> dic
     return results
 
 
+# ─── Exit Signal Detection ──────────────────────────────────────────────────────
+
+def detect_exit_signals(
+    trend_name: str,
+    gt_signals: dict,
+    reddit_signals: dict,
+    bsr_signals: dict,
+    previous: dict,
+    mapper: dict,
+) -> dict | None:
+    """
+    Detect trend plateau/decline signals that suggest the arbitrage window
+    is closing. Three independent detectors:
+    1. Google Trends decline: current < avg AND ratio < 0.8
+    2. Reddit financial migration: financial subreddit activity spiking
+    3. Amazon BSR plateau: BSR match count stable/declining after prior growth
+    """
+    exit_signals = []
+    exit_score = 0
+
+    mapper_entry = mapper.get(trend_name, {})
+    keywords = mapper_entry.get("keywords", [trend_name])
+    prev_signals = previous.get("active_signals", {})
+    prev_trend = None
+    if isinstance(prev_signals, list):
+        for s in prev_signals:
+            if s.get("trend_name") == trend_name:
+                prev_trend = s
+                break
+    elif isinstance(prev_signals, dict):
+        prev_trend = prev_signals.get(trend_name)
+
+    try:
+        # ── Detector 1: Google Trends Decline ──
+        gt = gt_signals.get("signals", {})
+        for kw in keywords:
+            if kw in gt:
+                gt_data = gt[kw]
+                current = gt_data.get("current", 0)
+                avg_12w = gt_data.get("avg_12w", 0)
+                ratio = gt_data.get("ratio", 1)
+                is_mainstream = gt_data.get("is_mainstream", False)
+
+                if current > 0 and avg_12w > 0 and ratio < 0.8:
+                    exit_signals.append({
+                        "type": "google_trends_decline",
+                        "keyword": kw,
+                        "detail": f"GT ratio {ratio:.2f} (current {current} vs avg {avg_12w})",
+                        "severity": "high" if ratio < 0.6 else "medium",
+                    })
+                    exit_score += 2 if ratio < 0.6 else 1
+
+                if is_mainstream:
+                    exit_signals.append({
+                        "type": "mainstream_saturation",
+                        "keyword": kw,
+                        "detail": f"GT absolute score {current} exceeds mainstream threshold {MAINSTREAM_THRESHOLD}",
+                        "severity": "high",
+                    })
+                    exit_score += 2
+                break
+
+        # ── Detector 2: Reddit Financial Migration ──
+        reddit_data = reddit_signals.get(trend_name, {})
+        financial_activity = reddit_data.get("financial_activity", 0)
+        total_7d = reddit_data.get("total_7d", 0)
+
+        if total_7d > 0 and financial_activity > 0:
+            financial_ratio = financial_activity / total_7d
+            if financial_ratio > 0.4 and financial_activity >= 5:
+                exit_signals.append({
+                    "type": "financial_migration",
+                    "detail": f"Financial sub activity {financial_activity}/{total_7d} ({financial_ratio:.0%}) — Wall Street awareness high",
+                    "severity": "high",
+                })
+                exit_score += 2
+            elif financial_ratio > 0.25 and financial_activity >= 3:
+                exit_signals.append({
+                    "type": "financial_migration",
+                    "detail": f"Financial sub activity {financial_activity}/{total_7d} ({financial_ratio:.0%}) — awareness growing",
+                    "severity": "medium",
+                })
+                exit_score += 1
+
+        # ── Detector 3: BSR Plateau ──
+        bsr_data = bsr_signals.get(trend_name, {})
+        current_bsr_matches = bsr_data.get("match_count", 0)
+        if prev_trend:
+            prev_bsr_matches = prev_trend.get("amazon_bsr", {}).get("match_count", 0)
+            days_active = prev_trend.get("days_active", 0)
+
+            if days_active >= 14 and prev_bsr_matches > 0:
+                if current_bsr_matches <= prev_bsr_matches and prev_bsr_matches >= 3:
+                    exit_signals.append({
+                        "type": "bsr_plateau",
+                        "detail": f"BSR matches {current_bsr_matches} (was {prev_bsr_matches}) after {days_active} days active",
+                        "severity": "medium",
+                    })
+                    exit_score += 1
+
+    except Exception as e:
+        log.warning(f"  Exit signal detection failed for {trend_name}: {e}")
+
+    if not exit_signals:
+        return None
+
+    if exit_score >= 4:
+        urgency = "EXIT_RECOMMENDED"
+    elif exit_score >= 2:
+        urgency = "CONSIDER_EXIT"
+    else:
+        urgency = "WATCH"
+
+    return {
+        "trend_name": trend_name,
+        "exit_score": exit_score,
+        "urgency": urgency,
+        "signals": exit_signals,
+        "detector_count": len(exit_signals),
+    }
+
+
 # ─── Company Mapper ─────────────────────────────────────────────────────────────
 
 def map_companies(trend_name: str, mapper: dict) -> dict:
@@ -429,6 +590,7 @@ def score_trend(
     gt_signals: dict,
     reddit_signals: dict,
     bsr_signals: dict,
+    autocomplete_signals: dict,
     mapper: dict,
     previous: dict,
 ) -> dict | None:
@@ -458,13 +620,16 @@ def score_trend(
     bsr_score = bsr.get(trend_name, {}).get("score", 0)
     bsr_data = bsr.get(trend_name, {})
 
-    raw_score = gt_score + reddit_score + bsr_score
+    autocomplete_score = autocomplete_signals.get(trend_name, {}).get("score", 0)
+    autocomplete_data = autocomplete_signals.get(trend_name, {})
+
+    raw_score = gt_score + reddit_score + bsr_score + autocomplete_score
 
     if raw_score == 0:
         return None
 
     # Bonuses
-    platforms_firing = sum([gt_score > 0, reddit_score > 0, bsr_score > 0])
+    platforms_firing = sum([gt_score > 0, reddit_score > 0, bsr_score > 0, autocomplete_score > 0])
     multi_platform_bonus = 3 if platforms_firing >= 2 else 0
 
     # Wall Street awareness (use GT absolute score as proxy)
@@ -485,7 +650,12 @@ def score_trend(
     final_score = max(0, min(10, final_score))
 
     # Time decay
-    prev_signals = previous.get("active_signals", {})
+    # Build a dict from the active_signals list for lookup
+    _prev_active_list = previous.get("active_signals", [])
+    if isinstance(_prev_active_list, list):
+        prev_signals = {s.get("trend_name"): s for s in _prev_active_list if isinstance(s, dict)}
+    else:
+        prev_signals = _prev_active_list
     signal_first_seen = prev_signals.get(trend_name, {}).get("signal_first_seen", date.today().isoformat())
     days_active = prev_signals.get(trend_name, {}).get("days_active", 1)
     peak_score = max(final_score, prev_signals.get(trend_name, {}).get("peak_score", 0))
@@ -519,6 +689,8 @@ def score_trend(
         signals_firing.append("reddit")
     if bsr_score > 0:
         signals_firing.append("amazon_bsr")
+    if autocomplete_score > 0:
+        signals_firing.append("amazon_autocomplete")
 
     return {
         "trend_name": trend_name,
@@ -529,6 +701,7 @@ def score_trend(
             "google_trends": gt_score,
             "reddit": reddit_score,
             "amazon_bsr": bsr_score,
+            "amazon_autocomplete": autocomplete_score,
             "multi_platform_bonus": multi_platform_bonus,
             "low_awareness_bonus": low_awareness_bonus,
             "novelty_bonus": novelty_bonus,
@@ -542,6 +715,7 @@ def score_trend(
         "google_trends": gt_data,
         "reddit": reddit_data,
         "amazon_bsr": bsr_data,
+        "amazon_autocomplete": autocomplete_data,
         "wall_street_awareness": ws_awareness,
         "exit_warning": is_mainstream,
         "category": mapper_entry.get("category", ""),
@@ -767,6 +941,21 @@ def main():
     else:
         bsr_signals = {t: {"score": 0, "match_count": 0, "sample_products": []} for t in trend_names}
 
+    # Amazon Autocomplete — runs in all modes (lightweight)
+    try:
+        autocomplete_signals = scan_amazon_autocomplete(trend_keywords, previous)
+    except Exception as e:
+        log.warning(f"Autocomplete scanner error: {e}")
+        autocomplete_signals = {}
+
+    # TikTok — morning/full only to conserve daily quota
+    tiktok_signals = {}
+    if args.mode in ["morning", "full"]:
+        try:
+            tiktok_signals = scan_tiktok(trend_keywords, previous)
+        except Exception as e:
+            log.warning(f"TikTok scanner error: {e}")
+
     # ── Score Each Trend ──────────────────────────────────────────────────────
 
     active_signals = []
@@ -774,9 +963,20 @@ def main():
     prev_signals_dict = {s.get("trend_name"): s for s in previous.get("active_signals", [])}
 
     for trend_name in trend_names:
-        scored = score_trend(trend_name, gt_output, reddit_signals, bsr_signals, mapper, previous)
+        scored = score_trend(trend_name, gt_output, reddit_signals, bsr_signals, autocomplete_signals, mapper, previous)
         if scored is None:
+            # Still check exit signals even for non-active trends
+            exit_sig = detect_exit_signals(trend_name, gt_output, reddit_signals, bsr_signals, previous, mapper)
+            if exit_sig and exit_sig.get("urgency") in ("EXIT_RECOMMENDED", "CONSIDER_EXIT"):
+                exit_warnings.append(exit_sig)
             continue
+
+        # Attach exit signal to scored trend
+        exit_sig = detect_exit_signals(trend_name, gt_output, reddit_signals, bsr_signals, previous, mapper)
+        if exit_sig:
+            scored["exit_signal"] = exit_sig
+            if exit_sig.get("urgency") in ("EXIT_RECOMMENDED", "CONSIDER_EXIT", "WATCH"):
+                exit_warnings.append(exit_sig)
 
         # Carry forward persistence data
         if trend_name in prev_signals_dict:
@@ -862,6 +1062,18 @@ def main():
             "status": "active" if DISCORD_WEBHOOK_URL else "missing",
             "note": "Tier 1 alerts" if DISCORD_WEBHOOK_URL else "DISCORD_WEBHOOK_URL not set",
         },
+        "amazon_autocomplete": {
+            "status": "active" if autocomplete_signals else "error",
+            "signals_fired": sum(1 for v in autocomplete_signals.values() if v.get("score", 0) > 0),
+            "last_run": datetime.now().isoformat(),
+            "note": "Free, no auth required",
+        },
+        "tiktok": {
+            "status": "active" if tiktok_signals else ("skipped" if not tiktok_available() else "error"),
+            "signals_fired": sum(1 for v in tiktok_signals.values() if v.get("score", 0) > 0) if tiktok_signals else 0,
+            "last_run": datetime.now().isoformat() if tiktok_signals else None,
+            "note": "Research API" if tiktok_available() else "No API credentials — apply at developers.tiktok.com",
+        },
     }
 
     output = {
@@ -896,6 +1108,9 @@ def main():
             for t in trend_names
         }
         old_prev["active_signals"] = active_signals
+        old_prev["autocomplete"] = autocomplete_signals
+        if tiktok_signals:
+            old_prev["tiktok"] = tiktok_signals
         with open(PREV_PATH, "w") as f:
             json.dump(old_prev, f, indent=2)
     else:
