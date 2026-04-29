@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-29T14:45:07.975323",
+  "generated_at": "2026-04-29T15:30:50.733358",
   "mode": "fast",
   "active_signals": [],
   "new_trends_discovered": [],
@@ -15,7 +15,7 @@
       "status": "active",
       "signals_fired": 0,
       "subreddits_scanned": 20,
-      "last_run": "2026-04-29T14:45:07.975318",
+      "last_run": "2026-04-29T15:30:50.733343",
       "note": "Public HTTP fallback"
     },
     "amazon_bsr": {
@@ -27,7 +27,7 @@
     "yfinance": {
       "status": "active",
       "note": "Free, no rate limits",
-      "last_run": "2026-04-29T14:45:07.975321"
+      "last_run": "2026-04-29T15:30:50.733353"
     },
     "opus_thesis": {
       "status": "active",
@@ -39,7 +39,7 @@
     }
   },
   "run_stats": {
-    "duration_sec": 48.4,
+    "duration_sec": 49.0,
     "keywords_scanned": 13,
     "trends_evaluated": 13,
     "tier1_count": 0,
