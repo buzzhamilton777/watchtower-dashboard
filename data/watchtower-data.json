@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-04-29T14:24:47.307158",
+  "generated_at": "2026-04-29T14:36:38.223467",
   "mode": "fast",
   "active_signals": [],
   "new_trends_discovered": [],
   "exit_warnings": [],
   "run_stats": {
-    "duration_sec": 48.7,
+    "duration_sec": 48.9,
     "keywords_scanned": 13,
     "trends_evaluated": 13,
     "tier1_count": 0,
