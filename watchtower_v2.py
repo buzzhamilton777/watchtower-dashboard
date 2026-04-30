@@ -135,7 +135,7 @@ def scan_google_trends(keywords: list[str], previous: dict) -> dict:
             pytrends.build_payload(batch, timeframe="today 3-m", geo="US")
             df = pytrends.interest_over_time()
             consecutive_429s = 0  # Reset on success
-            time.sleep(15)  # Rate limit — Google is strict, need generous delay
+            time.sleep(180)  # 3-min delay between batches — afternoon-only policy, avoid 429s
 
             # Google Shopping trends (gprop='froogle') — consumer purchase intent
             shopping_df = None
@@ -988,12 +988,13 @@ def main():
 
     # ── Run Scanners ──────────────────────────────────────────────────────────
 
-    # Fast mode: Reddit only (GT is too aggressive for hourly, gets rate-limited)
-    # Morning/full: all signals
-    if args.mode in ["morning", "full"]:
+    # GT runs ONLY in full mode (4:15 PM) — Option 1 rate limit strategy (April 30, 2026)
+    # Morning + fast both skip GT entirely to prevent 429 hangs
+    # Revisit in ~1 month: consider SerpAPI if GT data proves valuable
+    if args.mode == "full":
         gt_output = scan_google_trends(list(set(all_keywords)), previous)
     else:
-        log.info("Fast mode: skipping Google Trends (rate limit protection)")
+        log.info(f"{args.mode.capitalize()} mode: skipping Google Trends (afternoon-only policy)")
         gt_output = {"signals": {}, "discovery": []}
 
     reddit_signals = scan_reddit(trend_keywords, previous)
