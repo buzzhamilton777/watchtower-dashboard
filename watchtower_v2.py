@@ -988,13 +988,13 @@ def main():
 
     # ── Run Scanners ──────────────────────────────────────────────────────────
 
-    # GT runs ONLY in full mode (4:15 PM) — Option 1 rate limit strategy (April 30, 2026)
-    # Morning + fast both skip GT entirely to prevent 429 hangs
-    # Revisit in ~1 month: consider SerpAPI if GT data proves valuable
+    # GT runs only in full mode — once-daily at 2:15 PM CST (April 30, 2026 decision)
+    # All 4 scanners run together in full mode for cleanest thesis signal
+    # Revisit ~June 1: consider SerpAPI (~$50/mo) if faster detection ever needed
     if args.mode == "full":
         gt_output = scan_google_trends(list(set(all_keywords)), previous)
     else:
-        log.info(f"{args.mode.capitalize()} mode: skipping Google Trends (afternoon-only policy)")
+        log.info(f"{args.mode.capitalize()} mode: skipping Google Trends (full-mode only policy)")
         gt_output = {"signals": {}, "discovery": []}
 
     reddit_signals = scan_reddit(trend_keywords, previous)
