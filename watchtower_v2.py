@@ -968,6 +968,13 @@ def main():
                         help="Scan mode: fast (GT+Reddit), morning (all), full (all+delta)")
     args = parser.parse_args()
 
+    # April 30, 2026: once-daily architecture. Morning/fast modes are retired.
+    # Old system cron entries still exist but are disabled via this guard.
+    # Remove system cron entries Sunday May 3 when K is home.
+    if args.mode in ["fast", "morning"]:
+        log.info(f"=== WATCHTOWER 2.0: {args.mode} mode retired — once-daily full scan at 2:15 PM CST. Exiting. ===")
+        return
+
     start = time.time()
     log.info(f"=== WATCHTOWER 2.0 run started — mode: {args.mode} ===")
 
