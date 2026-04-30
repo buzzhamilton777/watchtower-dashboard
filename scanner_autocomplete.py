@@ -173,8 +173,13 @@ def scan_amazon_autocomplete(
     log.info("Amazon Autocomplete scanner starting...")
     results = {}
     prev_autocomplete = previous.get("autocomplete", {})
+    consecutive_failures = 0
+    MAX_FAILURES = 2  # 2-strike rule: bail after 2 consecutive trend failures
 
     for trend_name, keywords in trend_keywords.items():
+        if consecutive_failures >= MAX_FAILURES:
+            log.warning(f"Autocomplete: {consecutive_failures} consecutive failures — stopping scanner early")
+            break
         trend_score = 0
         keywords_found = 0
         positions = []
@@ -185,6 +190,7 @@ def scan_amazon_autocomplete(
         # Use primary keyword + up to 2 secondary keywords to limit requests
         scan_keywords = keywords[:3]
 
+        trend_had_error = False
         for kw in scan_keywords:
             try:
                 suggestions = _fetch_suggestions(kw)
@@ -202,6 +208,7 @@ def scan_amazon_autocomplete(
                     total_breadth += kw_result["category_breadth"]
 
             except Exception as e:
+                trend_had_error = True
                 log.warning(f"  Autocomplete scan failed for '{kw}': {e}")
                 details.append({"keyword": kw, "score": 0, "error": str(e)})
 
@@ -243,6 +250,12 @@ def scan_amazon_autocomplete(
                 f"  Autocomplete: {trend_name} | score={trend_score} | "
                 f"pos={top_position} | breadth={total_breadth} | delta={delta}"
             )
+
+        # 2-strike rule: track consecutive trend-level failures
+        if trend_had_error and trend_score == 0:
+            consecutive_failures += 1
+        else:
+            consecutive_failures = 0  # reset on any success
 
     fired = sum(1 for v in results.values() if v["score"] > 0)
     log.info(f"Amazon Autocomplete complete. {fired} signals fired.")

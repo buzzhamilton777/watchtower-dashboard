@@ -124,11 +124,17 @@ def scan_google_trends(keywords: list[str], previous: dict) -> dict:
 
     # Scan known keywords in batches of 3 (smaller batches = fewer 429s)
     batch_size = 3
+    consecutive_429s = 0
+    MAX_429s = 2  # 2-strike rule: bail after 2 consecutive 429s — don't hang forever
     for i in range(0, len(keywords), batch_size):
+        if consecutive_429s >= MAX_429s:
+            log.warning(f"Google Trends: {consecutive_429s} consecutive 429s — skipping remaining batches to avoid hang")
+            break
         batch = keywords[i:i + batch_size]
         try:
             pytrends.build_payload(batch, timeframe="today 3-m", geo="US")
             df = pytrends.interest_over_time()
+            consecutive_429s = 0  # Reset on success
             time.sleep(15)  # Rate limit — Google is strict, need generous delay
 
             # Google Shopping trends (gprop='froogle') — consumer purchase intent
@@ -195,9 +201,10 @@ def scan_google_trends(keywords: list[str], previous: dict) -> dict:
         except Exception as e:
             log.warning(f"Google Trends batch {batch} failed: {e}")
             if "429" in str(e):
+                consecutive_429s += 1
                 # Exponential backoff on rate limit
                 wait = 90
-                log.info(f"  Rate limited by Google — waiting {wait}s (exponential backoff)")
+                log.info(f"  Rate limited by Google — waiting {wait}s (exponential backoff) [{consecutive_429s}/{MAX_429s}]")
                 time.sleep(wait)
                 # Retry once with smaller batch (single keyword)
                 for single_kw in batch[:1]:
@@ -284,7 +291,12 @@ def scan_reddit(trend_keywords: dict[str, list[str]], previous: dict) -> dict:
     subreddit_posts: dict[str, list[str]] = {}
     headers = {"User-Agent": "watchtower:v2.0 (research bot)"}
 
+    consecutive_reddit_failures = 0
+    MAX_REDDIT_FAILURES = 2  # 2-strike rule
     for sub in TARGET_SUBREDDITS:
+        if consecutive_reddit_failures >= MAX_REDDIT_FAILURES:
+            log.warning(f"Reddit: {consecutive_reddit_failures} consecutive failures — stopping scanner early")
+            break
         texts = []
         try:
             if reddit:
@@ -300,8 +312,10 @@ def scan_reddit(trend_keywords: dict[str, list[str]], previous: dict) -> dict:
                         d = p.get("data", {})
                         texts.append((d.get("title", "") + " " + d.get("selftext", "")).lower())
                 time.sleep(1)
+            consecutive_reddit_failures = 0  # reset on success
         except Exception as e:
-            log.warning(f"  Reddit r/{sub} failed: {e}")
+            consecutive_reddit_failures += 1
+            log.warning(f"  Reddit r/{sub} failed [{consecutive_reddit_failures}/{MAX_REDDIT_FAILURES}]: {e}")
 
         if texts:
             subreddit_posts[sub] = texts
@@ -392,10 +406,17 @@ def scan_amazon_bsr(trend_keywords: dict[str, list[str]], previous: dict) -> dic
     # Collect product names from BSR pages
     product_texts: list[str] = []
 
+    consecutive_bsr_failures = 0
+    MAX_BSR_FAILURES = 2  # 2-strike rule
     for cat_name, url in category_urls + movers_urls:
+        if consecutive_bsr_failures >= MAX_BSR_FAILURES:
+            log.warning(f"Amazon BSR: {consecutive_bsr_failures} consecutive failures — stopping scanner early")
+            break
         try:
             resp = requests.get(url, headers=headers, timeout=15)
             if resp.status_code != 200:
+                consecutive_bsr_failures += 1
+                log.warning(f"  Amazon BSR {cat_name} HTTP {resp.status_code} [{consecutive_bsr_failures}/{MAX_BSR_FAILURES}]")
                 continue
             soup = BeautifulSoup(resp.text, "lxml")
             # Extract product titles
@@ -404,8 +425,10 @@ def scan_amazon_bsr(trend_keywords: dict[str, list[str]], previous: dict) -> dic
                 if len(text) > 5:
                     product_texts.append(text)
             time.sleep(2)
+            consecutive_bsr_failures = 0  # reset on success
         except Exception as e:
-            log.warning(f"  Amazon BSR {cat_name} failed: {e}")
+            consecutive_bsr_failures += 1
+            log.warning(f"  Amazon BSR {cat_name} failed [{consecutive_bsr_failures}/{MAX_BSR_FAILURES}]: {e}")
 
     # Match product texts against trend keywords
     for trend_name, keywords in trend_keywords.items():
