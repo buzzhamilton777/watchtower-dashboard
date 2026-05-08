@@ -1,153 +1,7 @@
 {
-  "generated_at": "2026-05-07T16:22:55.983683",
+  "generated_at": "2026-05-08T16:27:59.220318",
   "mode": "full",
   "active_signals": [
-    {
-      "trend_name": "oral_health",
-      "display_name": "Oral Health",
-      "tier": 2,
-      "score": 7,
-      "score_breakdown": {
-        "google_trends": 0,
-        "reddit": 1,
-        "amazon_bsr": 0,
-        "amazon_autocomplete": 3,
-        "multi_platform_bonus": 3,
-        "low_awareness_bonus": 0,
-        "novelty_bonus": 0,
-        "mainstream_penalty": 0,
-        "financial_penalty": 0
-      },
-      "signals_firing": [
-        "reddit",
-        "amazon_autocomplete"
-      ],
-      "signal_first_seen": "2026-04-29",
-      "days_active": 7,
-      "peak_score": 7,
-      "google_trends": {},
-      "reddit": {
-        "score": 1,
-        "total_7d": 2,
-        "avg_30d": 1,
-        "ratio": 2.0,
-        "novelty_bonus": false,
-        "non_native_hits": 0,
-        "financial_activity": 0,
-        "subreddit_breakdown": {
-          "biohacking": 0,
-          "peptides": 0,
-          "longevity": 0,
-          "supplements": 1,
-          "fitness": 0,
-          "pickleball": 0,
-          "skincareaddiction": 1,
-          "solotravel": 0,
-          "DIY": 0,
-          "nootropics": 0,
-          "Testosterone": 0,
-          "intermittentfasting": 0,
-          "investing": 0,
-          "stocks": 0,
-          "wallstreetbets": 0,
-          "personalfinance": 0,
-          "nutrition": 0,
-          "bodybuilding": 0,
-          "running": 0,
-          "financialindependence": 0,
-          "dividends": 0,
-          "options": 0,
-          "hiking": 0,
-          "trailrunning": 0,
-          "solarenergy": 0,
-          "testosterone": 0,
-          "microbiome": 0
-        }
-      },
-      "amazon_bsr": {
-        "score": 0,
-        "match_count": 0,
-        "sample_products": []
-      },
-      "amazon_autocomplete": {
-        "score": 3,
-        "keywords_found": 3,
-        "top_position": 1,
-        "avg_position": 1.0,
-        "category_breadth": 30,
-        "details": [
-          {
-            "keyword": "hydroxyapatite toothpaste",
-            "score": 3,
-            "position": 1,
-            "match_count": 10,
-            "matching_suggestions": [
-              "hydroxyapatite toothpaste",
-              "nano hydroxyapatite toothpaste",
-              "dr jens nano hydroxyapatite toothpaste",
-              "boka nano hydroxyapatite toothpaste",
-              "10% nano hydroxyapatite toothpaste"
-            ],
-            "category_breadth": 10
-          },
-          {
-            "keyword": "water flosser",
-            "score": 3,
-            "position": 1,
-            "match_count": 10,
-            "matching_suggestions": [
-              "water flosser",
-              "waterpik water flosser",
-              "water flossers for teeth",
-              "portable water flosser",
-              "water flosser cordless"
-            ],
-            "category_breadth": 10
-          },
-          {
-            "keyword": "oral health",
-            "score": 3,
-            "position": 1,
-            "match_count": 10,
-            "matching_suggestions": [
-              "oral health",
-              "oral health probiotics",
-              "great oral health oral probiotics",
-              "naturewise oral health probiotics",
-              "oral health probiotics for teeth and gums"
-            ],
-            "category_breadth": 10
-          }
-        ],
-        "sample_suggestions": [
-          "dr jens nano hydroxyapatite toothpaste",
-          "10% nano hydroxyapatite toothpaste",
-          "water flosser",
-          "portable water flosser",
-          "oral health"
-        ],
-        "delta_vs_previous": "stable"
-      },
-      "wall_street_awareness": "LOW",
-      "exit_warning": false,
-      "category": "consumer",
-      "description": "Oral health reinvention \u2014 hydroxyapatite replacing fluoride, water flossers going mainstream, holistic oral care trend.",
-      "thesis": "",
-      "thesis_file": "",
-      "companies": {
-        "direct": [
-          {
-            "ticker": "CHD",
-            "thesis": "Church & Dwight. Arm & Hammer and Waterpik brands. Direct oral health beneficiary.",
-            "price": 93.88,
-            "change_30d": -0.3,
-            "change_90d": -6.3,
-            "valid": true
-          }
-        ],
-        "picks_and_shovels": []
-      }
-    },
     {
       "trend_name": "peptides",
       "display_name": "Peptides",
@@ -168,20 +22,20 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 6,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 183,
+        "total_7d": 186,
         "avg_30d": 203,
-        "ratio": 0.9,
+        "ratio": 0.92,
         "novelty_bonus": false,
         "non_native_hits": 0,
         "financial_activity": 0,
         "subreddit_breakdown": {
           "biohacking": 65,
-          "peptides": 85,
+          "peptides": 84,
           "longevity": 8,
           "supplements": 3,
           "fitness": 0,
@@ -189,8 +43,8 @@
           "skincareaddiction": 4,
           "solotravel": 0,
           "DIY": 0,
-          "nootropics": 8,
-          "Testosterone": 3,
+          "nootropics": 10,
+          "Testosterone": 4,
           "intermittentfasting": 0,
           "investing": 0,
           "stocks": 0,
@@ -205,7 +59,7 @@
           "hiking": 0,
           "trailrunning": 0,
           "solarenergy": 0,
-          "testosterone": 3,
+          "testosterone": 4,
           "microbiome": 4
         }
       },
@@ -265,11 +119,11 @@
           }
         ],
         "sample_suggestions": [
-          "bpc-157",
-          "wolverine stack bpc-157 tb-500 research peptides",
+          "bac water for peptides",
           "bpc-157 peptide capsules 1000mg",
           "oral bpc-157",
-          "vital proteins collagen peptides powder"
+          "peptides",
+          "bpc-157"
         ],
         "delta_vs_previous": "stable"
       },
@@ -284,33 +138,33 @@
           {
             "ticker": "HIMS",
             "thesis": "Telehealth platform dispensing compounded GLP-1s. Novo Nordisk partnership is key catalyst.",
-            "price": 25.65,
-            "change_30d": 32.3,
-            "change_90d": 53.7,
+            "price": 28.27,
+            "change_30d": 43.1,
+            "change_90d": 78.9,
             "valid": true
           },
           {
             "ticker": "NVO",
             "thesis": "Ozempic/Wegovy maker. GLP-1 category leader.",
-            "price": 45.8,
-            "change_30d": 21.8,
-            "change_90d": -2.6,
+            "price": 46.07,
+            "change_30d": 23.1,
+            "change_90d": -2.4,
             "valid": true
           },
           {
             "ticker": "LLY",
             "thesis": "Mounjaro/Zepbound. Dominant GLP-1 pipeline.",
-            "price": 974.96,
-            "change_30d": 2.3,
-            "change_90d": -3.8,
+            "price": 948.45,
+            "change_30d": -0.7,
+            "change_90d": -8.5,
             "valid": true
           },
           {
             "ticker": "AMGN",
             "thesis": "MariTide obesity drug in late-stage trials.",
-            "price": 329.09,
-            "change_30d": -5.9,
-            "change_90d": -9.6,
+            "price": 331.7,
+            "change_30d": -6.7,
+            "change_90d": -8.8,
             "valid": true
           }
         ],
@@ -318,17 +172,17 @@
           {
             "ticker": "BCHMY",
             "thesis": "Bachem. Peptide API manufacturer. Wins regardless of which drug or brand wins. ~$3B cap, minimal analyst coverage on this angle.",
-            "price": 10.5,
-            "change_30d": 22.7,
+            "price": 10.99,
+            "change_30d": 34.7,
             "change_90d": null,
             "valid": true
           },
           {
             "ticker": "BRKR",
             "thesis": "Bruker. Analytical instruments used in peptide R&D and quality testing.",
-            "price": 43.73,
-            "change_30d": 14.3,
-            "change_90d": 3.2,
+            "price": 44.16,
+            "change_30d": 16.3,
+            "change_90d": 17.9,
             "valid": true
           }
         ]
@@ -354,33 +208,33 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 6,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 60,
+        "total_7d": 63,
         "avg_30d": 75,
-        "ratio": 0.8,
+        "ratio": 0.84,
         "novelty_bonus": false,
         "non_native_hits": 0,
-        "financial_activity": 1,
+        "financial_activity": 0,
         "subreddit_breakdown": {
-          "biohacking": 2,
+          "biohacking": 6,
           "peptides": 2,
           "longevity": 40,
-          "supplements": 5,
+          "supplements": 4,
           "fitness": 0,
           "pickleball": 0,
           "skincareaddiction": 1,
           "solotravel": 0,
           "DIY": 0,
-          "nootropics": 4,
+          "nootropics": 5,
           "Testosterone": 0,
           "intermittentfasting": 0,
           "investing": 0,
           "stocks": 0,
-          "wallstreetbets": 1,
+          "wallstreetbets": 0,
           "personalfinance": 0,
           "nutrition": 3,
           "bodybuilding": 0,
@@ -451,11 +305,11 @@
           }
         ],
         "sample_suggestions": [
-          "nmnh",
-          "nmn",
-          "nad+ supplement",
           "nad+ supplements for women",
-          "longevity supplements"
+          "longevity mix",
+          "blueprint longevity mix",
+          "nmn",
+          "nmn supplement 1000mg pure organic"
         ],
         "delta_vs_previous": "stable"
       },
@@ -471,9 +325,9 @@
           {
             "ticker": "GILD",
             "thesis": "Gilead Sciences. Aging biology research programs.",
-            "price": 134.06,
-            "change_30d": -5.3,
-            "change_90d": -13.5,
+            "price": 131.33,
+            "change_30d": -7.6,
+            "change_90d": -13.0,
             "valid": true
           }
         ]
@@ -499,14 +353,14 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 5,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 38,
+        "total_7d": 33,
         "avg_30d": 60,
-        "ratio": 0.63,
+        "ratio": 0.55,
         "novelty_bonus": false,
         "non_native_hits": 0,
         "financial_activity": 0,
@@ -516,7 +370,7 @@
           "longevity": 0,
           "supplements": 0,
           "fitness": 0,
-          "pickleball": 38,
+          "pickleball": 33,
           "skincareaddiction": 0,
           "solotravel": 0,
           "DIY": 0,
@@ -596,11 +450,11 @@
           }
         ],
         "sample_suggestions": [
-          "pickleball net",
-          "pickleball paddles",
+          "pickleball court shoes",
+          "pickleball court marking kit",
+          "pickleball court",
           "pickleball",
-          "pickleball court tape",
-          "pickleball court shoes"
+          "pickleball balls"
         ],
         "delta_vs_previous": "stable"
       },
@@ -615,17 +469,17 @@
           {
             "ticker": "LTH",
             "thesis": "Life Time Health. Building dedicated pickleball courts at locations nationwide.",
-            "price": 32.19,
-            "change_30d": 12.9,
-            "change_90d": 8.4,
+            "price": 31.93,
+            "change_30d": 13.9,
+            "change_90d": 9.0,
             "valid": true
           },
           {
             "ticker": "GOLF",
             "thesis": "Acushnet Holdings (GOLF). Golf/racquet sports equipment. Expanding into pickleball/padel.",
-            "price": 89.53,
-            "change_30d": -9.1,
-            "change_90d": -10.1,
+            "price": 91.55,
+            "change_30d": -7.2,
+            "change_90d": -8.2,
             "valid": true
           }
         ],
@@ -633,17 +487,17 @@
           {
             "ticker": "NKE",
             "thesis": "Nike. Court shoes and apparel expanding into pickleball/padel.",
-            "price": 44.41,
-            "change_30d": 3.0,
-            "change_90d": -28.3,
+            "price": 44.14,
+            "change_30d": 0.3,
+            "change_90d": -27.3,
             "valid": true
           },
           {
             "ticker": "UA",
             "thesis": "Under Armour. Racquet sports apparel expansion.",
-            "price": 6.22,
-            "change_30d": 6.0,
-            "change_90d": -7.9,
+            "price": 6.25,
+            "change_30d": 2.1,
+            "change_90d": -8.5,
             "valid": true
           }
         ]
@@ -669,7 +523,7 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 7,
       "google_trends": {},
       "reddit": {
@@ -766,11 +620,11 @@
           }
         ],
         "sample_suggestions": [
-          "microplastics detox",
-          "pfas filter",
           "water filter pitcher",
           "rv water filter",
-          "pfas filter cartridge"
+          "pfas filter cartridge",
+          "pfas filter",
+          "microplastics detox"
         ],
         "delta_vs_previous": "stable"
       },
@@ -785,17 +639,17 @@
           {
             "ticker": "PNR",
             "thesis": "Pentair. Water treatment and filtration systems. Direct beneficiary of PFAS anxiety.",
-            "price": 78.96,
-            "change_30d": -12.5,
-            "change_90d": -21.2,
+            "price": 76.82,
+            "change_30d": -14.8,
+            "change_90d": -22.8,
             "valid": true
           },
           {
             "ticker": "AOS",
             "thesis": "A.O. Smith. Water heaters and filtration. Consumer home water quality play.",
-            "price": 60.23,
-            "change_30d": -9.3,
-            "change_90d": -24.5,
+            "price": 58.6,
+            "change_30d": -12.4,
+            "change_90d": -26.0,
             "valid": true
           }
         ],
@@ -803,9 +657,9 @@
           {
             "ticker": "WTS",
             "thesis": "Watts Water Technologies. Flow control and water quality infrastructure.",
-            "price": 294.14,
-            "change_30d": -2.3,
-            "change_90d": -6.4,
+            "price": 296.9,
+            "change_30d": -2.4,
+            "change_90d": -11.5,
             "valid": true
           }
         ]
@@ -831,7 +685,7 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 9,
       "google_trends": {},
       "reddit": {
@@ -928,11 +782,11 @@
           }
         ],
         "sample_suggestions": [
-          "red light therapy",
-          "red light infrared therapy",
-          "photobiomodulation therapy",
+          "red light therapy for hair growth",
+          "red light therapy for body",
           "infrared therapy light panel",
-          "red light therapy for body"
+          "red light therapy mask",
+          "photobiomodulation devices"
         ],
         "delta_vs_previous": "stable"
       },
@@ -967,28 +821,28 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 5,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 21,
+        "total_7d": 22,
         "avg_30d": 32,
-        "ratio": 0.66,
+        "ratio": 0.69,
         "novelty_bonus": false,
         "non_native_hits": 1,
         "financial_activity": 0,
         "subreddit_breakdown": {
-          "biohacking": 0,
+          "biohacking": 2,
           "peptides": 1,
           "longevity": 0,
-          "supplements": 10,
+          "supplements": 9,
           "fitness": 1,
-          "pickleball": 0,
+          "pickleball": 1,
           "skincareaddiction": 0,
           "solotravel": 0,
           "DIY": 0,
-          "nootropics": 7,
+          "nootropics": 6,
           "Testosterone": 1,
           "intermittentfasting": 0,
           "investing": 0,
@@ -1063,11 +917,11 @@
           }
         ],
         "sample_suggestions": [
-          "creatine for women",
+          "creatine monohydrate",
+          "creatine wellness gummies",
           "thorne creatine",
-          "creatine wellness",
-          "creatine",
-          "creatine monohydrate powder"
+          "creatine wellness powder",
+          "creatine"
         ],
         "delta_vs_previous": "stable"
       },
@@ -1082,9 +936,9 @@
           {
             "ticker": "CELH",
             "thesis": "Celsius Holdings. Functional supplement brand with creatine-adjacent wellness products.",
-            "price": 34.26,
-            "change_30d": -4.9,
-            "change_90d": -22.8,
+            "price": 32.29,
+            "change_30d": -11.2,
+            "change_90d": -27.3,
             "valid": true
           }
         ],
@@ -1092,9 +946,9 @@
           {
             "ticker": "INGR",
             "thesis": "Ingredion. Specialty ingredient supplier for nutrition and supplement manufacturers.",
-            "price": 107.36,
-            "change_30d": -5.5,
-            "change_90d": -9.8,
+            "price": 107.39,
+            "change_30d": -6.6,
+            "change_90d": -7.7,
             "valid": true
           }
         ]
@@ -1120,7 +974,7 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 5,
       "google_trends": {},
       "reddit": {
@@ -1218,10 +1072,10 @@
         ],
         "sample_suggestions": [
           "nootropic drinks",
-          "nootropic drink",
+          "adaptogen drink powder",
           "adaptogen drink mix",
-          "flavcity electrolyte drink mix",
-          "adaptogen drink for sleep"
+          "adaptogen drinks alcohol replacement",
+          "flavcity electrolyte drink mix"
         ],
         "delta_vs_previous": "stable"
       },
@@ -1236,17 +1090,17 @@
           {
             "ticker": "MNST",
             "thesis": "Monster Beverage. Functional energy category leader expanding into wellness drinks.",
-            "price": 75.97,
-            "change_30d": 1.1,
-            "change_90d": -6.0,
+            "price": 86.29,
+            "change_30d": 13.3,
+            "change_90d": 6.3,
             "valid": true
           },
           {
             "ticker": "CELH",
             "thesis": "Celsius Holdings. Fitness/wellness functional energy drink. Strong Gen Z adoption.",
-            "price": 34.26,
-            "change_30d": -4.9,
-            "change_90d": -22.8,
+            "price": 32.29,
+            "change_30d": -11.2,
+            "change_90d": -27.3,
             "valid": true
           }
         ],
@@ -1254,9 +1108,9 @@
           {
             "ticker": "INGR",
             "thesis": "Ingredion. Specialty ingredient supplier for functional beverage manufacturers.",
-            "price": 107.36,
-            "change_30d": -5.5,
-            "change_90d": -9.8,
+            "price": 107.39,
+            "change_30d": -6.6,
+            "change_90d": -7.7,
             "valid": true
           }
         ]
@@ -1282,30 +1136,30 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 5,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 20,
-        "avg_30d": 19,
-        "ratio": 1.05,
+        "total_7d": 14,
+        "avg_30d": 20,
+        "ratio": 0.7,
         "novelty_bonus": false,
         "non_native_hits": 1,
         "financial_activity": 0,
         "subreddit_breakdown": {
-          "biohacking": 1,
+          "biohacking": 0,
           "peptides": 1,
           "longevity": 0,
-          "supplements": 4,
+          "supplements": 6,
           "fitness": 0,
           "pickleball": 0,
           "skincareaddiction": 0,
           "solotravel": 0,
           "DIY": 0,
           "nootropics": 5,
-          "Testosterone": 4,
-          "intermittentfasting": 1,
+          "Testosterone": 0,
+          "intermittentfasting": 2,
           "investing": 0,
           "stocks": 0,
           "wallstreetbets": 0,
@@ -1319,7 +1173,7 @@
           "hiking": 0,
           "trailrunning": 0,
           "solarenergy": 0,
-          "testosterone": 4,
+          "testosterone": 0,
           "microbiome": 0
         }
       },
@@ -1379,11 +1233,11 @@
           }
         ],
         "sample_suggestions": [
-          "sleep optimization for shift workers",
-          "sleep tracking",
-          "magnesium glycinate 400mg",
           "sleep optimization devices",
-          "fitbit for sleep tracking"
+          "magnesium glycinate",
+          "sleep optimization for shift workers",
+          "sleep tracking fitness tracker",
+          "withings sleep tracking mat"
         ],
         "delta_vs_previous": "stable"
       },
@@ -1399,17 +1253,17 @@
           {
             "ticker": "AAPL",
             "thesis": "Apple Watch sleep tracking driving device upgrade cycles.",
-            "price": 287.44,
-            "change_30d": 11.0,
-            "change_90d": 4.3,
+            "price": 293.32,
+            "change_30d": 12.6,
+            "change_90d": 12.1,
             "valid": true
           },
           {
             "ticker": "GRMN",
             "thesis": "Garmin. Sleep tracking wearables with broad consumer adoption.",
-            "price": 241.9,
-            "change_30d": -4.3,
-            "change_90d": 17.5,
+            "price": 240.09,
+            "change_30d": -6.4,
+            "change_90d": 18.6,
             "valid": true
           }
         ]
@@ -1435,14 +1289,14 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 10,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 4,
+        "total_7d": 3,
         "avg_30d": 4,
-        "ratio": 1.0,
+        "ratio": 0.75,
         "novelty_bonus": false,
         "non_native_hits": 0,
         "financial_activity": 0,
@@ -1471,7 +1325,7 @@
           "options": 0,
           "hiking": 0,
           "trailrunning": 0,
-          "solarenergy": 4,
+          "solarenergy": 3,
           "testosterone": 0,
           "microbiome": 0
         }
@@ -1530,9 +1384,9 @@
           }
         ],
         "sample_suggestions": [
-          "home battery backup power supply",
-          "residential solar panels",
+          "whole home battery backup",
           "home battery backup",
+          "residential solar panel kits for home",
           "residential solar system",
           "ev charger home"
         ],
@@ -1549,25 +1403,25 @@
           {
             "ticker": "ENPH",
             "thesis": "Enphase Energy. Residential solar microinverters and battery storage. Market leader.",
-            "price": 35.47,
-            "change_30d": 8.9,
-            "change_90d": -26.5,
+            "price": 36.45,
+            "change_30d": 16.6,
+            "change_90d": -17.4,
             "valid": true
           },
           {
             "ticker": "SEDG",
             "thesis": "SolarEdge. Residential solar optimizer.",
-            "price": 38.61,
-            "change_30d": -11.3,
-            "change_90d": 6.3,
+            "price": 41.3,
+            "change_30d": -1.3,
+            "change_90d": 20.0,
             "valid": true
           },
           {
             "ticker": "RUN",
             "thesis": "Sunrun. Residential solar installer. Direct consumer play.",
-            "price": 13.8,
-            "change_30d": -0.5,
-            "change_90d": -28.0,
+            "price": 14.61,
+            "change_30d": 9.6,
+            "change_90d": -19.7,
             "valid": true
           }
         ],
@@ -1575,12 +1429,157 @@
           {
             "ticker": "ALB",
             "thesis": "Albemarle. Lithium producer. Wins on battery storage growth regardless of brand.",
-            "price": 198.35,
-            "change_30d": 11.8,
-            "change_90d": 13.3,
+            "price": 203.52,
+            "change_30d": 18.1,
+            "change_90d": 28.4,
             "valid": true
           }
         ]
+      }
+    },
+    {
+      "trend_name": "oral_health",
+      "display_name": "Oral Health",
+      "tier": 3,
+      "score": 3,
+      "score_breakdown": {
+        "google_trends": 0,
+        "reddit": 0,
+        "amazon_bsr": 0,
+        "amazon_autocomplete": 3,
+        "multi_platform_bonus": 0,
+        "low_awareness_bonus": 0,
+        "novelty_bonus": 0,
+        "mainstream_penalty": 0,
+        "financial_penalty": 0
+      },
+      "signals_firing": [
+        "amazon_autocomplete"
+      ],
+      "signal_first_seen": "2026-04-29",
+      "days_active": 8,
+      "peak_score": 7,
+      "google_trends": {},
+      "reddit": {
+        "score": 0,
+        "total_7d": 1,
+        "avg_30d": 2,
+        "ratio": 0.5,
+        "novelty_bonus": false,
+        "non_native_hits": 0,
+        "financial_activity": 0,
+        "subreddit_breakdown": {
+          "biohacking": 0,
+          "peptides": 0,
+          "longevity": 0,
+          "supplements": 1,
+          "fitness": 0,
+          "pickleball": 0,
+          "skincareaddiction": 0,
+          "solotravel": 0,
+          "DIY": 0,
+          "nootropics": 0,
+          "Testosterone": 0,
+          "intermittentfasting": 0,
+          "investing": 0,
+          "stocks": 0,
+          "wallstreetbets": 0,
+          "personalfinance": 0,
+          "nutrition": 0,
+          "bodybuilding": 0,
+          "running": 0,
+          "financialindependence": 0,
+          "dividends": 0,
+          "options": 0,
+          "hiking": 0,
+          "trailrunning": 0,
+          "solarenergy": 0,
+          "testosterone": 0,
+          "microbiome": 0
+        }
+      },
+      "amazon_bsr": {
+        "score": 0,
+        "match_count": 0,
+        "sample_products": []
+      },
+      "amazon_autocomplete": {
+        "score": 3,
+        "keywords_found": 3,
+        "top_position": 1,
+        "avg_position": 1.0,
+        "category_breadth": 30,
+        "details": [
+          {
+            "keyword": "hydroxyapatite toothpaste",
+            "score": 3,
+            "position": 1,
+            "match_count": 10,
+            "matching_suggestions": [
+              "hydroxyapatite toothpaste",
+              "nano hydroxyapatite toothpaste",
+              "dr jens nano hydroxyapatite toothpaste",
+              "boka nano hydroxyapatite toothpaste",
+              "10% nano hydroxyapatite toothpaste"
+            ],
+            "category_breadth": 10
+          },
+          {
+            "keyword": "water flosser",
+            "score": 3,
+            "position": 1,
+            "match_count": 10,
+            "matching_suggestions": [
+              "water flosser",
+              "waterpik water flosser",
+              "water flossers for teeth",
+              "portable water flosser",
+              "water flosser cordless"
+            ],
+            "category_breadth": 10
+          },
+          {
+            "keyword": "oral health",
+            "score": 3,
+            "position": 1,
+            "match_count": 10,
+            "matching_suggestions": [
+              "oral health",
+              "oral health probiotics",
+              "great oral health oral probiotics",
+              "naturewise oral health probiotics",
+              "oral health probiotics for teeth and gums"
+            ],
+            "category_breadth": 10
+          }
+        ],
+        "sample_suggestions": [
+          "hydroxyapatite toothpaste",
+          "nano hydroxyapatite toothpaste",
+          "10% nano hydroxyapatite toothpaste",
+          "oral health",
+          "oral health probiotics for teeth and gums"
+        ],
+        "delta_vs_previous": "stable"
+      },
+      "wall_street_awareness": "LOW",
+      "exit_warning": false,
+      "category": "consumer",
+      "description": "Oral health reinvention \u2014 hydroxyapatite replacing fluoride, water flossers going mainstream, holistic oral care trend.",
+      "thesis": "",
+      "thesis_file": "",
+      "companies": {
+        "direct": [
+          {
+            "ticker": "CHD",
+            "thesis": "Church & Dwight. Arm & Hammer and Waterpik brands. Direct oral health beneficiary.",
+            "price": 93.44,
+            "change_30d": -2.8,
+            "change_90d": -6.3,
+            "valid": true
+          }
+        ],
+        "picks_and_shovels": []
       }
     },
     {
@@ -1603,14 +1602,14 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 5,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 1,
+        "total_7d": 0,
         "avg_30d": 2,
-        "ratio": 0.5,
+        "ratio": 0.0,
         "novelty_bonus": false,
         "non_native_hits": 0,
         "financial_activity": 0,
@@ -1618,7 +1617,7 @@
           "biohacking": 0,
           "peptides": 0,
           "longevity": 0,
-          "supplements": 1,
+          "supplements": 0,
           "fitness": 0,
           "pickleball": 0,
           "skincareaddiction": 0,
@@ -1700,11 +1699,11 @@
           }
         ],
         "sample_suggestions": [
-          "cold water immersion suit",
-          "harrys cold plunge body wash",
-          "cold water immersion therapy equipment",
-          "cold plunge tub",
-          "cold water immersion"
+          "ice bath tub",
+          "cold water immersion",
+          "cold water immersion tub",
+          "ice bath with chiller included",
+          "ice bath"
         ],
         "delta_vs_previous": "stable"
       },
@@ -1720,9 +1719,9 @@
           {
             "ticker": "DXCM",
             "thesis": "Dexcom. Cold therapy drives interest in biometric tracking.",
-            "price": 60.91,
-            "change_30d": -7.4,
-            "change_90d": -10.6,
+            "price": 60.61,
+            "change_30d": -7.7,
+            "change_90d": -6.9,
             "valid": true
           }
         ]
@@ -1748,7 +1747,7 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 8,
       "google_trends": {},
       "reddit": {
@@ -1846,10 +1845,10 @@
         ],
         "sample_suggestions": [
           "cgm overpatch",
+          "cgm sensor patches",
           "glucose tracking watch",
-          "glucose tracking device",
-          "cgm covers",
-          "cgm sensor patches"
+          "glucose tracking notebook",
+          "lingo continuous glucose monitor"
         ],
         "delta_vs_previous": "stable"
       },
@@ -1864,17 +1863,17 @@
           {
             "ticker": "DXCM",
             "thesis": "Dexcom. CGM market leader expanding beyond diabetics into wellness monitoring.",
-            "price": 60.91,
-            "change_30d": -7.4,
-            "change_90d": -10.6,
+            "price": 60.61,
+            "change_30d": -7.7,
+            "change_90d": -6.9,
             "valid": true
           },
           {
             "ticker": "ABBV",
             "thesis": "AbbVie (FreeStyle Libre). CGM device expanding into metabolic wellness.",
-            "price": 202.71,
-            "change_30d": -3.4,
-            "change_90d": -7.5,
+            "price": 201.55,
+            "change_30d": -4.3,
+            "change_90d": -10.7,
             "valid": true
           }
         ],
@@ -1901,14 +1900,14 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 7,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 9,
+        "total_7d": 8,
         "avg_30d": 9,
-        "ratio": 1.0,
+        "ratio": 0.89,
         "novelty_bonus": false,
         "non_native_hits": 0,
         "financial_activity": 0,
@@ -1916,7 +1915,7 @@
           "biohacking": 0,
           "peptides": 1,
           "longevity": 0,
-          "supplements": 1,
+          "supplements": 0,
           "fitness": 0,
           "pickleball": 0,
           "skincareaddiction": 0,
@@ -1994,10 +1993,10 @@
         ],
         "sample_suggestions": [
           "high protein diet cookbook",
-          "protein intake book",
-          "protein intake",
-          "high protein diet",
-          "protein intake tracker"
+          "muscle preservation",
+          "protein intake for women",
+          "protein intake tracker",
+          "high protein diet"
         ],
         "delta_vs_previous": "stable"
       },
@@ -2012,17 +2011,17 @@
           {
             "ticker": "FRPT",
             "thesis": "Freshpet. Fresh pet food \u2014 high protein trend extends to pet owners.",
-            "price": 55.87,
-            "change_30d": -14.1,
-            "change_90d": -18.5,
+            "price": 53.08,
+            "change_30d": -20.3,
+            "change_90d": -21.8,
             "valid": true
           },
           {
             "ticker": "BYND",
             "thesis": "Beyond Meat. Plant protein trends connected to weight loss behavior change.",
-            "price": 0.89,
-            "change_30d": 48.3,
-            "change_90d": 25.9,
+            "price": 0.83,
+            "change_30d": 38.8,
+            "change_90d": 20.4,
             "valid": true
           }
         ],
@@ -2030,17 +2029,17 @@
           {
             "ticker": "BCHMY",
             "thesis": "Bachem. GLP-1 drug manufacturing. Downstream of weight loss drug trend.",
-            "price": 10.5,
-            "change_30d": 22.7,
+            "price": 10.99,
+            "change_30d": 34.7,
             "change_90d": null,
             "valid": true
           },
           {
             "ticker": "INGR",
             "thesis": "Ingredion. Protein ingredient supplier benefiting from high-protein food trend.",
-            "price": 107.36,
-            "change_30d": -5.5,
-            "change_90d": -9.8,
+            "price": 107.39,
+            "change_30d": -6.6,
+            "change_90d": -7.7,
             "valid": true
           }
         ]
@@ -2066,32 +2065,32 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 10,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 138,
+        "total_7d": 137,
         "avg_30d": 140,
-        "ratio": 0.99,
+        "ratio": 0.98,
         "novelty_bonus": false,
-        "non_native_hits": 1,
-        "financial_activity": 0,
+        "non_native_hits": 2,
+        "financial_activity": 1,
         "subreddit_breakdown": {
-          "biohacking": 8,
-          "peptides": 9,
+          "biohacking": 6,
+          "peptides": 10,
           "longevity": 0,
           "supplements": 0,
           "fitness": 0,
           "pickleball": 0,
           "skincareaddiction": 0,
           "solotravel": 0,
-          "DIY": 4,
+          "DIY": 3,
           "nootropics": 0,
           "Testosterone": 58,
           "intermittentfasting": 0,
           "investing": 0,
-          "stocks": 0,
+          "stocks": 1,
           "wallstreetbets": 0,
           "personalfinance": 0,
           "nutrition": 0,
@@ -2157,11 +2156,11 @@
           }
         ],
         "sample_suggestions": [
-          "trt supplement for men",
-          "testosterone replacement therapy injections",
-          "trtl travel pillow",
+          "trt",
+          "trtl",
           "testosterone replacement therapy",
-          "testosterone replacement therapy for men"
+          "testosterone replacement",
+          "trtl neck pillow airplane"
         ],
         "delta_vs_previous": "stable"
       },
@@ -2176,17 +2175,17 @@
           {
             "ticker": "HIMS",
             "thesis": "Hims & Hers. Telehealth testosterone treatment platform. Direct consumer channel for TRT prescriptions and hormone panels.",
-            "price": 25.65,
-            "change_30d": 32.3,
-            "change_90d": 53.7,
+            "price": 28.27,
+            "change_30d": 43.1,
+            "change_90d": 78.9,
             "valid": true
           },
           {
             "ticker": "ABBV",
             "thesis": "AbbVie. AndroGel manufacturer. Legacy TRT brand benefiting from category destigmatization.",
-            "price": 202.71,
-            "change_30d": -3.4,
-            "change_90d": -7.5,
+            "price": 201.55,
+            "change_30d": -4.3,
+            "change_90d": -10.7,
             "valid": true
           }
         ],
@@ -2194,17 +2193,17 @@
           {
             "ticker": "BCHMY",
             "thesis": "Bachem. Peptide/hormone API manufacturing. Supplies compounding pharmacies filling TRT prescriptions.",
-            "price": 10.5,
-            "change_30d": 22.7,
+            "price": 10.99,
+            "change_30d": 34.7,
             "change_90d": null,
             "valid": true
           },
           {
             "ticker": "DGX",
             "thesis": "Quest Diagnostics. Hormone panel blood work. Every TRT patient needs regular testing.",
-            "price": 190.84,
-            "change_30d": -4.0,
-            "change_90d": -8.4,
+            "price": 187.39,
+            "change_30d": -5.3,
+            "change_90d": -9.0,
             "valid": true
           }
         ]
@@ -2230,7 +2229,7 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 5,
       "google_trends": {},
       "reddit": {
@@ -2315,11 +2314,11 @@
           }
         ],
         "sample_suggestions": [
-          "ozempic face treatment",
-          "ozempic face cream",
           "ozempic face skin care",
-          "ozempic face",
-          "ozempic face skin care fillers"
+          "ozempic face cream",
+          "ozempic face treatment",
+          "ozempic face skin care fillers",
+          "ozempic face"
         ],
         "delta_vs_previous": "stable"
       },
@@ -2334,16 +2333,16 @@
           {
             "ticker": "HIMS",
             "thesis": "Hims & Hers. Compounded GLP-1 dispensing. Novo Nordisk partnership. Direct beneficiary of GLP-1 demand overflow.",
-            "price": 25.65,
-            "change_30d": 32.3,
-            "change_90d": 53.7,
+            "price": 28.27,
+            "change_30d": 43.1,
+            "change_90d": 78.9,
             "valid": true
           },
           {
             "ticker": "BCHMY",
             "thesis": "Bachem. Peptide API manufacturer for GLP-1 compounds. Wins on total volume regardless of brand.",
-            "price": 10.5,
-            "change_30d": 22.7,
+            "price": 10.99,
+            "change_30d": 34.7,
             "change_90d": null,
             "valid": true
           }
@@ -2352,17 +2351,17 @@
           {
             "ticker": "FRPT",
             "thesis": "Freshpet. GLP-1 users shifting to high-protein diets \u2014 extends to premium pet food.",
-            "price": 55.87,
-            "change_30d": -14.1,
-            "change_90d": -18.5,
+            "price": 53.08,
+            "change_30d": -20.3,
+            "change_90d": -21.8,
             "valid": true
           },
           {
             "ticker": "INGR",
             "thesis": "Ingredion. Protein ingredient supplier. GLP-1 users need more protein to prevent muscle loss.",
-            "price": 107.36,
-            "change_30d": -5.5,
-            "change_90d": -9.8,
+            "price": 107.39,
+            "change_30d": -6.6,
+            "change_90d": -7.7,
             "valid": true
           }
         ]
@@ -2388,7 +2387,7 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 5,
       "google_trends": {},
       "reddit": {
@@ -2485,11 +2484,11 @@
           }
         ],
         "sample_suggestions": [
-          "oura ring gen 4 cover",
-          "galaxy ring men",
-          "samsung galaxy ring men",
+          "smart ring",
+          "samsung galaxy ring",
+          "halo smart ring",
           "smart rings for men",
-          "colmi smart ring"
+          "oura ring gen 4"
         ],
         "delta_vs_previous": "stable"
       },
@@ -2504,17 +2503,17 @@
           {
             "ticker": "GRMN",
             "thesis": "Garmin. Wearable health/fitness market leader. Expanding into advanced health metrics.",
-            "price": 241.9,
-            "change_30d": -4.3,
-            "change_90d": 17.5,
+            "price": 240.09,
+            "change_30d": -6.4,
+            "change_90d": 18.6,
             "valid": true
           },
           {
             "ticker": "AAPL",
             "thesis": "Apple. Apple Watch health features driving upgrade cycles. Blood oxygen, temperature, potential glucose.",
-            "price": 287.44,
-            "change_30d": 11.0,
-            "change_90d": 4.3,
+            "price": 293.32,
+            "change_30d": 12.6,
+            "change_90d": 12.1,
             "valid": true
           }
         ],
@@ -2522,17 +2521,17 @@
           {
             "ticker": "SWKS",
             "thesis": "Skyworks Solutions. RF/sensor chips used in wearable devices. Wins on unit volume growth.",
-            "price": 65.04,
-            "change_30d": 15.0,
-            "change_90d": 3.4,
+            "price": 66.78,
+            "change_30d": 18.1,
+            "change_90d": 11.3,
             "valid": true
           },
           {
             "ticker": "STM",
             "thesis": "STMicroelectronics. MEMS sensors and low-power chips in smart rings and wearables.",
-            "price": 55.9,
-            "change_30d": 47.2,
-            "change_90d": 60.4,
+            "price": 59.17,
+            "change_30d": 51.2,
+            "change_90d": 76.6,
             "valid": true
           }
         ]
@@ -2558,29 +2557,29 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 10,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 77,
+        "total_7d": 85,
         "avg_30d": 82,
-        "ratio": 0.94,
+        "ratio": 1.04,
         "novelty_bonus": false,
         "non_native_hits": 0,
         "financial_activity": 0,
         "subreddit_breakdown": {
-          "biohacking": 1,
+          "biohacking": 0,
           "peptides": 0,
           "longevity": 2,
-          "supplements": 1,
+          "supplements": 9,
           "fitness": 0,
           "pickleball": 0,
           "skincareaddiction": 0,
           "solotravel": 0,
           "DIY": 0,
           "nootropics": 0,
-          "Testosterone": 0,
+          "Testosterone": 1,
           "intermittentfasting": 0,
           "investing": 0,
           "stocks": 0,
@@ -2595,8 +2594,8 @@
           "hiking": 0,
           "trailrunning": 0,
           "solarenergy": 0,
-          "testosterone": 0,
-          "microbiome": 71
+          "testosterone": 1,
+          "microbiome": 70
         }
       },
       "amazon_bsr": {
@@ -2655,11 +2654,11 @@
           }
         ],
         "sample_suggestions": [
-          "microbiome probiotics",
-          "gut health",
           "microbiome labs",
-          "microbiome labs megasporebiotic",
-          "gut health for men"
+          "gut health",
+          "probiotics",
+          "microbiome",
+          "microbiome probiotics"
         ],
         "delta_vs_previous": "stable"
       },
@@ -2674,8 +2673,8 @@
           {
             "ticker": "CHD",
             "thesis": "Church & Dwight. Digestive health supplement brands. Direct beneficiary of gut health awareness.",
-            "price": 93.88,
-            "change_30d": -0.3,
+            "price": 93.44,
+            "change_30d": -2.8,
             "change_90d": -6.3,
             "valid": true
           }
@@ -2684,16 +2683,16 @@
           {
             "ticker": "INGR",
             "thesis": "Ingredion. Prebiotic fiber and specialty ingredient supplier for gut health products.",
-            "price": 107.36,
-            "change_30d": -5.5,
-            "change_90d": -9.8,
+            "price": 107.39,
+            "change_30d": -6.6,
+            "change_90d": -7.7,
             "valid": true
           },
           {
             "ticker": "BCHMY",
             "thesis": "Bachem. GLP-1 connection to gut microbiome research driving new peptide compound demand.",
-            "price": 10.5,
-            "change_30d": 22.7,
+            "price": 10.99,
+            "change_30d": 34.7,
             "change_90d": null,
             "valid": true
           }
@@ -2720,17 +2719,17 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 10,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 23,
+        "total_7d": 16,
         "avg_30d": 29,
-        "ratio": 0.79,
+        "ratio": 0.55,
         "novelty_bonus": false,
         "non_native_hits": 2,
-        "financial_activity": 15,
+        "financial_activity": 9,
         "subreddit_breakdown": {
           "biohacking": 0,
           "peptides": 0,
@@ -2745,15 +2744,15 @@
           "Testosterone": 0,
           "intermittentfasting": 0,
           "investing": 2,
-          "stocks": 7,
-          "wallstreetbets": 6,
+          "stocks": 4,
+          "wallstreetbets": 3,
           "personalfinance": 0,
           "nutrition": 0,
           "bodybuilding": 0,
           "running": 0,
           "financialindependence": 0,
           "dividends": 0,
-          "options": 8,
+          "options": 7,
           "hiking": 0,
           "trailrunning": 0,
           "solarenergy": 0,
@@ -2808,11 +2807,11 @@
           }
         ],
         "sample_suggestions": [
-          "options trading for beginners",
-          "retail investors mistakes",
-          "retail investor",
+          "options trading books",
+          "options trading for dummies",
           "options trading 101",
-          "options trading for dummies"
+          "options trading",
+          "retail investors mistakes"
         ],
         "delta_vs_previous": "stable"
       },
@@ -2827,7 +2826,7 @@
         "signals": [
           {
             "type": "financial_migration",
-            "detail": "Financial sub activity 15/23 (65%) \u2014 Wall Street awareness high",
+            "detail": "Financial sub activity 9/16 (56%) \u2014 Wall Street awareness high",
             "severity": "high"
           }
         ],
@@ -2840,17 +2839,17 @@
           {
             "ticker": "HOOD",
             "thesis": "Robinhood. Dominant retail trading platform. Direct beneficiary of every surge in retail trading activity.",
-            "price": 76.28,
-            "change_30d": 6.2,
-            "change_90d": -2.2,
+            "price": 77.03,
+            "change_30d": 9.9,
+            "change_90d": 8.3,
             "valid": true
           },
           {
             "ticker": "IBKR",
             "thesis": "Interactive Brokers. Advanced retail/prosumer trading. Benefits from options volume growth.",
-            "price": 83.71,
-            "change_30d": 15.8,
-            "change_90d": 9.8,
+            "price": 84.42,
+            "change_30d": 17.4,
+            "change_90d": 15.7,
             "valid": true
           }
         ],
@@ -2858,17 +2857,17 @@
           {
             "ticker": "CBOE",
             "thesis": "Cboe Global Markets. Options exchange operator. Wins on total options volume regardless of platform.",
-            "price": 338.65,
-            "change_30d": 14.0,
-            "change_90d": 26.4,
+            "price": 348.56,
+            "change_30d": 18.2,
+            "change_90d": 29.1,
             "valid": true
           },
           {
             "ticker": "NDAQ",
             "thesis": "Nasdaq. Market infrastructure. Transaction revenue grows with retail volume.",
-            "price": 89.0,
-            "change_30d": 1.0,
-            "change_90d": 11.0,
+            "price": 88.91,
+            "change_30d": 5.6,
+            "change_90d": 12.9,
             "valid": true
           }
         ]
@@ -2894,14 +2893,14 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 5,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 8,
+        "total_7d": 7,
         "avg_30d": 8,
-        "ratio": 1.0,
+        "ratio": 0.88,
         "novelty_bonus": false,
         "non_native_hits": 0,
         "financial_activity": 0,
@@ -2930,7 +2929,7 @@
           "options": 0,
           "hiking": 0,
           "trailrunning": 0,
-          "solarenergy": 8,
+          "solarenergy": 7,
           "testosterone": 0,
           "microbiome": 0
         }
@@ -2985,11 +2984,11 @@
           }
         ],
         "sample_suggestions": [
-          "battery storage organizer",
-          "residential solar panels",
+          "residential solar panel kits for home",
           "lithium battery storage",
-          "battery daddy battery storage case",
-          "residential solar system"
+          "residential solar system",
+          "battery storage",
+          "residential solar panels for home"
         ],
         "delta_vs_previous": "stable"
       },
@@ -3006,15 +3005,15 @@
             "thesis": "TransAlta. Power generation transitioning to renewables. Clean energy capacity expansion in Alberta and US.",
             "price": 12.76,
             "change_30d": -7.7,
-            "change_90d": -5.4,
+            "change_90d": -4.0,
             "valid": true
           },
           {
             "ticker": "ENPH",
             "thesis": "Enphase Energy. Residential solar microinverters. Market leader in home solar systems.",
-            "price": 35.47,
-            "change_30d": 8.9,
-            "change_90d": -26.5,
+            "price": 36.45,
+            "change_30d": 16.6,
+            "change_90d": -17.4,
             "valid": true
           }
         ],
@@ -3022,17 +3021,17 @@
           {
             "ticker": "ALB",
             "thesis": "Albemarle. Lithium producer. Battery storage growth drives lithium demand regardless of brand.",
-            "price": 198.35,
-            "change_30d": 11.8,
-            "change_90d": 13.3,
+            "price": 203.52,
+            "change_30d": 18.1,
+            "change_90d": 28.4,
             "valid": true
           },
           {
             "ticker": "FSLR",
             "thesis": "First Solar. US-manufactured solar panels. IRA subsidy beneficiary.",
-            "price": 214.57,
-            "change_30d": 6.9,
-            "change_90d": -5.8,
+            "price": 219.95,
+            "change_30d": 11.5,
+            "change_90d": -0.2,
             "valid": true
           }
         ]
@@ -3058,14 +3057,14 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 10,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 33,
+        "total_7d": 34,
         "avg_30d": 41,
-        "ratio": 0.8,
+        "ratio": 0.83,
         "novelty_bonus": false,
         "non_native_hits": 0,
         "financial_activity": 0,
@@ -3092,8 +3091,8 @@
           "financialindependence": 0,
           "dividends": 0,
           "options": 0,
-          "hiking": 3,
-          "trailrunning": 30,
+          "hiking": 2,
+          "trailrunning": 32,
           "solarenergy": 0,
           "testosterone": 0,
           "microbiome": 0
@@ -3155,11 +3154,11 @@
           }
         ],
         "sample_suggestions": [
-          "hiking gear",
-          "hiking gear for men",
-          "nike trail running shoes men",
           "trail running shoes women",
-          "athleisure women"
+          "nike trail running shoes men",
+          "athleisure dress",
+          "athleisure tops for women",
+          "trail running shoes men"
         ],
         "delta_vs_previous": "stable"
       },
@@ -3174,25 +3173,25 @@
           {
             "ticker": "AS",
             "thesis": "Amer Sports. Arc'teryx, Salomon, Wilson. Premium outdoor/sports portfolio riding secular fitness trend.",
-            "price": 36.49,
-            "change_30d": 4.0,
-            "change_90d": -8.3,
+            "price": 36.03,
+            "change_30d": 0.7,
+            "change_90d": -6.5,
             "valid": true
           },
           {
             "ticker": "NKE",
             "thesis": "Nike. Trail running and outdoor fitness categories growing faster than core sneakers.",
-            "price": 44.41,
-            "change_30d": 3.0,
-            "change_90d": -28.3,
+            "price": 44.14,
+            "change_30d": 0.3,
+            "change_90d": -27.3,
             "valid": true
           },
           {
             "ticker": "DECK",
             "thesis": "Deckers Outdoor. HOKA running shoes. Fastest-growing performance running brand.",
-            "price": 102.72,
-            "change_30d": -3.4,
-            "change_90d": -11.0,
+            "price": 100.42,
+            "change_30d": -8.5,
+            "change_90d": -13.4,
             "valid": true
           }
         ],
@@ -3200,17 +3199,17 @@
           {
             "ticker": "GOOS",
             "thesis": "Canada Goose. Premium outdoor apparel expanding beyond winter into active lifestyle.",
-            "price": 11.91,
-            "change_30d": 9.0,
-            "change_90d": 0.6,
+            "price": 11.92,
+            "change_30d": 6.0,
+            "change_90d": -0.4,
             "valid": true
           },
           {
             "ticker": "LULU",
             "thesis": "Lululemon. Athleisure as lifestyle category expansion beneficiary.",
-            "price": 133.59,
-            "change_30d": -15.9,
-            "change_90d": -24.0,
+            "price": 131.18,
+            "change_30d": -21.2,
+            "change_90d": -22.6,
             "valid": true
           }
         ]
@@ -3236,14 +3235,14 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 7,
+      "days_active": 8,
       "peak_score": 10,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 18,
+        "total_7d": 17,
         "avg_30d": 30,
-        "ratio": 0.6,
+        "ratio": 0.57,
         "novelty_bonus": false,
         "non_native_hits": 1,
         "financial_activity": 1,
@@ -3261,14 +3260,14 @@
           "Testosterone": 0,
           "intermittentfasting": 0,
           "investing": 0,
-          "stocks": 0,
+          "stocks": 1,
           "wallstreetbets": 0,
-          "personalfinance": 1,
+          "personalfinance": 0,
           "nutrition": 0,
           "bodybuilding": 0,
           "running": 0,
           "financialindependence": 1,
-          "dividends": 15,
+          "dividends": 14,
           "options": 1,
           "hiking": 0,
           "trailrunning": 0,
@@ -3327,11 +3326,11 @@
           }
         ],
         "sample_suggestions": [
-          "dividend stocks",
-          "passive income with ai",
-          "passive income books",
+          "passive income ideas",
+          "dividend stocks to buy for 2026 espa\u00f1ol",
           "dividend stocks 2026",
-          "dividend stocks book"
+          "passive income for dummies",
+          "passive income"
         ],
         "delta_vs_previous": "stable"
       },
@@ -3346,17 +3345,17 @@
           {
             "ticker": "GAIN",
             "thesis": "Gladstone Investment. Monthly-paying BDC. Direct beneficiary of retail income-seeking behavior. 6%+ yield.",
-            "price": 16.51,
-            "change_30d": 12.6,
-            "change_90d": 20.2,
+            "price": 16.66,
+            "change_30d": 15.2,
+            "change_90d": 21.7,
             "valid": true
           },
           {
             "ticker": "MAIN",
             "thesis": "Main Street Capital. Premium BDC. Monthly dividends, strong track record. Retail investor favorite.",
-            "price": 56.6,
-            "change_30d": 4.1,
-            "change_90d": -6.7,
+            "price": 54.01,
+            "change_30d": 1.1,
+            "change_90d": -10.0,
             "valid": true
           }
         ],
@@ -3364,17 +3363,17 @@
           {
             "ticker": "HOOD",
             "thesis": "Robinhood. Retail platform adding income-focused features. Retirement accounts + dividend reinvestment driving engagement.",
-            "price": 76.28,
-            "change_30d": 6.2,
-            "change_90d": -2.2,
+            "price": 77.03,
+            "change_30d": 9.9,
+            "change_90d": 8.3,
             "valid": true
           },
           {
             "ticker": "SCHW",
             "thesis": "Charles Schwab. Income-focused ETFs and retirement accounts. Benefits from dividend investing trend.",
-            "price": 89.5,
-            "change_30d": -7.4,
-            "change_90d": -5.9,
+            "price": 88.61,
+            "change_30d": -8.9,
+            "change_90d": -6.5,
             "valid": true
           }
         ]
@@ -3390,7 +3389,7 @@
       "signals": [
         {
           "type": "financial_migration",
-          "detail": "Financial sub activity 15/23 (65%) \u2014 Wall Street awareness high",
+          "detail": "Financial sub activity 9/16 (56%) \u2014 Wall Street awareness high",
           "severity": "high"
         }
       ],
@@ -3401,26 +3400,26 @@
     "google_trends": {
       "status": "active",
       "signals_fired": 0,
-      "last_run": "2026-05-07T16:22:55.983591",
+      "last_run": "2026-05-08T16:27:59.220214",
       "note": "Active"
     },
     "reddit": {
       "status": "active",
-      "signals_fired": 1,
+      "signals_fired": 0,
       "subreddits_scanned": 28,
-      "last_run": "2026-05-07T16:22:55.983634",
+      "last_run": "2026-05-08T16:27:59.220254",
       "note": "Public HTTP fallback"
     },
     "amazon_bsr": {
       "status": "active",
       "signals_fired": 0,
-      "last_run": "2026-05-07T16:22:55.983649",
+      "last_run": "2026-05-08T16:27:59.220271",
       "note": "Active"
     },
     "yfinance": {
       "status": "active",
       "note": "Free, no rate limits",
-      "last_run": "2026-05-07T16:22:55.983651"
+      "last_run": "2026-05-08T16:27:59.220273"
     },
     "opus_thesis": {
       "status": "active",
@@ -3433,7 +3432,7 @@
     "amazon_autocomplete": {
       "status": "active",
       "signals_fired": 21,
-      "last_run": "2026-05-07T16:22:55.983675",
+      "last_run": "2026-05-08T16:27:59.220306",
       "note": "Free, no auth required"
     },
     "tiktok": {
@@ -3444,11 +3443,11 @@
     }
   },
   "run_stats": {
-    "duration_sec": 475.0,
+    "duration_sec": 777.9,
     "keywords_scanned": 180,
     "trends_evaluated": 21,
     "tier1_count": 0,
-    "tier2_count": 1,
-    "tier3_count": 20
+    "tier2_count": 0,
+    "tier3_count": 21
   }
 }
