@@ -1222,13 +1222,19 @@ def main():
         old_prev["autocomplete"] = autocomplete_signals
         if tiktok_signals:
             old_prev["tiktok"] = tiktok_signals
-        # Persist YouTube baselines (rolling avg stored per-trend in scanner output)
+        # Persist YouTube baselines (real weekly counts stored per-trend)
         if youtube_signals:
-            old_prev["youtube_counts"] = {
-                t: {"avg_video_count_30d": v.get("avg_video_count_30d", 0)}
-                for t, v in youtube_signals.items()
-                if not v.get("error")
-            }
+            existing_yt = old_prev.get("youtube_counts", {})
+            updated_yt = {}
+            for t, v in youtube_signals.items():
+                if v.get("error"):
+                    # Keep existing baseline on error — don't wipe it
+                    updated_yt[t] = existing_yt.get(t, {})
+                elif "_weekly_counts_update" in v:
+                    updated_yt[t] = {"weekly_counts": v["_weekly_counts_update"]}
+                else:
+                    updated_yt[t] = existing_yt.get(t, {})
+            old_prev["youtube_counts"] = updated_yt
         with open(PREV_PATH, "w") as f:
             json.dump(old_prev, f, indent=2)
     else:
