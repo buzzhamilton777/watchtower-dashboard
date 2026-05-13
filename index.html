@@ -306,7 +306,9 @@ function signalChipsHtml(firing) {
   const all = [
     {key:'google_trends', emoji:'📈', label:'Google Trends'},
     {key:'reddit', emoji:'💬', label:'Reddit'},
-    {key:'amazon_bsr', emoji:'📦', label:'Amazon BSR'}
+    {key:'amazon_bsr', emoji:'📦', label:'Amazon BSR'},
+    {key:'amazon_autocomplete', emoji:'🔍', label:'Amazon Search'},
+    {key:'youtube', emoji:'▶️', label:'YouTube'}
   ];
   return '<div class="signals-row">' + all.map(s =>
     `<span class="signal-chip ${(firing||[]).includes(s.key)?'active':''}">`+
@@ -332,6 +334,18 @@ function dataDetailsHtml(sig) {
   if (sig.amazon_bsr) {
     const a = sig.amazon_bsr;
     parts.push(`<div class="data-detail"><span class="label">Amazon BSR:</span><span class="value">${a.match_count} products</span></div>`);
+  }
+  if (sig.youtube) {
+    const y = sig.youtube;
+    if (y.video_count_7d !== undefined) {
+      let flags = '';
+      if (y.note === 'calibrating — first run') flags += '<span class="flag">CALIBRATING</span>';
+      const velocity = y.weighted_views_velocity ? ` · <span class="ratio">${Math.round(y.weighted_views_velocity).toLocaleString()} views/day</span>` : '';
+      parts.push(`<div class="data-detail"><span class="label">YouTube 7d:</span><span class="value">${y.video_count_7d} videos</span> · <span class="ratio">${y.ratio?.toFixed(2) ?? 0}x</span>${velocity}${flags}</div>`);
+      if (y.top_video_title) {
+        parts.push(`<div class="data-detail" style="max-width:340px"><span class="label">Top video:</span><span class="value" style="font-size:.7rem">${escHtml(y.top_video_title.substring(0,60))}${y.top_video_title.length>60?'…':''}</span></div>`);
+      }
+    }
   }
   return parts.length ? '<div class="data-details">' + parts.join('') + '</div>' : '';
 }
@@ -478,7 +492,7 @@ function renderDashboard(data) {
     html += tier3.map(s => {
       const topTicker = s.companies?.direct?.[0]?.ticker || s.companies?.picks_and_shovels?.[0]?.ticker || '—';
       const sigs = (s.signals_firing || []).map(f => {
-        const icons = {google_trends:'📈',reddit:'💬',amazon_bsr:'📦'};
+        const icons = {google_trends:'📈',reddit:'💬',amazon_bsr:'📦',amazon_autocomplete:'🔍',youtube:'▶️'};
         return icons[f] || f;
       }).join(' ');
       return `<tr>
@@ -543,9 +557,12 @@ function renderDashboard(data) {
       google_trends: '📈 Google Trends',
       reddit: '💬 Reddit',
       amazon_bsr: '📦 Amazon BSR',
+      amazon_autocomplete: '🔍 Amazon Search',
+      youtube: '▶️ YouTube',
       yfinance: '💵 Stock Prices',
       opus_thesis: '🧠 Opus Thesis',
       discord_webhook: '🔔 Discord Alerts',
+      tiktok: '🎵 TikTok',
     };
     healthGrid.innerHTML = Object.entries(health).map(([key, val]) => {
       const label = labels[key] || key;
