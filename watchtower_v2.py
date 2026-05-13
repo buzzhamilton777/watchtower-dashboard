@@ -17,6 +17,7 @@ import argparse
 import json
 import logging
 import os
+import random
 import subprocess
 import time
 from collections import defaultdict
@@ -117,13 +118,25 @@ def scan_google_trends(keywords: list[str], previous: dict) -> dict:
 
     try:
         from pytrends.request import TrendReq
-        pytrends = TrendReq(hl="en-US", tz=360, timeout=(10, 25))
+        pytrends = TrendReq(
+            hl="en-US", tz=360, timeout=(15, 40),
+            retries=0,  # We handle retries manually
+            backoff_factor=0,
+            requests_args={"headers": {
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+            }}
+        )
     except ImportError:
         log.error("pytrends not installed. Run: pip install pytrends")
         return results
 
-    # Scan known keywords in batches of 3 (smaller batches = fewer 429s)
-    batch_size = 3
+    # Initial warm-up delay — Google flags fresh connections hitting immediately
+    initial_wait = random.randint(45, 90)
+    log.info(f"Google Trends: warming up {initial_wait}s before first request...")
+    time.sleep(initial_wait)
+
+    # Scan known keywords in batches of 2 (smaller = fewer 429s)
+    batch_size = 2
     consecutive_429s = 0
     MAX_429s = 2  # 2-strike rule: bail after 2 consecutive 429s — don't hang forever
     for i in range(0, len(keywords), batch_size):
@@ -135,7 +148,9 @@ def scan_google_trends(keywords: list[str], previous: dict) -> dict:
             pytrends.build_payload(batch, timeframe="today 3-m", geo="US")
             df = pytrends.interest_over_time()
             consecutive_429s = 0  # Reset on success
-            time.sleep(180)  # 3-min delay between batches — afternoon-only policy, avoid 429s
+            inter_batch = random.randint(210, 300)  # 3.5-5 min randomized delay
+            log.info(f"  GT batch done — waiting {inter_batch}s before next batch")
+            time.sleep(inter_batch)
 
             # Google Shopping trends (gprop='froogle') — consumer purchase intent
             shopping_df = None
@@ -202,8 +217,8 @@ def scan_google_trends(keywords: list[str], previous: dict) -> dict:
             log.warning(f"Google Trends batch {batch} failed: {e}")
             if "429" in str(e):
                 consecutive_429s += 1
-                # Exponential backoff on rate limit
-                wait = 90
+                # True exponential backoff: 120s → 240s → bail
+                wait = 120 * consecutive_429s
                 log.info(f"  Rate limited by Google — waiting {wait}s (exponential backoff) [{consecutive_429s}/{MAX_429s}]")
                 time.sleep(wait)
                 # Retry once with smaller batch (single keyword)
