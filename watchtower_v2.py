@@ -35,11 +35,14 @@ load_dotenv()
 try:
     from scanner_autocomplete import scan_amazon_autocomplete
     from scanner_tiktok import scan_tiktok, is_available as tiktok_available
+    from scanner_youtube import scan_youtube, is_available as youtube_available
 except ImportError as e:
     log.warning(f"Scanner module import failed: {e}")
     def scan_amazon_autocomplete(trend_keywords, previous): return {}
     def scan_tiktok(trend_keywords, previous): return {}
     def tiktok_available(): return False
+    def scan_youtube(trend_keywords, previous): return {}
+    def youtube_available(): return False
 
 # ─── Logging ───────────────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -70,6 +73,7 @@ ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 REDDIT_CLIENT_ID = os.getenv("REDDIT_CLIENT_ID", "")
 REDDIT_CLIENT_SECRET = os.getenv("REDDIT_CLIENT_SECRET", "")
 REDDIT_USER_AGENT = os.getenv("REDDIT_USER_AGENT", "watchtower:v2.0")
+YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY", "")
 
 DASHBOARD_URL = "https://buzzhamilton777.github.io/watchtower-dashboard/"
 
@@ -661,6 +665,7 @@ def score_trend(
     autocomplete_signals: dict,
     mapper: dict,
     previous: dict,
+    youtube_signals: dict | None = None,
 ) -> dict | None:
     """
     Aggregates scanner signals into a final score.
@@ -691,13 +696,16 @@ def score_trend(
     autocomplete_score = autocomplete_signals.get(trend_name, {}).get("score", 0)
     autocomplete_data = autocomplete_signals.get(trend_name, {})
 
-    raw_score = gt_score + reddit_score + bsr_score + autocomplete_score
+    youtube_score = (youtube_signals or {}).get(trend_name, {}).get("score", 0)
+    youtube_data = (youtube_signals or {}).get(trend_name, {})
+
+    raw_score = gt_score + reddit_score + bsr_score + autocomplete_score + youtube_score
 
     if raw_score == 0:
         return None
 
     # Bonuses
-    platforms_firing = sum([gt_score > 0, reddit_score > 0, bsr_score > 0, autocomplete_score > 0])
+    platforms_firing = sum([gt_score > 0, reddit_score > 0, bsr_score > 0, autocomplete_score > 0, youtube_score > 0])
     multi_platform_bonus = 3 if platforms_firing >= 2 else 0
 
     # Wall Street awareness (use GT absolute score as proxy)
@@ -768,6 +776,8 @@ def score_trend(
         signals_firing.append("amazon_bsr")
     if autocomplete_score > 0:
         signals_firing.append("amazon_autocomplete")
+    if youtube_score > 0:
+        signals_firing.append("youtube")
 
     return {
         "trend_name": trend_name,
@@ -779,6 +789,7 @@ def score_trend(
             "reddit": reddit_score,
             "amazon_bsr": bsr_score,
             "amazon_autocomplete": autocomplete_score,
+            "youtube": youtube_score,
             "multi_platform_bonus": multi_platform_bonus,
             "low_awareness_bonus": low_awareness_bonus,
             "novelty_bonus": novelty_bonus,
@@ -793,6 +804,7 @@ def score_trend(
         "reddit": reddit_data,
         "amazon_bsr": bsr_data,
         "amazon_autocomplete": autocomplete_data,
+        "youtube": youtube_data,
         "wall_street_awareness": ws_awareness,
         "exit_warning": is_mainstream,
         "category": mapper_entry.get("category", ""),
@@ -1041,6 +1053,14 @@ def main():
         except Exception as e:
             log.warning(f"TikTok scanner error: {e}")
 
+    # YouTube — full mode only (conserve quota; ~1,300 units/scan)
+    youtube_signals = {}
+    if args.mode == "full":
+        try:
+            youtube_signals = scan_youtube(trend_keywords, previous)
+        except Exception as e:
+            log.warning(f"YouTube scanner error: {e}")
+
     # ── Score Each Trend ──────────────────────────────────────────────────────
 
     active_signals = []
@@ -1048,7 +1068,7 @@ def main():
     prev_signals_dict = {s.get("trend_name"): s for s in previous.get("active_signals", [])}
 
     for trend_name in trend_names:
-        scored = score_trend(trend_name, gt_output, reddit_signals, bsr_signals, autocomplete_signals, mapper, previous)
+        scored = score_trend(trend_name, gt_output, reddit_signals, bsr_signals, autocomplete_signals, mapper, previous, youtube_signals)
         if scored is None:
             # Still check exit signals even for non-active trends
             exit_sig = detect_exit_signals(trend_name, gt_output, reddit_signals, bsr_signals, previous, mapper)
@@ -1159,6 +1179,12 @@ def main():
             "last_run": datetime.now().isoformat() if tiktok_signals else None,
             "note": "Research API" if tiktok_available() else "No API credentials — apply at developers.tiktok.com",
         },
+        "youtube": {
+            "status": "active" if youtube_signals else ("skipped" if args.mode != "full" else "error"),
+            "signals_fired": sum(1 for v in youtube_signals.values() if v.get("score", 0) > 0) if youtube_signals else 0,
+            "last_run": datetime.now().isoformat() if youtube_signals else None,
+            "note": "YouTube Data API v3 — full mode only" if YOUTUBE_API_KEY else "YOUTUBE_API_KEY not set",
+        },
     }
 
     output = {
@@ -1196,6 +1222,13 @@ def main():
         old_prev["autocomplete"] = autocomplete_signals
         if tiktok_signals:
             old_prev["tiktok"] = tiktok_signals
+        # Persist YouTube baselines (rolling avg stored per-trend in scanner output)
+        if youtube_signals:
+            old_prev["youtube_counts"] = {
+                t: {"avg_video_count_30d": v.get("avg_video_count_30d", 0)}
+                for t, v in youtube_signals.items()
+                if not v.get("error")
+            }
         with open(PREV_PATH, "w") as f:
             json.dump(old_prev, f, indent=2)
     else:
