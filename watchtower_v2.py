@@ -1028,11 +1028,18 @@ def main():
 
     # GT runs only in full mode.
     # SerpAPI replaces pytrends as of May 13, 2026 — no more 429s, finishes in <60s
-    # Free tier: 250 searches/month, we use ~132. Falls back to pytrends if SerpAPI key missing.
+    # Free tier: 250 searches/month. Cap to top-2 keywords per trend = ~198/month. Well under limit.
     if args.mode == "full":
         if serpapi_available():
             log.info("Using SerpAPI for Google Trends (fast, reliable, free tier)")
-            gt_output = scan_google_trends_serpapi(list(set(all_keywords)), previous)
+            # Top-2 keywords per trend to stay under 250/month free limit
+            serpapi_keywords = []
+            for entry in mapper.values():
+                kws = entry.get("keywords", [])
+                serpapi_keywords.extend(kws[:2])
+            serpapi_keywords = list(dict.fromkeys(serpapi_keywords))  # dedupe, preserve order
+            log.info(f"SerpAPI: scanning {len(serpapi_keywords)} keywords (top-2 per trend, ~{((len(serpapi_keywords)//5)+1)*22} searches/month)")
+            gt_output = scan_google_trends_serpapi(serpapi_keywords, previous)
         else:
             log.info("SerpAPI key not set — falling back to pytrends (may get 429s)")
             gt_output = scan_google_trends(list(set(all_keywords)), previous)
