@@ -36,7 +36,7 @@ try:
     from scanner_autocomplete import scan_amazon_autocomplete
     from scanner_tiktok import scan_tiktok, is_available as tiktok_available
     from scanner_youtube import scan_youtube, is_available as youtube_available
-    from scanner_serpapi_trends import scan_google_trends_serpapi, is_available as serpapi_available
+    from scanner_serpapi_trends import scan_google_trends_serpapi, deep_dive_trend, is_available as serpapi_available
 except ImportError as e:
     log.warning(f"Scanner module import failed: {e}")
     def scan_amazon_autocomplete(trend_keywords, previous): return {}
@@ -45,6 +45,7 @@ except ImportError as e:
     def scan_youtube(trend_keywords, previous): return {}
     def youtube_available(): return False
     def scan_google_trends_serpapi(keywords, previous): return {"signals": {}, "discovery": []}
+    def deep_dive_trend(trend_name, all_keywords): return {"signals": {}, "discovery": []}
     def serpapi_available(): return False
 
 # ─── Logging ───────────────────────────────────────────────────────────────────
@@ -1026,19 +1027,25 @@ def main():
 
     # ── Run Scanners ──────────────────────────────────────────────────────────
 
-    # GT runs only in full mode.
-    # SerpAPI replaces pytrends as of May 13, 2026 — no more 429s, finishes in <60s
-    # Free tier: 250 searches/month. Cap to top-2 keywords per trend = ~198/month. Well under limit.
+    # GT runs only in full mode via SerpAPI.
+    # Strategy (Opus-recommended, May 13 2026):
+    #   - Primary keyword only per trend (21 keywords = 5 batches = ~110 searches/month)
+    #   - Stays well under 250/month free limit with 56% buffer for reactive deep dives
+    #   - GT's job = 30,000-ft acceleration signal. Primary keyword captures this perfectly.
+    #   - Other scanners (Reddit/Amazon/YouTube/BSR) already cover all 182 variants.
+    #   - Buffer used reactively: when another scanner spikes on a trend, scan all its variants.
     if args.mode == "full":
         if serpapi_available():
             log.info("Using SerpAPI for Google Trends (fast, reliable, free tier)")
-            # Top-2 keywords per trend to stay under 250/month free limit
+            # Primary keyword only per trend — one canonical term per trend for clean time-series
+            # 21 keywords → 5 batches → ~110 searches/month → well under 250 free limit
             serpapi_keywords = []
             for entry in mapper.values():
                 kws = entry.get("keywords", [])
-                serpapi_keywords.extend(kws[:2])
-            serpapi_keywords = list(dict.fromkeys(serpapi_keywords))  # dedupe, preserve order
-            log.info(f"SerpAPI: scanning {len(serpapi_keywords)} keywords (top-2 per trend, ~{((len(serpapi_keywords)//5)+1)*22} searches/month)")
+                if kws:
+                    serpapi_keywords.append(kws[0])  # Primary keyword only
+            serpapi_keywords = list(dict.fromkeys(serpapi_keywords))  # dedupe
+            log.info(f"SerpAPI: scanning {len(serpapi_keywords)} primary keywords ({((len(serpapi_keywords)//5)+1)*22} searches/month est.)")
             gt_output = scan_google_trends_serpapi(serpapi_keywords, previous)
         else:
             log.info("SerpAPI key not set — falling back to pytrends (may get 429s)")
@@ -1060,6 +1067,31 @@ def main():
     except Exception as e:
         log.warning(f"Autocomplete scanner error: {e}")
         autocomplete_signals = {}
+
+    # Reactive GT deep dive: if non-GT scanners fire strongly on a trend but GT has no data,
+    # use SerpAPI buffer to scan ALL keyword variants for that trend
+    # Budget: ~140 searches/month buffer after daily primaries. Use sparingly.
+    if serpapi_available():
+        for trend_name, entry in mapper.items():
+            all_kws = entry.get("keywords", [])
+            if len(all_kws) <= 1:
+                continue  # Nothing to deep dive
+            primary_kw = all_kws[0]
+            gt_has_data = primary_kw in gt_output.get("signals", {})
+            reddit_fired = reddit_signals.get(trend_name, {}).get("score", 0) >= 2
+            bsr_fired = bsr_signals.get(trend_name, {}).get("score", 0) >= 3
+            yt_fired = (youtube_signals or {}).get(trend_name, {}).get("score", 0) >= 2
+            autocomplete_fired = autocomplete_signals.get(trend_name, {}).get("score", 0) >= 3
+            strong_non_gt_signal = sum([reddit_fired, bsr_fired, yt_fired, autocomplete_fired]) >= 2
+            if strong_non_gt_signal and not gt_has_data:
+                log.info(f"Reactive GT deep dive triggered for '{trend_name}' — multi-scanner spike, no GT data yet")
+                try:
+                    dive_result = deep_dive_trend(trend_name, all_kws)
+                    # Merge deep dive signals into gt_output
+                    for kw, sig in dive_result.get("signals", {}).items():
+                        gt_output["signals"][kw] = sig
+                except Exception as e:
+                    log.warning(f"Deep dive failed for {trend_name}: {e}")
 
     # TikTok — morning/full only to conserve daily quota
     tiktok_signals = {}

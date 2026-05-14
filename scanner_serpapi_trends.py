@@ -112,6 +112,26 @@ def _fetch_rising_queries(keyword: str) -> list:
         return []
 
 
+def deep_dive_trend(trend_name: str, all_keywords: list) -> dict:
+    """
+    Reactive deep-dive: scan ALL keyword variants for a trend when another scanner spikes.
+    Uses the monthly buffer (140 searches/month left after daily primaries).
+    Call this when Reddit/Amazon/YouTube fires a strong signal on a trend.
+
+    Args:
+        trend_name: e.g. 'peptides'
+        all_keywords: all keyword variants for this trend from mapper.json
+
+    Returns same signal dict as scan_google_trends_serpapi but for all variants.
+    """
+    if not SERPAPI_KEY:
+        log.warning("SerpAPI deep dive: no API key")
+        return {"signals": {}, "discovery": []}
+
+    log.info(f"SerpAPI deep dive: scanning all {len(all_keywords)} variants for '{trend_name}'")
+    return scan_google_trends_serpapi(all_keywords, {})
+
+
 def scan_google_trends_serpapi(keywords: list, previous: dict) -> dict:
     """
     Main SerpAPI Google Trends scanner.
