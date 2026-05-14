@@ -36,6 +36,7 @@ try:
     from scanner_autocomplete import scan_amazon_autocomplete
     from scanner_tiktok import scan_tiktok, is_available as tiktok_available
     from scanner_youtube import scan_youtube, is_available as youtube_available
+    from scanner_serpapi_trends import scan_google_trends_serpapi, is_available as serpapi_available
 except ImportError as e:
     log.warning(f"Scanner module import failed: {e}")
     def scan_amazon_autocomplete(trend_keywords, previous): return {}
@@ -43,6 +44,8 @@ except ImportError as e:
     def tiktok_available(): return False
     def scan_youtube(trend_keywords, previous): return {}
     def youtube_available(): return False
+    def scan_google_trends_serpapi(keywords, previous): return {"signals": {}, "discovery": []}
+    def serpapi_available(): return False
 
 # ─── Logging ───────────────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -74,6 +77,7 @@ REDDIT_CLIENT_ID = os.getenv("REDDIT_CLIENT_ID", "")
 REDDIT_CLIENT_SECRET = os.getenv("REDDIT_CLIENT_SECRET", "")
 REDDIT_USER_AGENT = os.getenv("REDDIT_USER_AGENT", "watchtower:v2.0")
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY", "")
+SERPAPI_KEY = os.getenv("SERPAPI_KEY", "")
 
 DASHBOARD_URL = "https://buzzhamilton777.github.io/watchtower-dashboard/"
 
@@ -1022,11 +1026,16 @@ def main():
 
     # ── Run Scanners ──────────────────────────────────────────────────────────
 
-    # GT runs only in full mode — once-daily at 2:15 PM CST (April 30, 2026 decision)
-    # All 4 scanners run together in full mode for cleanest thesis signal
-    # Revisit ~June 1: consider SerpAPI (~$50/mo) if faster detection ever needed
+    # GT runs only in full mode.
+    # SerpAPI replaces pytrends as of May 13, 2026 — no more 429s, finishes in <60s
+    # Free tier: 250 searches/month, we use ~132. Falls back to pytrends if SerpAPI key missing.
     if args.mode == "full":
-        gt_output = scan_google_trends(list(set(all_keywords)), previous)
+        if serpapi_available():
+            log.info("Using SerpAPI for Google Trends (fast, reliable, free tier)")
+            gt_output = scan_google_trends_serpapi(list(set(all_keywords)), previous)
+        else:
+            log.info("SerpAPI key not set — falling back to pytrends (may get 429s)")
+            gt_output = scan_google_trends(list(set(all_keywords)), previous)
     else:
         log.info(f"{args.mode.capitalize()} mode: skipping Google Trends (full-mode only policy)")
         gt_output = {"signals": {}, "discovery": []}
@@ -1136,10 +1145,10 @@ def main():
     # Build source health
     source_health = {
         "google_trends": {
-            "status": "active" if gt_output.get("signals") else ("skipped" if args.mode == "fast" else "error"),
+            "status": "active" if gt_output.get("signals") else ("skipped" if args.mode != "full" else "error"),
             "signals_fired": sum(1 for v in gt_output.get("signals", {}).values() if v.get("score", 0) > 0),
-            "last_run": datetime.now().isoformat() if args.mode != "fast" else None,
-            "note": "Morning/full mode only" if args.mode == "fast" else "Active",
+            "last_run": datetime.now().isoformat() if args.mode == "full" else None,
+            "note": "SerpAPI (fast, reliable)" if serpapi_available() else "pytrends fallback",
         },
         "reddit": {
             "status": "active" if reddit_signals else "error",
