@@ -1400,7 +1400,7 @@
       "avg_30d": 3
     },
     "sleep_optimization": {
-      "avg_30d": 26
+      "avg_30d": 28
     },
     "home_energy": {
       "avg_30d": 4
@@ -1418,7 +1418,7 @@
       "avg_30d": 9
     },
     "testosterone_mens_health": {
-      "avg_30d": 140
+      "avg_30d": 148
     },
     "glp1_second_order": {
       "avg_30d": 1
@@ -1447,15 +1447,16 @@
       "trend_name": "peptides",
       "display_name": "Peptides",
       "tier": 3,
-      "score": 3,
+      "score": 4,
       "score_breakdown": {
         "google_trends": 0,
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
-        "novelty_bonus": 0,
+        "novelty_bonus": 1,
         "mainstream_penalty": 0,
         "financial_penalty": 0
       },
@@ -1463,32 +1464,32 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 6,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 185,
+        "total_7d": 195,
         "avg_30d": 203,
-        "ratio": 0.91,
-        "novelty_bonus": false,
-        "non_native_hits": 1,
-        "financial_activity": 1,
+        "ratio": 0.96,
+        "novelty_bonus": true,
+        "non_native_hits": 3,
+        "financial_activity": 3,
         "subreddit_breakdown": {
-          "biohacking": 59,
-          "peptides": 74,
-          "longevity": 8,
-          "supplements": 11,
+          "biohacking": 54,
+          "peptides": 70,
+          "longevity": 11,
+          "supplements": 8,
           "fitness": 0,
           "pickleball": 0,
-          "skincareaddiction": 3,
+          "skincareaddiction": 11,
           "solotravel": 0,
           "DIY": 0,
-          "nootropics": 9,
-          "Testosterone": 7,
-          "intermittentfasting": 0,
-          "investing": 0,
-          "stocks": 1,
+          "nootropics": 4,
+          "Testosterone": 13,
+          "intermittentfasting": 2,
+          "investing": 1,
+          "stocks": 2,
           "wallstreetbets": 0,
           "personalfinance": 0,
           "nutrition": 0,
@@ -1500,7 +1501,7 @@
           "hiking": 0,
           "trailrunning": 0,
           "solarenergy": 0,
-          "testosterone": 7,
+          "testosterone": 13,
           "microbiome": 5
         }
       },
@@ -1551,22 +1552,41 @@
             "match_count": 10,
             "matching_suggestions": [
               "bpc-157",
-              "bpc-157 peptide",
               "bpc-157 peptide capsules 1000mg",
-              "wolverine stack bpc-157 tb-500 research peptides",
-              "oral bpc-157"
+              "bpc-157 peptide",
+              "oral bpc-157",
+              "wolverine stack bpc-157 tb-500 research peptides"
             ],
             "category_breadth": 10
           }
         ],
         "sample_suggestions": [
-          "peptides",
-          "collagen peptides powder",
-          "collagen peptides",
           "bpc-157",
-          "bpc-157 peptide"
+          "oral bpc-157",
+          "vital proteins collagen peptides powder",
+          "peptide case for fridge",
+          "collagen peptides powder"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 134,
+        "total_views_7d": 152293,
+        "weighted_views_velocity": 145746.0,
+        "baseline_avg": 134,
+        "ratio": 0,
+        "keywords_used": [
+          "peptides",
+          "peptide",
+          "BPC-157"
+        ],
+        "top_video_title": "Clavicular &amp; Peptides.",
+        "top_video_views": 78015,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          134
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -1579,33 +1599,33 @@
           {
             "ticker": "HIMS",
             "thesis": "Telehealth platform dispensing compounded GLP-1s. Novo Nordisk partnership is key catalyst.",
-            "price": 25.03,
-            "change_30d": 18.3,
-            "change_90d": 53.8,
+            "price": 24.14,
+            "change_30d": 13.0,
+            "change_90d": 52.4,
             "valid": true
           },
           {
             "ticker": "NVO",
             "thesis": "Ozempic/Wegovy maker. GLP-1 category leader.",
-            "price": 47.0,
-            "change_30d": 23.7,
-            "change_90d": -1.3,
+            "price": 47.08,
+            "change_30d": 19.7,
+            "change_90d": -0.9,
             "valid": true
           },
           {
             "ticker": "LLY",
             "thesis": "Mounjaro/Zepbound. Dominant GLP-1 pipeline.",
-            "price": 989.87,
-            "change_30d": 6.5,
-            "change_90d": -4.5,
+            "price": 1015.75,
+            "change_30d": 10.1,
+            "change_90d": -0.5,
             "valid": true
           },
           {
             "ticker": "AMGN",
             "thesis": "MariTide obesity drug in late-stage trials.",
-            "price": 336.29,
-            "change_30d": -3.9,
-            "change_90d": -9.9,
+            "price": 336.45,
+            "change_30d": -4.1,
+            "change_90d": -11.4,
             "valid": true
           }
         ],
@@ -1613,17 +1633,17 @@
           {
             "ticker": "BCHMY",
             "thesis": "Bachem. Peptide API manufacturer. Wins regardless of which drug or brand wins. ~$3B cap, minimal analyst coverage on this angle.",
-            "price": 10.15,
-            "change_30d": 14.4,
+            "price": 9.8,
+            "change_30d": 3.7,
             "change_90d": null,
             "valid": true
           },
           {
             "ticker": "BRKR",
             "thesis": "Bruker. Analytical instruments used in peptide R&D and quality testing.",
-            "price": 44.73,
-            "change_30d": 14.5,
-            "change_90d": 17.5,
+            "price": 43.85,
+            "change_30d": 9.9,
+            "change_90d": 10.5,
             "valid": true
           }
         ]
@@ -1639,6 +1659,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -1649,41 +1670,41 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 6,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 56,
+        "total_7d": 62,
         "avg_30d": 75,
-        "ratio": 0.75,
+        "ratio": 0.83,
         "novelty_bonus": false,
-        "non_native_hits": 1,
-        "financial_activity": 1,
+        "non_native_hits": 0,
+        "financial_activity": 0,
         "subreddit_breakdown": {
-          "biohacking": 3,
+          "biohacking": 5,
           "peptides": 2,
-          "longevity": 39,
+          "longevity": 41,
           "supplements": 4,
           "fitness": 0,
           "pickleball": 0,
           "skincareaddiction": 0,
           "solotravel": 0,
           "DIY": 0,
-          "nootropics": 3,
+          "nootropics": 5,
           "Testosterone": 0,
           "intermittentfasting": 0,
           "investing": 0,
           "stocks": 0,
           "wallstreetbets": 0,
-          "personalfinance": 1,
+          "personalfinance": 0,
           "nutrition": 3,
           "bodybuilding": 0,
           "running": 0,
           "financialindependence": 1,
           "dividends": 0,
           "options": 0,
-          "hiking": 0,
+          "hiking": 1,
           "trailrunning": 0,
           "solarenergy": 0,
           "testosterone": 0,
@@ -1711,8 +1732,8 @@
               "longevity mix",
               "blueprint longevity mix",
               "agemate longevity blend for women",
-              "longevity",
-              "longevity supplements"
+              "longevity supplements",
+              "longevity"
             ],
             "category_breadth": 10
           },
@@ -1725,8 +1746,8 @@
               "nmn supplement",
               "nmn",
               "nmn supplement 1000mg pure organic",
-              "nmn nad supplement",
-              "nmn resveratrol"
+              "nmn resveratrol",
+              "nmnh"
             ],
             "category_breadth": 10
           },
@@ -1740,19 +1761,38 @@
               "nad+ supplement",
               "nad+ supplements for women",
               "nad+ supplements for men",
-              "eqqualberry nad+ peptide boosting cream"
+              "nad+ resveratrol supplement"
             ],
             "category_breadth": 10
           }
         ],
         "sample_suggestions": [
-          "nad+ supplements for women",
+          "agemate longevity blend for women",
           "longevity mix",
-          "nmn resveratrol",
-          "nmn",
-          "nmn supplement"
+          "blueprint longevity mix",
+          "nmn supplement",
+          "nmn resveratrol"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 146,
+        "total_views_7d": 117595,
+        "weighted_views_velocity": 117494.3,
+        "baseline_avg": 146,
+        "ratio": 0,
+        "keywords_used": [
+          "longevity",
+          "NMN",
+          "NAD+"
+        ],
+        "top_video_title": "NMN ist in aller Munde",
+        "top_video_views": 22261,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          146
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -1766,9 +1806,9 @@
           {
             "ticker": "GILD",
             "thesis": "Gilead Sciences. Aging biology research programs.",
-            "price": 134.94,
-            "change_30d": -2.9,
-            "change_90d": -12.6,
+            "price": 133.05,
+            "change_30d": -5.3,
+            "change_90d": -12.4,
             "valid": true
           }
         ]
@@ -1784,6 +1824,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -1794,14 +1835,14 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 5,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 40,
+        "total_7d": 43,
         "avg_30d": 60,
-        "ratio": 0.67,
+        "ratio": 0.72,
         "novelty_bonus": false,
         "non_native_hits": 0,
         "financial_activity": 0,
@@ -1811,7 +1852,7 @@
           "longevity": 0,
           "supplements": 0,
           "fitness": 0,
-          "pickleball": 40,
+          "pickleball": 43,
           "skincareaddiction": 0,
           "solotravel": 0,
           "DIY": 0,
@@ -1857,7 +1898,7 @@
               "pickleball paddles set of 2",
               "pickleball balls",
               "pickleball",
-              "pickleball bag"
+              "pickleball net"
             ],
             "category_breadth": 10
           },
@@ -1892,12 +1933,31 @@
         ],
         "sample_suggestions": [
           "portable pickleball court",
-          "pickleball paddle",
+          "joola pickleball paddle",
+          "pickleball paddles set of 4",
           "pickleball court shoes",
-          "pickleball paddles",
-          "pickleball court tape"
+          "pickleball net"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 136,
+        "total_views_7d": 234838,
+        "weighted_views_velocity": 234838.0,
+        "baseline_avg": 136,
+        "ratio": 0,
+        "keywords_used": [
+          "pickleball",
+          "pickleball court",
+          "pickleball paddle"
+        ],
+        "top_video_title": "Beyond work, pickleball is my happy vibe \u2728 #vibes #pickleball #shorts #lifestyle",
+        "top_video_views": 107664,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          136
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -1910,17 +1970,17 @@
           {
             "ticker": "LTH",
             "thesis": "Life Time Health. Building dedicated pickleball courts at locations nationwide.",
-            "price": 33.61,
-            "change_30d": 20.9,
-            "change_90d": 15.7,
+            "price": 33.79,
+            "change_30d": 20.8,
+            "change_90d": 15.8,
             "valid": true
           },
           {
             "ticker": "GOLF",
             "thesis": "Acushnet Holdings (GOLF). Golf/racquet sports equipment. Expanding into pickleball/padel.",
-            "price": 84.79,
-            "change_30d": -12.5,
-            "change_90d": -14.6,
+            "price": 84.55,
+            "change_30d": -13.6,
+            "change_90d": -15.3,
             "valid": true
           }
         ],
@@ -1928,17 +1988,17 @@
           {
             "ticker": "NKE",
             "thesis": "Nike. Court shoes and apparel expanding into pickleball/padel.",
-            "price": 42.35,
-            "change_30d": -1.3,
-            "change_90d": -34.2,
+            "price": 42.34,
+            "change_30d": -4.2,
+            "change_90d": -35.0,
             "valid": true
           },
           {
             "ticker": "UA",
             "thesis": "Under Armour. Racquet sports apparel expansion.",
-            "price": 4.9,
-            "change_30d": -18.2,
-            "change_90d": -35.0,
+            "price": 4.99,
+            "change_30d": -18.7,
+            "change_90d": -34.6,
             "valid": true
           }
         ]
@@ -1954,6 +2014,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -1964,7 +2025,7 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 7,
       "google_trends": {},
       "reddit": {
@@ -2025,9 +2086,9 @@
             "matching_suggestions": [
               "pfas filter",
               "pfas filter pitcher",
-              "pfas filter water bottle",
               "pfas filter whole house",
-              "pfas filter cartridge"
+              "pfas filter cartridge",
+              "pfas filter shower"
             ],
             "category_breadth": 10
           },
@@ -2040,7 +2101,7 @@
               "microplastics water filter",
               "best water filter for microplastics",
               "microplastics",
-              "microplastics filter",
+              "microplastics detox",
               "microplastics test"
             ],
             "category_breadth": 10
@@ -2052,22 +2113,41 @@
             "match_count": 10,
             "matching_suggestions": [
               "water filter",
+              "reverse osmosis water filter",
               "water filter pitcher",
               "zero water filter",
-              "rv water filter",
-              "frigidaire water filter replacement"
+              "rv water filter"
             ],
             "category_breadth": 10
           }
         ],
         "sample_suggestions": [
+          "microplastics detox",
           "zero water filter",
-          "rv water filter",
           "water filter",
-          "microplastics test",
-          "microplastics water filter"
+          "microplastics water filter",
+          "pfas filter cartridge"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 117,
+        "total_views_7d": 69155,
+        "weighted_views_velocity": 63741.0,
+        "baseline_avg": 117,
+        "ratio": 0,
+        "keywords_used": [
+          "PFAS filter",
+          "microplastics",
+          "water filter"
+        ],
+        "top_video_title": "organic water filter #tamilshorts #filter #real",
+        "top_video_views": 22133,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          117
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -2080,17 +2160,17 @@
           {
             "ticker": "PNR",
             "thesis": "Pentair. Water treatment and filtration systems. Direct beneficiary of PFAS anxiety.",
-            "price": 75.26,
-            "change_30d": -17.2,
-            "change_90d": -24.3,
+            "price": 73.63,
+            "change_30d": -18.7,
+            "change_90d": -27.4,
             "valid": true
           },
           {
             "ticker": "AOS",
             "thesis": "A.O. Smith. Water heaters and filtration. Consumer home water quality play.",
-            "price": 58.09,
-            "change_30d": -13.0,
-            "change_90d": -26.5,
+            "price": 56.98,
+            "change_30d": -14.4,
+            "change_90d": -27.4,
             "valid": true
           }
         ],
@@ -2098,9 +2178,9 @@
           {
             "ticker": "WTS",
             "thesis": "Watts Water Technologies. Flow control and water quality infrastructure.",
-            "price": 299.95,
-            "change_30d": -3.1,
-            "change_90d": -8.8,
+            "price": 300.0,
+            "change_30d": -2.8,
+            "change_90d": -8.9,
             "valid": true
           }
         ]
@@ -2116,6 +2196,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -2126,7 +2207,7 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 9,
       "google_trends": {},
       "reddit": {
@@ -2202,8 +2283,8 @@
               "photobiomodulation devices",
               "photobiomodulation",
               "photobiomodulation therapy device",
-              "photobiomodulation devices brain",
-              "photobiomodulation helmet"
+              "photobiomodulation therapy",
+              "photobiomodulation patches"
             ],
             "category_breadth": 10
           },
@@ -2224,12 +2305,31 @@
         ],
         "sample_suggestions": [
           "red light therapy for hair growth",
-          "infrared therapy",
-          "photobiomodulation therapy device",
+          "photobiomodulation",
           "red light therapy",
-          "infrared therapy light panel"
+          "photobiomodulation patches",
+          "photobiomodulation therapy device"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 142,
+        "total_views_7d": 54819,
+        "weighted_views_velocity": 35623.5,
+        "baseline_avg": 142,
+        "ratio": 0,
+        "keywords_used": [
+          "red light therapy",
+          "photobiomodulation",
+          "infrared therapy"
+        ],
+        "top_video_title": "Infrared Sauna: Feel Amazing Inside &amp; Out",
+        "top_video_views": 14456,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          142
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -2252,6 +2352,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -2262,29 +2363,29 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 5,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 24,
+        "total_7d": 16,
         "avg_30d": 32,
-        "ratio": 0.75,
+        "ratio": 0.5,
         "novelty_bonus": false,
         "non_native_hits": 0,
         "financial_activity": 0,
         "subreddit_breakdown": {
-          "biohacking": 4,
-          "peptides": 1,
+          "biohacking": 3,
+          "peptides": 0,
           "longevity": 0,
-          "supplements": 10,
+          "supplements": 4,
           "fitness": 0,
           "pickleball": 0,
           "skincareaddiction": 0,
           "solotravel": 0,
           "DIY": 0,
-          "nootropics": 5,
-          "Testosterone": 2,
+          "nootropics": 7,
+          "Testosterone": 1,
           "intermittentfasting": 0,
           "investing": 0,
           "stocks": 0,
@@ -2299,7 +2400,7 @@
           "hiking": 0,
           "trailrunning": 0,
           "solarenergy": 0,
-          "testosterone": 2,
+          "testosterone": 1,
           "microbiome": 0
         }
       },
@@ -2313,7 +2414,7 @@
         "keywords_found": 3,
         "top_position": 1,
         "avg_position": 1.0,
-        "category_breadth": 23,
+        "category_breadth": 24,
         "details": [
           {
             "keyword": "creatine",
@@ -2347,23 +2448,43 @@
             "keyword": "creatine wellness",
             "score": 3,
             "position": 1,
-            "match_count": 3,
+            "match_count": 4,
             "matching_suggestions": [
               "creatine wellness",
               "creatine wellness gummies",
+              "creatine wellness powder",
               "creatine wellness dr.stengler"
             ],
-            "category_breadth": 3
+            "category_breadth": 4
           }
         ],
         "sample_suggestions": [
-          "creatine for women",
+          "thorne creatine",
           "creatine wellness",
-          "creatine monohydrate gummies",
-          "thorne creatine monohydrate",
-          "creatine wellness dr.stengler"
+          "creatine",
+          "creatine wellness powder",
+          "thorne creatine monohydrate"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 123,
+        "total_views_7d": 91016,
+        "weighted_views_velocity": 79252.0,
+        "baseline_avg": 123,
+        "ratio": 0,
+        "keywords_used": [
+          "creatine",
+          "creatine monohydrate",
+          "creatine wellness"
+        ],
+        "top_video_title": "Wait for end \ud83d\udc80 #creatine #biceps #youtubeshorts",
+        "top_video_views": 19619,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          123
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -2376,9 +2497,9 @@
           {
             "ticker": "CELH",
             "thesis": "Celsius Holdings. Functional supplement brand with creatine-adjacent wellness products.",
-            "price": 29.61,
-            "change_30d": -12.0,
-            "change_90d": -32.6,
+            "price": 27.86,
+            "change_30d": -19.3,
+            "change_90d": -35.9,
             "valid": true
           }
         ],
@@ -2386,9 +2507,9 @@
           {
             "ticker": "INGR",
             "thesis": "Ingredion. Specialty ingredient supplier for nutrition and supplement manufacturers.",
-            "price": 106.76,
-            "change_30d": -6.0,
-            "change_90d": -7.7,
+            "price": 105.99,
+            "change_30d": -6.2,
+            "change_90d": -8.3,
             "valid": true
           }
         ]
@@ -2404,6 +2525,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -2414,7 +2536,7 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 5,
       "google_trends": {},
       "reddit": {
@@ -2475,9 +2597,9 @@
             "matching_suggestions": [
               "adaptogen drink",
               "adaptogen drink mix",
-              "moment adaptogen drink",
               "adaptogen drinks alcohol replacement",
-              "adaptogen drink powder"
+              "adaptogen drink powder",
+              "adaptogen drink for sleep"
             ],
             "category_breadth": 10
           },
@@ -2490,8 +2612,8 @@
               "nootropic drinks",
               "nootropic drink",
               "nootropic drink mix",
-              "herbal nootropic drink",
-              "nootropic drinks alcohol replacement"
+              "nootropic drink powder",
+              "nootropic drink packets"
             ],
             "category_breadth": 10
           },
@@ -2511,13 +2633,32 @@
           }
         ],
         "sample_suggestions": [
-          "herbal nootropic drink",
-          "electrolyte drink",
-          "nootropic drinks",
+          "adaptogen drink mix",
+          "adaptogen drink powder",
           "nooma electrolyte drink",
-          "lmnt electrolyte drink mix"
+          "nootropic drink packets",
+          "adaptogen drink"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 69,
+        "total_views_7d": 110847,
+        "weighted_views_velocity": 103772.8,
+        "baseline_avg": 69,
+        "ratio": 0,
+        "keywords_used": [
+          "adaptogen drink",
+          "nootropic drink",
+          "electrolyte drink"
+        ],
+        "top_video_title": "Store Bought vs Homemade Electrolyte Drinks #recipe #drinks",
+        "top_video_views": 43374,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          69
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -2530,17 +2671,17 @@
           {
             "ticker": "MNST",
             "thesis": "Monster Beverage. Functional energy category leader expanding into wellness drinks.",
-            "price": 85.87,
-            "change_30d": 14.2,
-            "change_90d": 3.6,
+            "price": 85.93,
+            "change_30d": 14.5,
+            "change_90d": 3.3,
             "valid": true
           },
           {
             "ticker": "CELH",
             "thesis": "Celsius Holdings. Fitness/wellness functional energy drink. Strong Gen Z adoption.",
-            "price": 29.61,
-            "change_30d": -12.0,
-            "change_90d": -32.6,
+            "price": 27.86,
+            "change_30d": -19.3,
+            "change_90d": -35.9,
             "valid": true
           }
         ],
@@ -2548,9 +2689,9 @@
           {
             "ticker": "INGR",
             "thesis": "Ingredion. Specialty ingredient supplier for functional beverage manufacturers.",
-            "price": 106.76,
-            "change_30d": -6.0,
-            "change_90d": -7.7,
+            "price": 105.99,
+            "change_30d": -6.2,
+            "change_90d": -8.3,
             "valid": true
           }
         ]
@@ -2566,6 +2707,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -2576,30 +2718,30 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 5,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 25,
+        "total_7d": 28,
         "avg_30d": 26,
-        "ratio": 0.96,
+        "ratio": 1.08,
         "novelty_bonus": false,
         "non_native_hits": 1,
         "financial_activity": 0,
         "subreddit_breakdown": {
-          "biohacking": 3,
+          "biohacking": 4,
           "peptides": 1,
           "longevity": 0,
-          "supplements": 9,
+          "supplements": 11,
           "fitness": 0,
           "pickleball": 0,
           "skincareaddiction": 0,
           "solotravel": 0,
           "DIY": 0,
           "nootropics": 6,
-          "Testosterone": 2,
-          "intermittentfasting": 2,
+          "Testosterone": 3,
+          "intermittentfasting": 1,
           "investing": 0,
           "stocks": 0,
           "wallstreetbets": 0,
@@ -2627,21 +2769,21 @@
         "keywords_found": 3,
         "top_position": 1,
         "avg_position": 1.0,
-        "category_breadth": 28,
+        "category_breadth": 27,
         "details": [
           {
             "keyword": "sleep optimization",
             "score": 3,
             "position": 1,
-            "match_count": 8,
+            "match_count": 7,
             "matching_suggestions": [
               "sleep optimization",
               "sleep optimization devices",
-              "sleep optimization book",
               "sleep optimization gadgets",
-              "sleep optimization tech"
+              "sleep optimization for shift workers",
+              "sleep optimization kit"
             ],
-            "category_breadth": 8
+            "category_breadth": 7
           },
           {
             "keyword": "sleep tracking",
@@ -2649,9 +2791,9 @@
             "position": 1,
             "match_count": 10,
             "matching_suggestions": [
-              "withings sleep tracking mat",
               "sleep tracking fitness tracker",
               "sleep tracking",
+              "withings sleep tracking mat",
               "sleep tracking device",
               "fitbit for sleep tracking"
             ],
@@ -2673,13 +2815,32 @@
           }
         ],
         "sample_suggestions": [
-          "sleep optimization tech",
-          "magnesium glycinate 500mg",
-          "sleep optimization",
+          "sleep optimization devices",
+          "sleep optimization kit",
           "sleep optimization gadgets",
-          "magnesium glycinate 400mg"
+          "sleep tracking fitness tracker",
+          "magnesium glycinate 500mg"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 150,
+        "total_views_7d": 42099,
+        "weighted_views_velocity": 37798.6,
+        "baseline_avg": 150,
+        "ratio": 0,
+        "keywords_used": [
+          "sleep optimization",
+          "sleep tracking",
+          "magnesium glycinate"
+        ],
+        "top_video_title": "\u0218tiai c\u0103 po\u021bi arde mai mult\u0103 gr\u0103sime \u00een somn dac\u0103 dormi l\u00e2ng\u0103 partenerul t\u0103u? \ud83d\udecc\ud83d\udd25",
+        "top_video_views": 10155,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          150
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -2693,17 +2854,17 @@
           {
             "ticker": "AAPL",
             "thesis": "Apple Watch sleep tracking driving device upgrade cycles.",
-            "price": 294.8,
-            "change_30d": 13.8,
-            "change_90d": 11.8,
+            "price": 298.87,
+            "change_30d": 15.6,
+            "change_90d": 13.2,
             "valid": true
           },
           {
             "ticker": "GRMN",
             "thesis": "Garmin. Sleep tracking wearables with broad consumer adoption.",
-            "price": 236.97,
-            "change_30d": -9.4,
-            "change_90d": 9.6,
+            "price": 232.02,
+            "change_30d": -12.3,
+            "change_90d": -1.9,
             "valid": true
           }
         ]
@@ -2719,6 +2880,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -2729,7 +2891,7 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 10,
       "google_trends": {},
       "reddit": {
@@ -2780,7 +2942,7 @@
         "keywords_found": 3,
         "top_position": 1,
         "avg_position": 1.0,
-        "category_breadth": 21,
+        "category_breadth": 23,
         "details": [
           {
             "keyword": "home battery",
@@ -2790,8 +2952,8 @@
             "matching_suggestions": [
               "home battery backup",
               "home battery",
-              "whole home battery backup",
               "home battery backup power supply",
+              "whole home battery backup",
               "flashlights for home battery powered"
             ],
             "category_breadth": 10
@@ -2805,8 +2967,8 @@
               "residential solar panels for home",
               "residential solar panel kits for home",
               "residential solar panels",
-              "residential solar panel kits",
-              "residential solar system"
+              "residential solar system",
+              "residential solar panel kits"
             ],
             "category_breadth": 10
           },
@@ -2814,21 +2976,42 @@
             "keyword": "EV charger home",
             "score": 3,
             "position": 1,
-            "match_count": 1,
+            "match_count": 3,
             "matching_suggestions": [
-              "ev charger home"
+              "ev charger home",
+              "ev charger home level 2",
+              "ev charger home autel"
             ],
-            "category_breadth": 1
+            "category_breadth": 3
           }
         ],
         "sample_suggestions": [
+          "residential solar system",
+          "residential solar panel kits",
+          "ev charger home autel",
           "ev charger home",
-          "home battery backup",
-          "residential solar panel kits for home",
-          "whole home battery backup",
-          "residential solar system"
+          "residential solar panels for home"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 149,
+        "total_views_7d": 77807,
+        "weighted_views_velocity": 69182.6,
+        "baseline_avg": 149,
+        "ratio": 0,
+        "keywords_used": [
+          "home battery",
+          "residential solar",
+          "EV charger home"
+        ],
+        "top_video_title": "You&#39;re Using Your Home Battery Wrong \u2014 Here&#39;s the Right Way (Anker SOLIX E10)",
+        "top_video_views": 12974,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          149
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -2841,25 +3024,25 @@
           {
             "ticker": "ENPH",
             "thesis": "Enphase Energy. Residential solar microinverters and battery storage. Market leader.",
-            "price": 37.48,
-            "change_30d": 19.5,
-            "change_90d": -17.9,
+            "price": 42.0,
+            "change_30d": 31.2,
+            "change_90d": -8.8,
             "valid": true
           },
           {
             "ticker": "SEDG",
             "thesis": "SolarEdge. Residential solar optimizer.",
-            "price": 40.42,
-            "change_30d": -6.5,
-            "change_90d": 8.9,
+            "price": 42.77,
+            "change_30d": -0.5,
+            "change_90d": 21.9,
             "valid": true
           },
           {
             "ticker": "RUN",
             "thesis": "Sunrun. Residential solar installer. Direct consumer play.",
-            "price": 14.1,
-            "change_30d": 10.5,
-            "change_90d": -27.1,
+            "price": 14.46,
+            "change_30d": 16.1,
+            "change_90d": -28.2,
             "valid": true
           }
         ],
@@ -2867,9 +3050,9 @@
           {
             "ticker": "ALB",
             "thesis": "Albemarle. Lithium producer. Wins on battery storage growth regardless of brand.",
-            "price": 205.52,
-            "change_30d": 10.8,
-            "change_90d": 22.0,
+            "price": 200.94,
+            "change_30d": 5.8,
+            "change_90d": 17.6,
             "valid": true
           }
         ]
@@ -2885,6 +3068,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -2895,7 +3079,7 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 7,
       "google_trends": {},
       "reddit": {
@@ -2971,8 +3155,8 @@
               "water flosser",
               "waterpik water flosser",
               "water flossers for teeth",
-              "waterpik cordless water flosser",
-              "portable water flosser"
+              "portable water flosser",
+              "water flosser cordless"
             ],
             "category_breadth": 10
           },
@@ -2985,20 +3169,39 @@
               "oral health",
               "oral health probiotics",
               "great oral health oral probiotics",
-              "great oral health",
+              "naturewise oral health probiotics",
               "oral health probiotics for teeth and gums"
             ],
             "category_breadth": 10
           }
         ],
         "sample_suggestions": [
-          "waterpik cordless water flosser",
-          "great oral health",
-          "10% nano hydroxyapatite toothpaste",
           "water flosser",
-          "oral health probiotics for teeth and gums"
+          "hydroxyapatite toothpaste",
+          "portable water flosser",
+          "naturewise oral health probiotics",
+          "nano hydroxyapatite toothpaste"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 150,
+        "total_views_7d": 134172,
+        "weighted_views_velocity": 115079.6,
+        "baseline_avg": 150,
+        "ratio": 0,
+        "keywords_used": [
+          "hydroxyapatite toothpaste",
+          "water flosser",
+          "oral health"
+        ],
+        "top_video_title": "\u042f\u0431\u043b\u043e\u043a\u043e \u0432 \u043a\u0440\u043e\u0432\u0438, \u0447\u0442\u043e \u0434\u0435\u043b\u0430\u0442\u044c? \ud83d\ude01 \u041c\u043e\u0449\u043d\u044b\u0439 \u0438\u0440\u0440\u0438\u0433\u0430\u0442\u043e\u0440 \u0434\u043b\u044f \u0437\u0443\u0431\u043e\u0432 \u0420\u0435\u0432\u0438\u043b\u0430\u0439\u043d RL 220 Black WB: #WW380859 \u0420\u041f",
+        "top_video_views": 28450,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          150
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -3011,9 +3214,9 @@
           {
             "ticker": "CHD",
             "thesis": "Church & Dwight. Arm & Hammer and Waterpik brands. Direct oral health beneficiary.",
-            "price": 93.51,
-            "change_30d": -1.6,
-            "change_90d": -6.4,
+            "price": 95.09,
+            "change_30d": -0.5,
+            "change_90d": -7.4,
             "valid": true
           }
         ],
@@ -3030,6 +3233,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -3040,7 +3244,7 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 5,
       "google_trends": {},
       "reddit": {
@@ -3091,7 +3295,7 @@
         "keywords_found": 3,
         "top_position": 1,
         "avg_position": 1.0,
-        "category_breadth": 26,
+        "category_breadth": 27,
         "details": [
           {
             "keyword": "cold plunge",
@@ -3111,15 +3315,15 @@
             "keyword": "cold water immersion",
             "score": 3,
             "position": 1,
-            "match_count": 6,
+            "match_count": 7,
             "matching_suggestions": [
-              "cold water immersion tub",
               "cold water immersion suit",
               "cold water immersion",
-              "cold water immersion therapy equipment",
-              "cold water immersion accessories"
+              "cold water immersion accessories",
+              "cold water immersion tub",
+              "cold water immersion therapy equipment"
             ],
-            "category_breadth": 6
+            "category_breadth": 7
           },
           {
             "keyword": "ice bath",
@@ -3137,13 +3341,32 @@
           }
         ],
         "sample_suggestions": [
+          "cold plunge chiller",
           "cold water immersion accessories",
-          "cold plunge tub with chiller",
+          "ice bath chiller",
           "cold water immersion therapy equipment",
-          "ice bath tub",
-          "ice bath with chiller included"
+          "harrys cold plunge body wash"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 143,
+        "total_views_7d": 219088,
+        "weighted_views_velocity": 180218.6,
+        "baseline_avg": 143,
+        "ratio": 0,
+        "keywords_used": [
+          "cold plunge",
+          "cold water immersion",
+          "ice bath"
+        ],
+        "top_video_title": "Ronaldo dan pemain lain saat mandi es?! #football #bola #ronaldo #cr7 #lionelmessi #messi #neymar",
+        "top_video_views": 65911,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          143
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -3157,9 +3380,9 @@
           {
             "ticker": "DXCM",
             "thesis": "Dexcom. Cold therapy drives interest in biometric tracking.",
-            "price": 61.14,
-            "change_30d": -3.1,
-            "change_90d": -13.2,
+            "price": 58.57,
+            "change_30d": -7.0,
+            "change_90d": -19.5,
             "valid": true
           }
         ]
@@ -3175,6 +3398,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -3185,14 +3409,14 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 8,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 0,
+        "total_7d": 1,
         "avg_30d": 3,
-        "ratio": 0.0,
+        "ratio": 0.33,
         "novelty_bonus": false,
         "non_native_hits": 0,
         "financial_activity": 0,
@@ -3223,7 +3447,7 @@
           "trailrunning": 0,
           "solarenergy": 0,
           "testosterone": 0,
-          "microbiome": 0
+          "microbiome": 1
         }
       },
       "amazon_bsr": {
@@ -3276,19 +3500,38 @@
               "glucose tracking notebook",
               "glucose tracking",
               "glucose tracking watch",
-              "glucose tracking apps for smartwatch"
+              "glucose tracking device"
             ],
             "category_breadth": 10
           }
         ],
         "sample_suggestions": [
-          "continuous glucose monitor",
-          "cgm glucose monitor",
+          "cgm covers",
+          "glucose tracking",
           "cgm overpatch",
-          "cgm sensor patches",
-          "cgm"
+          "levelia glucose tracking watch",
+          "cgm sensor patches"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 123,
+        "total_views_7d": 42201,
+        "weighted_views_velocity": 37988.0,
+        "baseline_avg": 123,
+        "ratio": 0,
+        "keywords_used": [
+          "CGM",
+          "continuous glucose monitor",
+          "glucose tracking"
+        ],
+        "top_video_title": "2\u9031\u9593\u7d4c\u3063\u305f\u304b\u3089\u3001\u4eca\u65e5\u3082CGM\u53d6\u308a\u66ff\u3048\u3066\u3044\u304d\u307e\u3059\ud83e\udee1 #2\u578b\u7cd6\u5c3f\u75c5 #ottaicgm #\u8840\u7cd6\u6e2c\u5b9a #\u4e0d\u598a\u6cbb\u7642",
+        "top_video_views": 6591,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          123
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -3301,17 +3544,17 @@
           {
             "ticker": "DXCM",
             "thesis": "Dexcom. CGM market leader expanding beyond diabetics into wellness monitoring.",
-            "price": 61.14,
-            "change_30d": -3.1,
-            "change_90d": -13.2,
+            "price": 58.57,
+            "change_30d": -7.0,
+            "change_90d": -19.5,
             "valid": true
           },
           {
             "ticker": "ABBV",
             "thesis": "AbbVie (FreeStyle Libre). CGM device expanding into metabolic wellness.",
-            "price": 207.86,
-            "change_30d": 1.5,
-            "change_90d": -10.0,
+            "price": 208.5,
+            "change_30d": -0.0,
+            "change_90d": -8.1,
             "valid": true
           }
         ],
@@ -3328,6 +3571,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -3338,14 +3582,14 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 7,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 7,
+        "total_7d": 8,
         "avg_30d": 9,
-        "ratio": 0.78,
+        "ratio": 0.89,
         "novelty_bonus": false,
         "non_native_hits": 1,
         "financial_activity": 0,
@@ -3353,14 +3597,14 @@
           "biohacking": 0,
           "peptides": 1,
           "longevity": 0,
-          "supplements": 1,
+          "supplements": 0,
           "fitness": 0,
           "pickleball": 0,
           "skincareaddiction": 0,
           "solotravel": 0,
           "DIY": 0,
           "nootropics": 0,
-          "Testosterone": 1,
+          "Testosterone": 2,
           "intermittentfasting": 1,
           "investing": 0,
           "stocks": 0,
@@ -3375,7 +3619,7 @@
           "hiking": 0,
           "trailrunning": 0,
           "solarenergy": 0,
-          "testosterone": 1,
+          "testosterone": 2,
           "microbiome": 0
         }
       },
@@ -3389,21 +3633,20 @@
         "keywords_found": 3,
         "top_position": 1,
         "avg_position": 1.0,
-        "category_breadth": 16,
+        "category_breadth": 15,
         "details": [
           {
             "keyword": "protein intake",
             "score": 3,
             "position": 1,
-            "match_count": 5,
+            "match_count": 4,
             "matching_suggestions": [
               "protein intake",
               "protein intake tracker",
-              "protein intake powder",
               "protein intake for women",
               "protein intake book"
             ],
-            "category_breadth": 5
+            "category_breadth": 4
           },
           {
             "keyword": "high protein diet",
@@ -3412,10 +3655,10 @@
             "match_count": 10,
             "matching_suggestions": [
               "high protein diet",
-              "high protein diet cookbook",
-              "high protein diet book",
               "high protein diet for weight loss",
-              "high protein diet cookbook for seniors"
+              "high protein diet cookbook",
+              "high protein diet cookbook for seniors",
+              "high protein diet book"
             ],
             "category_breadth": 10
           },
@@ -3431,13 +3674,32 @@
           }
         ],
         "sample_suggestions": [
-          "protein intake for women",
+          "protein intake",
           "high protein diet for weight loss",
-          "muscle preservation",
+          "protein intake tracker",
           "high protein diet cookbook",
-          "protein intake powder"
+          "muscle preservation"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 150,
+        "total_views_7d": 773604,
+        "weighted_views_velocity": 725714.9,
+        "baseline_avg": 150,
+        "ratio": 0,
+        "keywords_used": [
+          "protein intake",
+          "high protein diet",
+          "muscle preservation"
+        ],
+        "top_video_title": "High Protein Homemade Bagels\u2026 \ud83e\udd24",
+        "top_video_views": 121581,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          150
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -3450,17 +3712,17 @@
           {
             "ticker": "FRPT",
             "thesis": "Freshpet. Fresh pet food \u2014 high protein trend extends to pet owners.",
-            "price": 51.27,
-            "change_30d": -24.9,
-            "change_90d": -28.5,
+            "price": 48.63,
+            "change_30d": -29.6,
+            "change_90d": -33.4,
             "valid": true
           },
           {
             "ticker": "BYND",
             "thesis": "Beyond Meat. Plant protein trends connected to weight loss behavior change.",
-            "price": 0.79,
-            "change_30d": 20.4,
-            "change_90d": 13.7,
+            "price": 0.78,
+            "change_30d": 8.4,
+            "change_90d": 9.5,
             "valid": true
           }
         ],
@@ -3468,17 +3730,17 @@
           {
             "ticker": "BCHMY",
             "thesis": "Bachem. GLP-1 drug manufacturing. Downstream of weight loss drug trend.",
-            "price": 10.15,
-            "change_30d": 14.4,
+            "price": 9.8,
+            "change_30d": 3.7,
             "change_90d": null,
             "valid": true
           },
           {
             "ticker": "INGR",
             "thesis": "Ingredion. Protein ingredient supplier benefiting from high-protein food trend.",
-            "price": 106.76,
-            "change_30d": -6.0,
-            "change_90d": -7.7,
+            "price": 105.99,
+            "change_30d": -6.2,
+            "change_90d": -8.3,
             "valid": true
           }
         ]
@@ -3494,6 +3756,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -3504,29 +3767,29 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 10,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 130,
+        "total_7d": 148,
         "avg_30d": 140,
-        "ratio": 0.93,
+        "ratio": 1.06,
         "novelty_bonus": false,
         "non_native_hits": 2,
         "financial_activity": 1,
         "subreddit_breakdown": {
           "biohacking": 8,
-          "peptides": 8,
+          "peptides": 5,
           "longevity": 0,
-          "supplements": 1,
+          "supplements": 0,
           "fitness": 0,
           "pickleball": 0,
           "skincareaddiction": 0,
           "solotravel": 0,
-          "DIY": 1,
+          "DIY": 2,
           "nootropics": 0,
-          "Testosterone": 55,
+          "Testosterone": 66,
           "intermittentfasting": 0,
           "investing": 0,
           "stocks": 1,
@@ -3541,7 +3804,7 @@
           "hiking": 0,
           "trailrunning": 0,
           "solarenergy": 1,
-          "testosterone": 55,
+          "testosterone": 65,
           "microbiome": 0
         }
       },
@@ -3564,10 +3827,10 @@
             "match_count": 10,
             "matching_suggestions": [
               "trtl travel pillow",
-              "trt",
               "trtl neck pillow airplane",
-              "trt supplement for men",
-              "trtl"
+              "trt",
+              "trtl",
+              "trt supplement for men"
             ],
             "category_breadth": 10
           },
@@ -3580,8 +3843,8 @@
               "testosterone replacement therapy",
               "testosterone replacement for men",
               "testosterone replacement",
-              "testosterone replacement therapy for men",
-              "testosterone replacement therapy trt"
+              "testosterone replacement therapy injections",
+              "testosterone replacement therapy for men"
             ],
             "category_breadth": 10
           },
@@ -3595,13 +3858,32 @@
           }
         ],
         "sample_suggestions": [
-          "trt",
-          "trtl travel pillow",
-          "trtl",
+          "trt supplement for men",
           "testosterone replacement therapy for men",
-          "testosterone replacement therapy"
+          "testosterone replacement therapy",
+          "trt",
+          "trtl"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 137,
+        "total_views_7d": 165617,
+        "weighted_views_velocity": 144692.3,
+        "baseline_avg": 137,
+        "ratio": 0,
+        "keywords_used": [
+          "TRT",
+          "testosterone replacement",
+          "testosterone clinic"
+        ],
+        "top_video_title": "G\u00fcrcistan \u00e7ekimlerden  #ula\u015ftunaastepe #denizbaysal #esdil #ta\u015facakbudeniz #trt #dizihaberleri #tbd",
+        "top_video_views": 30945,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          137
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -3614,17 +3896,17 @@
           {
             "ticker": "HIMS",
             "thesis": "Hims & Hers. Telehealth testosterone treatment platform. Direct consumer channel for TRT prescriptions and hormone panels.",
-            "price": 25.03,
-            "change_30d": 18.3,
-            "change_90d": 53.8,
+            "price": 24.14,
+            "change_30d": 13.0,
+            "change_90d": 52.4,
             "valid": true
           },
           {
             "ticker": "ABBV",
             "thesis": "AbbVie. AndroGel manufacturer. Legacy TRT brand benefiting from category destigmatization.",
-            "price": 207.86,
-            "change_30d": 1.5,
-            "change_90d": -10.0,
+            "price": 208.5,
+            "change_30d": -0.0,
+            "change_90d": -8.1,
             "valid": true
           }
         ],
@@ -3632,17 +3914,17 @@
           {
             "ticker": "BCHMY",
             "thesis": "Bachem. Peptide/hormone API manufacturing. Supplies compounding pharmacies filling TRT prescriptions.",
-            "price": 10.15,
-            "change_30d": 14.4,
+            "price": 9.8,
+            "change_30d": 3.7,
             "change_90d": null,
             "valid": true
           },
           {
             "ticker": "DGX",
             "thesis": "Quest Diagnostics. Hormone panel blood work. Every TRT patient needs regular testing.",
-            "price": 190.18,
-            "change_30d": -1.4,
-            "change_90d": -7.0,
+            "price": 190.85,
+            "change_30d": -1.7,
+            "change_90d": -6.2,
             "valid": true
           }
         ]
@@ -3658,6 +3940,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -3668,7 +3951,7 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 5,
       "google_trends": {},
       "reddit": {
@@ -3719,21 +4002,21 @@
         "keywords_found": 1,
         "top_position": 1,
         "avg_position": 1.0,
-        "category_breadth": 10,
+        "category_breadth": 9,
         "details": [
           {
             "keyword": "ozempic face",
             "score": 3,
             "position": 1,
-            "match_count": 10,
+            "match_count": 9,
             "matching_suggestions": [
-              "ozempic face",
               "ozempic face skin care",
+              "ozempic face",
               "ozempic face treatment",
-              "ozempic face cream",
-              "ozempic face skin care products"
+              "ozempic face skin care fillers",
+              "ozempic face cream"
             ],
-            "category_breadth": 10
+            "category_breadth": 9
           },
           {
             "keyword": "protein after ozempic",
@@ -3753,13 +4036,32 @@
           }
         ],
         "sample_suggestions": [
-          "ozempic face treatment",
+          "ozempic face skin care fillers",
           "ozempic face skin care",
-          "ozempic face",
           "ozempic face cream",
-          "ozempic face skin care products"
+          "ozempic face treatment",
+          "ozempic face"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 82,
+        "total_views_7d": 307702,
+        "weighted_views_velocity": 89531.5,
+        "baseline_avg": 82,
+        "ratio": 0,
+        "keywords_used": [
+          "ozempic face",
+          "protein after ozempic",
+          "alcohol decline"
+        ],
+        "top_video_title": "This Natural Ozempic Alternative Costs $2 And Actually Works FAST",
+        "top_video_views": 162588,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          82
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -3772,16 +4074,16 @@
           {
             "ticker": "HIMS",
             "thesis": "Hims & Hers. Compounded GLP-1 dispensing. Novo Nordisk partnership. Direct beneficiary of GLP-1 demand overflow.",
-            "price": 25.03,
-            "change_30d": 18.3,
-            "change_90d": 53.8,
+            "price": 24.14,
+            "change_30d": 13.0,
+            "change_90d": 52.4,
             "valid": true
           },
           {
             "ticker": "BCHMY",
             "thesis": "Bachem. Peptide API manufacturer for GLP-1 compounds. Wins on total volume regardless of brand.",
-            "price": 10.15,
-            "change_30d": 14.4,
+            "price": 9.8,
+            "change_30d": 3.7,
             "change_90d": null,
             "valid": true
           }
@@ -3790,17 +4092,17 @@
           {
             "ticker": "FRPT",
             "thesis": "Freshpet. GLP-1 users shifting to high-protein diets \u2014 extends to premium pet food.",
-            "price": 51.27,
-            "change_30d": -24.9,
-            "change_90d": -28.5,
+            "price": 48.63,
+            "change_30d": -29.6,
+            "change_90d": -33.4,
             "valid": true
           },
           {
             "ticker": "INGR",
             "thesis": "Ingredion. Protein ingredient supplier. GLP-1 users need more protein to prevent muscle loss.",
-            "price": 106.76,
-            "change_30d": -6.0,
-            "change_90d": -7.7,
+            "price": 105.99,
+            "change_30d": -6.2,
+            "change_90d": -8.3,
             "valid": true
           }
         ]
@@ -3816,6 +4118,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -3826,7 +4129,7 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 5,
       "google_trends": {},
       "reddit": {
@@ -3903,7 +4206,7 @@
               "oura ring gen 4",
               "oura ring cover",
               "oura ring charger",
-              "oura ring sizing kit"
+              "oura ring gen 4 cover"
             ],
             "category_breadth": 10
           },
@@ -3917,19 +4220,38 @@
               "samsung galaxy ring",
               "galaxy ring men",
               "galaxy rings for women",
-              "samsung galaxy ring smart ring"
+              "samsung galaxy ring men"
             ],
             "category_breadth": 10
           }
         ],
         "sample_suggestions": [
           "halo smart ring",
-          "galaxy ring",
-          "samsung galaxy ring",
-          "colmi smart ring",
-          "oura ring charger"
+          "oura ring gen 4",
+          "oura ring",
+          "smart ring",
+          "smart ring for women"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 141,
+        "total_views_7d": 152846,
+        "weighted_views_velocity": 129164.5,
+        "baseline_avg": 141,
+        "ratio": 0,
+        "keywords_used": [
+          "smart ring",
+          "oura ring",
+          "galaxy ring"
+        ],
+        "top_video_title": "\u0627\u0644\u062f\u0646\u064a\u0627 \u062e\u0627\u062a\u0645 \u0641\u064a \u0635\u0628\u0627\u0639\u0643 | cardoO Ring",
+        "top_video_views": 43806,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          141
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -3942,17 +4264,17 @@
           {
             "ticker": "GRMN",
             "thesis": "Garmin. Wearable health/fitness market leader. Expanding into advanced health metrics.",
-            "price": 236.97,
-            "change_30d": -9.4,
-            "change_90d": 9.6,
+            "price": 232.02,
+            "change_30d": -12.3,
+            "change_90d": -1.9,
             "valid": true
           },
           {
             "ticker": "AAPL",
             "thesis": "Apple. Apple Watch health features driving upgrade cycles. Blood oxygen, temperature, potential glucose.",
-            "price": 294.8,
-            "change_30d": 13.8,
-            "change_90d": 11.8,
+            "price": 298.87,
+            "change_30d": 15.6,
+            "change_90d": 13.2,
             "valid": true
           }
         ],
@@ -3960,17 +4282,17 @@
           {
             "ticker": "SWKS",
             "thesis": "Skyworks Solutions. RF/sensor chips used in wearable devices. Wins on unit volume growth.",
-            "price": 66.31,
-            "change_30d": 17.4,
-            "change_90d": 8.0,
+            "price": 68.14,
+            "change_30d": 19.0,
+            "change_90d": 11.2,
             "valid": true
           },
           {
             "ticker": "STM",
             "thesis": "STMicroelectronics. MEMS sensors and low-power chips in smart rings and wearables.",
-            "price": 57.93,
-            "change_30d": 43.7,
-            "change_90d": 75.0,
+            "price": 63.39,
+            "change_30d": 55.0,
+            "change_90d": 88.2,
             "valid": true
           }
         ]
@@ -3986,6 +4308,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -3996,14 +4319,14 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 10,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 101,
-        "avg_30d": 94,
-        "ratio": 1.07,
+        "total_7d": 98,
+        "avg_30d": 101,
+        "ratio": 0.97,
         "novelty_bonus": false,
         "non_native_hits": 1,
         "financial_activity": 0,
@@ -4011,10 +4334,10 @@
           "biohacking": 1,
           "peptides": 0,
           "longevity": 2,
-          "supplements": 7,
+          "supplements": 2,
           "fitness": 0,
           "pickleball": 0,
-          "skincareaddiction": 1,
+          "skincareaddiction": 0,
           "solotravel": 0,
           "DIY": 0,
           "nootropics": 0,
@@ -4024,7 +4347,7 @@
           "stocks": 0,
           "wallstreetbets": 0,
           "personalfinance": 0,
-          "nutrition": 3,
+          "nutrition": 4,
           "bodybuilding": 0,
           "running": 0,
           "financialindependence": 0,
@@ -4034,7 +4357,7 @@
           "trailrunning": 0,
           "solarenergy": 0,
           "testosterone": 0,
-          "microbiome": 85
+          "microbiome": 87
         }
       },
       "amazon_bsr": {
@@ -4057,8 +4380,8 @@
             "matching_suggestions": [
               "probiotics for women",
               "vaginal probiotics",
-              "seed probiotics",
               "probiotics",
+              "seed probiotics",
               "probiotics for dogs"
             ],
             "category_breadth": 10
@@ -4087,19 +4410,38 @@
               "microbiome",
               "microbiome labs megasporebiotic",
               "microbiome probiotics",
-              "gut microbiome test kit"
+              "periotrap microbiome toothpaste"
             ],
             "category_breadth": 10
           }
         ],
         "sample_suggestions": [
-          "seed probiotics",
-          "gut health for dogs",
-          "gut microbiome test kit",
+          "probiotics for dogs",
+          "probiotics for women",
           "gut health for women",
-          "gut health supplements"
+          "gut health for dogs",
+          "gut health for men"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 145,
+        "total_views_7d": 111721,
+        "weighted_views_velocity": 111721.0,
+        "baseline_avg": 145,
+        "ratio": 0,
+        "keywords_used": [
+          "probiotics",
+          "gut health",
+          "microbiome"
+        ],
+        "top_video_title": "You\u2019re Probably Feeding the Bad Gut Bacteria In Your Gut (BE AWARE)\ud83d\udea8\u26a0\ufe0f",
+        "top_video_views": 15254,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          145
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -4112,9 +4454,9 @@
           {
             "ticker": "CHD",
             "thesis": "Church & Dwight. Digestive health supplement brands. Direct beneficiary of gut health awareness.",
-            "price": 93.51,
-            "change_30d": -1.6,
-            "change_90d": -6.4,
+            "price": 95.09,
+            "change_30d": -0.5,
+            "change_90d": -7.4,
             "valid": true
           }
         ],
@@ -4122,16 +4464,16 @@
           {
             "ticker": "INGR",
             "thesis": "Ingredion. Prebiotic fiber and specialty ingredient supplier for gut health products.",
-            "price": 106.76,
-            "change_30d": -6.0,
-            "change_90d": -7.7,
+            "price": 105.99,
+            "change_30d": -6.2,
+            "change_90d": -8.3,
             "valid": true
           },
           {
             "ticker": "BCHMY",
             "thesis": "Bachem. GLP-1 connection to gut microbiome research driving new peptide compound demand.",
-            "price": 10.15,
-            "change_30d": 14.4,
+            "price": 9.8,
+            "change_30d": 3.7,
             "change_90d": null,
             "valid": true
           }
@@ -4148,6 +4490,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -4158,17 +4501,17 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 10,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 19,
+        "total_7d": 24,
         "avg_30d": 29,
-        "ratio": 0.66,
+        "ratio": 0.83,
         "novelty_bonus": false,
         "non_native_hits": 2,
-        "financial_activity": 12,
+        "financial_activity": 16,
         "subreddit_breakdown": {
           "biohacking": 0,
           "peptides": 0,
@@ -4182,16 +4525,16 @@
           "nootropics": 0,
           "Testosterone": 0,
           "intermittentfasting": 0,
-          "investing": 1,
-          "stocks": 7,
-          "wallstreetbets": 4,
+          "investing": 3,
+          "stocks": 8,
+          "wallstreetbets": 5,
           "personalfinance": 0,
           "nutrition": 0,
           "bodybuilding": 0,
           "running": 0,
           "financialindependence": 0,
           "dividends": 0,
-          "options": 7,
+          "options": 8,
           "hiking": 0,
           "trailrunning": 0,
           "solarenergy": 0,
@@ -4209,7 +4552,7 @@
         "keywords_found": 2,
         "top_position": 1,
         "avg_position": 1.0,
-        "category_breadth": 11,
+        "category_breadth": 12,
         "details": [
           {
             "keyword": "options trading",
@@ -4229,11 +4572,12 @@
             "keyword": "retail investor",
             "score": 3,
             "position": 1,
-            "match_count": 1,
+            "match_count": 2,
             "matching_suggestions": [
-              "retail investor"
+              "retail investor",
+              "retail investors mistakes"
             ],
-            "category_breadth": 1
+            "category_breadth": 2
           },
           {
             "keyword": "meme stocks",
@@ -4245,15 +4589,34 @@
           }
         ],
         "sample_suggestions": [
+          "retail investor",
+          "options trading for beginners",
+          "retail investors mistakes",
           "options trading 101",
-          "options trading",
-          "options trading books",
-          "options trading for dummies",
-          "retail investor"
+          "options trading for dummies"
         ],
         "delta_vs_previous": "stable"
       },
-      "wall_street_awareness": "MEDIUM",
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 150,
+        "total_views_7d": 270197,
+        "weighted_views_velocity": 235030.6,
+        "baseline_avg": 150,
+        "ratio": 0,
+        "keywords_used": [
+          "options trading",
+          "retail investor",
+          "meme stocks"
+        ],
+        "top_video_title": "\ud55c\uad6d \uc99d\uc2dc \uc8fc\ubaa9\ud558\ub294 \uc77c\ubcf8 \uc288\ud37c \uac1c\ubbf8\ub4e4 &#39;8\ubc30 \uc218\uc775&#39; \uc778\uc99d #\ud558\uc774\ub2c9\uc2a4 #\uc0bc\uc131\uc804\uc790 #\ub274\uc2a4\ub370\uc2a4\ud06c",
+        "top_video_views": 133487,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          150
+        ]
+      },
+      "wall_street_awareness": "HIGH",
       "exit_warning": false,
       "category": "finance",
       "description": "Retail trading behavior cycles \u2014 0DTE options explosion, meme stock waves, social media-driven trades. Robinhood as direct proxy for retail activity intensity.",
@@ -4264,7 +4627,7 @@
         "signals": [
           {
             "type": "financial_migration",
-            "detail": "Financial sub activity 12/19 (63%) \u2014 Wall Street awareness high",
+            "detail": "Financial sub activity 16/24 (67%) \u2014 Wall Street awareness high",
             "severity": "high"
           }
         ],
@@ -4277,17 +4640,17 @@
           {
             "ticker": "HOOD",
             "thesis": "Robinhood. Dominant retail trading platform. Direct beneficiary of every surge in retail trading activity.",
-            "price": 78.27,
-            "change_30d": 9.2,
-            "change_90d": 3.8,
+            "price": 76.75,
+            "change_30d": -3.0,
+            "change_90d": 2.0,
             "valid": true
           },
           {
             "ticker": "IBKR",
             "thesis": "Interactive Brokers. Advanced retail/prosumer trading. Benefits from options volume growth.",
-            "price": 84.59,
-            "change_30d": 13.5,
-            "change_90d": 15.5,
+            "price": 85.12,
+            "change_30d": 10.4,
+            "change_90d": 13.8,
             "valid": true
           }
         ],
@@ -4295,17 +4658,17 @@
           {
             "ticker": "CBOE",
             "thesis": "Cboe Global Markets. Options exchange operator. Wins on total options volume regardless of platform.",
-            "price": 355.8,
-            "change_30d": 18.5,
-            "change_90d": 25.5,
+            "price": 366.7,
+            "change_30d": 21.9,
+            "change_90d": 28.8,
             "valid": true
           },
           {
             "ticker": "NDAQ",
             "thesis": "Nasdaq. Market infrastructure. Transaction revenue grows with retail volume.",
-            "price": 89.49,
-            "change_30d": 3.9,
-            "change_90d": 11.9,
+            "price": 90.21,
+            "change_30d": 4.0,
+            "change_90d": 10.2,
             "valid": true
           }
         ]
@@ -4321,6 +4684,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -4331,14 +4695,14 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 5,
       "google_trends": {},
       "reddit": {
         "score": 0,
         "total_7d": 9,
-        "avg_30d": 8,
-        "ratio": 1.12,
+        "avg_30d": 9,
+        "ratio": 1.0,
         "novelty_bonus": false,
         "non_native_hits": 0,
         "financial_activity": 0,
@@ -4393,8 +4757,8 @@
               "residential solar panels for home",
               "residential solar panel kits for home",
               "residential solar panels",
-              "residential solar panel kits",
-              "residential solar system"
+              "residential solar system",
+              "residential solar panel kits"
             ],
             "category_breadth": 10
           },
@@ -4422,13 +4786,32 @@
           }
         ],
         "sample_suggestions": [
-          "battery daddy battery storage case",
-          "residential solar panel kits for home",
-          "battery storage",
           "residential solar system",
+          "residential solar panel kits",
+          "battery daddy battery storage case",
+          "battery storage",
           "battery storage organizer"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 135,
+        "total_views_7d": 46663,
+        "weighted_views_velocity": 37886.6,
+        "baseline_avg": 135,
+        "ratio": 0,
+        "keywords_used": [
+          "residential solar",
+          "battery storage",
+          "grid independence"
+        ],
+        "top_video_title": "Manufacturing Residential Solar Storage: 5kWh Wall-Mounted Unit Casing Process#short #manufacturing",
+        "top_video_views": 4551,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          135
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -4441,17 +4824,17 @@
           {
             "ticker": "TAC",
             "thesis": "TransAlta. Power generation transitioning to renewables. Clean energy capacity expansion in Alberta and US.",
-            "price": 12.58,
-            "change_30d": -8.0,
-            "change_90d": -6.0,
+            "price": 12.73,
+            "change_30d": -5.6,
+            "change_90d": -4.6,
             "valid": true
           },
           {
             "ticker": "ENPH",
             "thesis": "Enphase Energy. Residential solar microinverters. Market leader in home solar systems.",
-            "price": 37.48,
-            "change_30d": 19.5,
-            "change_90d": -17.9,
+            "price": 42.0,
+            "change_30d": 31.2,
+            "change_90d": -8.8,
             "valid": true
           }
         ],
@@ -4459,17 +4842,17 @@
           {
             "ticker": "ALB",
             "thesis": "Albemarle. Lithium producer. Battery storage growth drives lithium demand regardless of brand.",
-            "price": 205.52,
-            "change_30d": 10.8,
-            "change_90d": 22.0,
+            "price": 200.94,
+            "change_30d": 5.8,
+            "change_90d": 17.6,
             "valid": true
           },
           {
             "ticker": "FSLR",
             "thesis": "First Solar. US-manufactured solar panels. IRA subsidy beneficiary.",
-            "price": 228.06,
-            "change_30d": 13.8,
-            "change_90d": 0.9,
+            "price": 234.6,
+            "change_30d": 16.9,
+            "change_90d": -1.7,
             "valid": true
           }
         ]
@@ -4485,6 +4868,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -4495,14 +4879,14 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 10,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 32,
+        "total_7d": 29,
         "avg_30d": 41,
-        "ratio": 0.78,
+        "ratio": 0.71,
         "novelty_bonus": false,
         "non_native_hits": 1,
         "financial_activity": 0,
@@ -4512,7 +4896,7 @@
           "longevity": 0,
           "supplements": 0,
           "fitness": 0,
-          "pickleball": 1,
+          "pickleball": 0,
           "skincareaddiction": 0,
           "solotravel": 0,
           "DIY": 0,
@@ -4529,8 +4913,8 @@
           "financialindependence": 0,
           "dividends": 0,
           "options": 0,
-          "hiking": 6,
-          "trailrunning": 23,
+          "hiking": 7,
+          "trailrunning": 20,
           "solarenergy": 0,
           "testosterone": 0,
           "microbiome": 0
@@ -4558,7 +4942,7 @@
               "trail running shoes women",
               "trail running shoes",
               "nike trail running shoes men",
-              "brooks trail running shoes mens"
+              "asics trail running shoes men"
             ],
             "category_breadth": 10
           },
@@ -4592,13 +4976,32 @@
           }
         ],
         "sample_suggestions": [
-          "athleisure dress",
-          "hiking gear",
-          "trail running shoes",
-          "brooks trail running shoes mens",
-          "hiking gear women"
+          "trail running shoes women",
+          "hiking gear for men",
+          "nike trail running shoes men",
+          "hiking gear women",
+          "hiking gear essentials"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 150,
+        "total_views_7d": 285926,
+        "weighted_views_velocity": 285246.6,
+        "baseline_avg": 150,
+        "ratio": 0,
+        "keywords_used": [
+          "trail running",
+          "hiking gear",
+          "athleisure"
+        ],
+        "top_video_title": "\u20b9500 vs The World | Inside the Indian Factory Taking On Nike, Adidas and Puma | Ground Report | N18V",
+        "top_video_views": 99844,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          150
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -4611,25 +5014,25 @@
           {
             "ticker": "AS",
             "thesis": "Amer Sports. Arc'teryx, Salomon, Wilson. Premium outdoor/sports portfolio riding secular fitness trend.",
-            "price": 33.56,
-            "change_30d": -4.8,
-            "change_90d": -16.6,
+            "price": 32.78,
+            "change_30d": -9.7,
+            "change_90d": -20.6,
             "valid": true
           },
           {
             "ticker": "NKE",
             "thesis": "Nike. Trail running and outdoor fitness categories growing faster than core sneakers.",
-            "price": 42.35,
-            "change_30d": -1.3,
-            "change_90d": -34.2,
+            "price": 42.34,
+            "change_30d": -4.2,
+            "change_90d": -35.0,
             "valid": true
           },
           {
             "ticker": "DECK",
             "thesis": "Deckers Outdoor. HOKA running shoes. Fastest-growing performance running brand.",
-            "price": 94.89,
-            "change_30d": -12.3,
-            "change_90d": -19.1,
+            "price": 93.93,
+            "change_30d": -12.9,
+            "change_90d": -21.0,
             "valid": true
           }
         ],
@@ -4637,17 +5040,17 @@
           {
             "ticker": "GOOS",
             "thesis": "Canada Goose. Premium outdoor apparel expanding beyond winter into active lifestyle.",
-            "price": 10.95,
-            "change_30d": -2.8,
-            "change_90d": -8.2,
+            "price": 10.68,
+            "change_30d": -6.9,
+            "change_90d": -12.5,
             "valid": true
           },
           {
             "ticker": "LULU",
             "thesis": "Lululemon. Athleisure as lifestyle category expansion beneficiary.",
-            "price": 125.13,
-            "change_30d": -23.0,
-            "change_90d": -29.6,
+            "price": 121.21,
+            "change_30d": -24.5,
+            "change_90d": -33.4,
             "valid": true
           }
         ]
@@ -4663,6 +5066,7 @@
         "reddit": 0,
         "amazon_bsr": 0,
         "amazon_autocomplete": 3,
+        "youtube": 0,
         "multi_platform_bonus": 0,
         "low_awareness_bonus": 0,
         "novelty_bonus": 0,
@@ -4673,17 +5077,17 @@
         "amazon_autocomplete"
       ],
       "signal_first_seen": "2026-04-29",
-      "days_active": 10,
+      "days_active": 11,
       "peak_score": 10,
       "google_trends": {},
       "reddit": {
         "score": 0,
-        "total_7d": 16,
+        "total_7d": 19,
         "avg_30d": 30,
-        "ratio": 0.53,
+        "ratio": 0.63,
         "novelty_bonus": false,
-        "non_native_hits": 1,
-        "financial_activity": 1,
+        "non_native_hits": 2,
+        "financial_activity": 2,
         "subreddit_breakdown": {
           "biohacking": 0,
           "peptides": 0,
@@ -4700,12 +5104,12 @@
           "investing": 0,
           "stocks": 1,
           "wallstreetbets": 0,
-          "personalfinance": 0,
+          "personalfinance": 1,
           "nutrition": 0,
           "bodybuilding": 0,
           "running": 0,
-          "financialindependence": 1,
-          "dividends": 14,
+          "financialindependence": 2,
+          "dividends": 15,
           "options": 0,
           "hiking": 0,
           "trailrunning": 0,
@@ -4764,13 +5168,32 @@
           }
         ],
         "sample_suggestions": [
-          "dividend stocks for dummies",
-          "dividend stocks",
-          "passive income for dummies",
           "passive income",
-          "passive income books"
+          "dividend stocks 2026",
+          "passive income ideas",
+          "dividend stocks for dummies",
+          "dividend stocks to buy for 2026 espa\u00f1ol"
         ],
         "delta_vs_previous": "stable"
+      },
+      "youtube": {
+        "score": 0,
+        "video_count_7d": 120,
+        "total_views_7d": 95242,
+        "weighted_views_velocity": 87696.6,
+        "baseline_avg": 120,
+        "ratio": 0,
+        "keywords_used": [
+          "dividend stocks",
+          "passive income",
+          "BDC investing"
+        ],
+        "top_video_title": "Kak kamu kenapa, cerita dong kalau ada apa apa #nikah #wedding #passiveincome #trendingshorts",
+        "top_video_views": 50555,
+        "note": "calibrating \u2014 first run",
+        "_weekly_counts_update": [
+          120
+        ]
       },
       "wall_street_awareness": "LOW",
       "exit_warning": false,
@@ -4783,17 +5206,17 @@
           {
             "ticker": "GAIN",
             "thesis": "Gladstone Investment. Monthly-paying BDC. Direct beneficiary of retail income-seeking behavior. 6%+ yield.",
-            "price": 16.92,
-            "change_30d": 13.3,
-            "change_90d": 24.2,
+            "price": 15.74,
+            "change_30d": 4.5,
+            "change_90d": 14.6,
             "valid": true
           },
           {
             "ticker": "MAIN",
             "thesis": "Main Street Capital. Premium BDC. Monthly dividends, strong track record. Retail investor favorite.",
-            "price": 52.92,
-            "change_30d": -1.5,
-            "change_90d": -8.8,
+            "price": 51.01,
+            "change_30d": -9.1,
+            "change_90d": -13.4,
             "valid": true
           }
         ],
@@ -4801,17 +5224,17 @@
           {
             "ticker": "HOOD",
             "thesis": "Robinhood. Retail platform adding income-focused features. Retirement accounts + dividend reinvestment driving engagement.",
-            "price": 78.27,
-            "change_30d": 9.2,
-            "change_90d": 3.8,
+            "price": 76.75,
+            "change_30d": -3.0,
+            "change_90d": 2.0,
             "valid": true
           },
           {
             "ticker": "SCHW",
             "thesis": "Charles Schwab. Income-focused ETFs and retirement accounts. Benefits from dividend investing trend.",
-            "price": 90.18,
-            "change_30d": -6.5,
-            "change_90d": -2.8,
+            "price": 91.17,
+            "change_30d": -7.0,
+            "change_90d": -4.1,
             "valid": true
           }
         ]
@@ -4861,20 +5284,20 @@
           "match_count": 10,
           "matching_suggestions": [
             "bpc-157",
-            "bpc-157 peptide",
             "bpc-157 peptide capsules 1000mg",
-            "wolverine stack bpc-157 tb-500 research peptides",
-            "oral bpc-157"
+            "bpc-157 peptide",
+            "oral bpc-157",
+            "wolverine stack bpc-157 tb-500 research peptides"
           ],
           "category_breadth": 10
         }
       ],
       "sample_suggestions": [
-        "peptides",
-        "collagen peptides powder",
-        "collagen peptides",
         "bpc-157",
-        "bpc-157 peptide"
+        "oral bpc-157",
+        "vital proteins collagen peptides powder",
+        "peptide case for fridge",
+        "collagen peptides powder"
       ],
       "delta_vs_previous": "stable"
     },
@@ -4894,8 +5317,8 @@
             "longevity mix",
             "blueprint longevity mix",
             "agemate longevity blend for women",
-            "longevity",
-            "longevity supplements"
+            "longevity supplements",
+            "longevity"
           ],
           "category_breadth": 10
         },
@@ -4908,8 +5331,8 @@
             "nmn supplement",
             "nmn",
             "nmn supplement 1000mg pure organic",
-            "nmn nad supplement",
-            "nmn resveratrol"
+            "nmn resveratrol",
+            "nmnh"
           ],
           "category_breadth": 10
         },
@@ -4923,17 +5346,17 @@
             "nad+ supplement",
             "nad+ supplements for women",
             "nad+ supplements for men",
-            "eqqualberry nad+ peptide boosting cream"
+            "nad+ resveratrol supplement"
           ],
           "category_breadth": 10
         }
       ],
       "sample_suggestions": [
-        "nad+ supplements for women",
+        "agemate longevity blend for women",
         "longevity mix",
-        "nmn resveratrol",
-        "nmn",
-        "nmn supplement"
+        "blueprint longevity mix",
+        "nmn supplement",
+        "nmn resveratrol"
       ],
       "delta_vs_previous": "stable"
     },
@@ -4954,7 +5377,7 @@
             "pickleball paddles set of 2",
             "pickleball balls",
             "pickleball",
-            "pickleball bag"
+            "pickleball net"
           ],
           "category_breadth": 10
         },
@@ -4989,10 +5412,10 @@
       ],
       "sample_suggestions": [
         "portable pickleball court",
-        "pickleball paddle",
+        "joola pickleball paddle",
+        "pickleball paddles set of 4",
         "pickleball court shoes",
-        "pickleball paddles",
-        "pickleball court tape"
+        "pickleball net"
       ],
       "delta_vs_previous": "stable"
     },
@@ -5011,9 +5434,9 @@
           "matching_suggestions": [
             "pfas filter",
             "pfas filter pitcher",
-            "pfas filter water bottle",
             "pfas filter whole house",
-            "pfas filter cartridge"
+            "pfas filter cartridge",
+            "pfas filter shower"
           ],
           "category_breadth": 10
         },
@@ -5026,7 +5449,7 @@
             "microplastics water filter",
             "best water filter for microplastics",
             "microplastics",
-            "microplastics filter",
+            "microplastics detox",
             "microplastics test"
           ],
           "category_breadth": 10
@@ -5038,20 +5461,20 @@
           "match_count": 10,
           "matching_suggestions": [
             "water filter",
+            "reverse osmosis water filter",
             "water filter pitcher",
             "zero water filter",
-            "rv water filter",
-            "frigidaire water filter replacement"
+            "rv water filter"
           ],
           "category_breadth": 10
         }
       ],
       "sample_suggestions": [
+        "microplastics detox",
         "zero water filter",
-        "rv water filter",
         "water filter",
-        "microplastics test",
-        "microplastics water filter"
+        "microplastics water filter",
+        "pfas filter cartridge"
       ],
       "delta_vs_previous": "stable"
     },
@@ -5085,8 +5508,8 @@
             "photobiomodulation devices",
             "photobiomodulation",
             "photobiomodulation therapy device",
-            "photobiomodulation devices brain",
-            "photobiomodulation helmet"
+            "photobiomodulation therapy",
+            "photobiomodulation patches"
           ],
           "category_breadth": 10
         },
@@ -5107,10 +5530,10 @@
       ],
       "sample_suggestions": [
         "red light therapy for hair growth",
-        "infrared therapy",
-        "photobiomodulation therapy device",
+        "photobiomodulation",
         "red light therapy",
-        "infrared therapy light panel"
+        "photobiomodulation patches",
+        "photobiomodulation therapy device"
       ],
       "delta_vs_previous": "stable"
     },
@@ -5119,7 +5542,7 @@
       "keywords_found": 3,
       "top_position": 1,
       "avg_position": 1.0,
-      "category_breadth": 23,
+      "category_breadth": 24,
       "details": [
         {
           "keyword": "creatine",
@@ -5153,21 +5576,22 @@
           "keyword": "creatine wellness",
           "score": 3,
           "position": 1,
-          "match_count": 3,
+          "match_count": 4,
           "matching_suggestions": [
             "creatine wellness",
             "creatine wellness gummies",
+            "creatine wellness powder",
             "creatine wellness dr.stengler"
           ],
-          "category_breadth": 3
+          "category_breadth": 4
         }
       ],
       "sample_suggestions": [
-        "creatine for women",
+        "thorne creatine",
         "creatine wellness",
-        "creatine monohydrate gummies",
-        "thorne creatine monohydrate",
-        "creatine wellness dr.stengler"
+        "creatine",
+        "creatine wellness powder",
+        "thorne creatine monohydrate"
       ],
       "delta_vs_previous": "stable"
     },
@@ -5186,9 +5610,9 @@
           "matching_suggestions": [
             "adaptogen drink",
             "adaptogen drink mix",
-            "moment adaptogen drink",
             "adaptogen drinks alcohol replacement",
-            "adaptogen drink powder"
+            "adaptogen drink powder",
+            "adaptogen drink for sleep"
           ],
           "category_breadth": 10
         },
@@ -5201,8 +5625,8 @@
             "nootropic drinks",
             "nootropic drink",
             "nootropic drink mix",
-            "herbal nootropic drink",
-            "nootropic drinks alcohol replacement"
+            "nootropic drink powder",
+            "nootropic drink packets"
           ],
           "category_breadth": 10
         },
@@ -5222,11 +5646,11 @@
         }
       ],
       "sample_suggestions": [
-        "herbal nootropic drink",
-        "electrolyte drink",
-        "nootropic drinks",
+        "adaptogen drink mix",
+        "adaptogen drink powder",
         "nooma electrolyte drink",
-        "lmnt electrolyte drink mix"
+        "nootropic drink packets",
+        "adaptogen drink"
       ],
       "delta_vs_previous": "stable"
     },
@@ -5235,21 +5659,21 @@
       "keywords_found": 3,
       "top_position": 1,
       "avg_position": 1.0,
-      "category_breadth": 28,
+      "category_breadth": 27,
       "details": [
         {
           "keyword": "sleep optimization",
           "score": 3,
           "position": 1,
-          "match_count": 8,
+          "match_count": 7,
           "matching_suggestions": [
             "sleep optimization",
             "sleep optimization devices",
-            "sleep optimization book",
             "sleep optimization gadgets",
-            "sleep optimization tech"
+            "sleep optimization for shift workers",
+            "sleep optimization kit"
           ],
-          "category_breadth": 8
+          "category_breadth": 7
         },
         {
           "keyword": "sleep tracking",
@@ -5257,9 +5681,9 @@
           "position": 1,
           "match_count": 10,
           "matching_suggestions": [
-            "withings sleep tracking mat",
             "sleep tracking fitness tracker",
             "sleep tracking",
+            "withings sleep tracking mat",
             "sleep tracking device",
             "fitbit for sleep tracking"
           ],
@@ -5281,11 +5705,11 @@
         }
       ],
       "sample_suggestions": [
-        "sleep optimization tech",
-        "magnesium glycinate 500mg",
-        "sleep optimization",
+        "sleep optimization devices",
+        "sleep optimization kit",
         "sleep optimization gadgets",
-        "magnesium glycinate 400mg"
+        "sleep tracking fitness tracker",
+        "magnesium glycinate 500mg"
       ],
       "delta_vs_previous": "stable"
     },
@@ -5294,7 +5718,7 @@
       "keywords_found": 3,
       "top_position": 1,
       "avg_position": 1.0,
-      "category_breadth": 21,
+      "category_breadth": 23,
       "details": [
         {
           "keyword": "home battery",
@@ -5304,8 +5728,8 @@
           "matching_suggestions": [
             "home battery backup",
             "home battery",
-            "whole home battery backup",
             "home battery backup power supply",
+            "whole home battery backup",
             "flashlights for home battery powered"
           ],
           "category_breadth": 10
@@ -5319,8 +5743,8 @@
             "residential solar panels for home",
             "residential solar panel kits for home",
             "residential solar panels",
-            "residential solar panel kits",
-            "residential solar system"
+            "residential solar system",
+            "residential solar panel kits"
           ],
           "category_breadth": 10
         },
@@ -5328,19 +5752,21 @@
           "keyword": "EV charger home",
           "score": 3,
           "position": 1,
-          "match_count": 1,
+          "match_count": 3,
           "matching_suggestions": [
-            "ev charger home"
+            "ev charger home",
+            "ev charger home level 2",
+            "ev charger home autel"
           ],
-          "category_breadth": 1
+          "category_breadth": 3
         }
       ],
       "sample_suggestions": [
+        "residential solar system",
+        "residential solar panel kits",
+        "ev charger home autel",
         "ev charger home",
-        "home battery backup",
-        "residential solar panel kits for home",
-        "whole home battery backup",
-        "residential solar system"
+        "residential solar panels for home"
       ],
       "delta_vs_previous": "stable"
     },
@@ -5374,8 +5800,8 @@
             "water flosser",
             "waterpik water flosser",
             "water flossers for teeth",
-            "waterpik cordless water flosser",
-            "portable water flosser"
+            "portable water flosser",
+            "water flosser cordless"
           ],
           "category_breadth": 10
         },
@@ -5388,18 +5814,18 @@
             "oral health",
             "oral health probiotics",
             "great oral health oral probiotics",
-            "great oral health",
+            "naturewise oral health probiotics",
             "oral health probiotics for teeth and gums"
           ],
           "category_breadth": 10
         }
       ],
       "sample_suggestions": [
-        "waterpik cordless water flosser",
-        "great oral health",
-        "10% nano hydroxyapatite toothpaste",
         "water flosser",
-        "oral health probiotics for teeth and gums"
+        "hydroxyapatite toothpaste",
+        "portable water flosser",
+        "naturewise oral health probiotics",
+        "nano hydroxyapatite toothpaste"
       ],
       "delta_vs_previous": "stable"
     },
@@ -5408,7 +5834,7 @@
       "keywords_found": 3,
       "top_position": 1,
       "avg_position": 1.0,
-      "category_breadth": 26,
+      "category_breadth": 27,
       "details": [
         {
           "keyword": "cold plunge",
@@ -5428,15 +5854,15 @@
           "keyword": "cold water immersion",
           "score": 3,
           "position": 1,
-          "match_count": 6,
+          "match_count": 7,
           "matching_suggestions": [
-            "cold water immersion tub",
             "cold water immersion suit",
             "cold water immersion",
-            "cold water immersion therapy equipment",
-            "cold water immersion accessories"
+            "cold water immersion accessories",
+            "cold water immersion tub",
+            "cold water immersion therapy equipment"
           ],
-          "category_breadth": 6
+          "category_breadth": 7
         },
         {
           "keyword": "ice bath",
@@ -5454,11 +5880,11 @@
         }
       ],
       "sample_suggestions": [
+        "cold plunge chiller",
         "cold water immersion accessories",
-        "cold plunge tub with chiller",
+        "ice bath chiller",
         "cold water immersion therapy equipment",
-        "ice bath tub",
-        "ice bath with chiller included"
+        "harrys cold plunge body wash"
       ],
       "delta_vs_previous": "stable"
     },
@@ -5507,17 +5933,17 @@
             "glucose tracking notebook",
             "glucose tracking",
             "glucose tracking watch",
-            "glucose tracking apps for smartwatch"
+            "glucose tracking device"
           ],
           "category_breadth": 10
         }
       ],
       "sample_suggestions": [
-        "continuous glucose monitor",
-        "cgm glucose monitor",
+        "cgm covers",
+        "glucose tracking",
         "cgm overpatch",
-        "cgm sensor patches",
-        "cgm"
+        "levelia glucose tracking watch",
+        "cgm sensor patches"
       ],
       "delta_vs_previous": "stable"
     },
@@ -5526,21 +5952,20 @@
       "keywords_found": 3,
       "top_position": 1,
       "avg_position": 1.0,
-      "category_breadth": 16,
+      "category_breadth": 15,
       "details": [
         {
           "keyword": "protein intake",
           "score": 3,
           "position": 1,
-          "match_count": 5,
+          "match_count": 4,
           "matching_suggestions": [
             "protein intake",
             "protein intake tracker",
-            "protein intake powder",
             "protein intake for women",
             "protein intake book"
           ],
-          "category_breadth": 5
+          "category_breadth": 4
         },
         {
           "keyword": "high protein diet",
@@ -5549,10 +5974,10 @@
           "match_count": 10,
           "matching_suggestions": [
             "high protein diet",
-            "high protein diet cookbook",
-            "high protein diet book",
             "high protein diet for weight loss",
-            "high protein diet cookbook for seniors"
+            "high protein diet cookbook",
+            "high protein diet cookbook for seniors",
+            "high protein diet book"
           ],
           "category_breadth": 10
         },
@@ -5568,11 +5993,11 @@
         }
       ],
       "sample_suggestions": [
-        "protein intake for women",
+        "protein intake",
         "high protein diet for weight loss",
-        "muscle preservation",
+        "protein intake tracker",
         "high protein diet cookbook",
-        "protein intake powder"
+        "muscle preservation"
       ],
       "delta_vs_previous": "stable"
     },
@@ -5590,10 +6015,10 @@
           "match_count": 10,
           "matching_suggestions": [
             "trtl travel pillow",
-            "trt",
             "trtl neck pillow airplane",
-            "trt supplement for men",
-            "trtl"
+            "trt",
+            "trtl",
+            "trt supplement for men"
           ],
           "category_breadth": 10
         },
@@ -5606,8 +6031,8 @@
             "testosterone replacement therapy",
             "testosterone replacement for men",
             "testosterone replacement",
-            "testosterone replacement therapy for men",
-            "testosterone replacement therapy trt"
+            "testosterone replacement therapy injections",
+            "testosterone replacement therapy for men"
           ],
           "category_breadth": 10
         },
@@ -5621,11 +6046,11 @@
         }
       ],
       "sample_suggestions": [
-        "trt",
-        "trtl travel pillow",
-        "trtl",
+        "trt supplement for men",
         "testosterone replacement therapy for men",
-        "testosterone replacement therapy"
+        "testosterone replacement therapy",
+        "trt",
+        "trtl"
       ],
       "delta_vs_previous": "stable"
     },
@@ -5634,21 +6059,21 @@
       "keywords_found": 1,
       "top_position": 1,
       "avg_position": 1.0,
-      "category_breadth": 10,
+      "category_breadth": 9,
       "details": [
         {
           "keyword": "ozempic face",
           "score": 3,
           "position": 1,
-          "match_count": 10,
+          "match_count": 9,
           "matching_suggestions": [
-            "ozempic face",
             "ozempic face skin care",
+            "ozempic face",
             "ozempic face treatment",
-            "ozempic face cream",
-            "ozempic face skin care products"
+            "ozempic face skin care fillers",
+            "ozempic face cream"
           ],
-          "category_breadth": 10
+          "category_breadth": 9
         },
         {
           "keyword": "protein after ozempic",
@@ -5668,11 +6093,11 @@
         }
       ],
       "sample_suggestions": [
-        "ozempic face treatment",
+        "ozempic face skin care fillers",
         "ozempic face skin care",
-        "ozempic face",
         "ozempic face cream",
-        "ozempic face skin care products"
+        "ozempic face treatment",
+        "ozempic face"
       ],
       "delta_vs_previous": "stable"
     },
@@ -5707,7 +6132,7 @@
             "oura ring gen 4",
             "oura ring cover",
             "oura ring charger",
-            "oura ring sizing kit"
+            "oura ring gen 4 cover"
           ],
           "category_breadth": 10
         },
@@ -5721,17 +6146,17 @@
             "samsung galaxy ring",
             "galaxy ring men",
             "galaxy rings for women",
-            "samsung galaxy ring smart ring"
+            "samsung galaxy ring men"
           ],
           "category_breadth": 10
         }
       ],
       "sample_suggestions": [
         "halo smart ring",
-        "galaxy ring",
-        "samsung galaxy ring",
-        "colmi smart ring",
-        "oura ring charger"
+        "oura ring gen 4",
+        "oura ring",
+        "smart ring",
+        "smart ring for women"
       ],
       "delta_vs_previous": "stable"
     },
@@ -5750,8 +6175,8 @@
           "matching_suggestions": [
             "probiotics for women",
             "vaginal probiotics",
-            "seed probiotics",
             "probiotics",
+            "seed probiotics",
             "probiotics for dogs"
           ],
           "category_breadth": 10
@@ -5780,17 +6205,17 @@
             "microbiome",
             "microbiome labs megasporebiotic",
             "microbiome probiotics",
-            "gut microbiome test kit"
+            "periotrap microbiome toothpaste"
           ],
           "category_breadth": 10
         }
       ],
       "sample_suggestions": [
-        "seed probiotics",
-        "gut health for dogs",
-        "gut microbiome test kit",
+        "probiotics for dogs",
+        "probiotics for women",
         "gut health for women",
-        "gut health supplements"
+        "gut health for dogs",
+        "gut health for men"
       ],
       "delta_vs_previous": "stable"
     },
@@ -5799,7 +6224,7 @@
       "keywords_found": 2,
       "top_position": 1,
       "avg_position": 1.0,
-      "category_breadth": 11,
+      "category_breadth": 12,
       "details": [
         {
           "keyword": "options trading",
@@ -5819,11 +6244,12 @@
           "keyword": "retail investor",
           "score": 3,
           "position": 1,
-          "match_count": 1,
+          "match_count": 2,
           "matching_suggestions": [
-            "retail investor"
+            "retail investor",
+            "retail investors mistakes"
           ],
-          "category_breadth": 1
+          "category_breadth": 2
         },
         {
           "keyword": "meme stocks",
@@ -5835,11 +6261,11 @@
         }
       ],
       "sample_suggestions": [
+        "retail investor",
+        "options trading for beginners",
+        "retail investors mistakes",
         "options trading 101",
-        "options trading",
-        "options trading books",
-        "options trading for dummies",
-        "retail investor"
+        "options trading for dummies"
       ],
       "delta_vs_previous": "stable"
     },
@@ -5859,8 +6285,8 @@
             "residential solar panels for home",
             "residential solar panel kits for home",
             "residential solar panels",
-            "residential solar panel kits",
-            "residential solar system"
+            "residential solar system",
+            "residential solar panel kits"
           ],
           "category_breadth": 10
         },
@@ -5888,10 +6314,10 @@
         }
       ],
       "sample_suggestions": [
-        "battery daddy battery storage case",
-        "residential solar panel kits for home",
-        "battery storage",
         "residential solar system",
+        "residential solar panel kits",
+        "battery daddy battery storage case",
+        "battery storage",
         "battery storage organizer"
       ],
       "delta_vs_previous": "stable"
@@ -5913,7 +6339,7 @@
             "trail running shoes women",
             "trail running shoes",
             "nike trail running shoes men",
-            "brooks trail running shoes mens"
+            "asics trail running shoes men"
           ],
           "category_breadth": 10
         },
@@ -5947,11 +6373,11 @@
         }
       ],
       "sample_suggestions": [
-        "athleisure dress",
-        "hiking gear",
-        "trail running shoes",
-        "brooks trail running shoes mens",
-        "hiking gear women"
+        "trail running shoes women",
+        "hiking gear for men",
+        "nike trail running shoes men",
+        "hiking gear women",
+        "hiking gear essentials"
       ],
       "delta_vs_previous": "stable"
     },
@@ -6000,13 +6426,120 @@
         }
       ],
       "sample_suggestions": [
-        "dividend stocks for dummies",
-        "dividend stocks",
-        "passive income for dummies",
         "passive income",
-        "passive income books"
+        "dividend stocks 2026",
+        "passive income ideas",
+        "dividend stocks for dummies",
+        "dividend stocks to buy for 2026 espa\u00f1ol"
       ],
       "delta_vs_previous": "stable"
+    }
+  },
+  "youtube_counts": {
+    "peptides": {
+      "weekly_counts": [
+        134
+      ]
+    },
+    "longevity": {
+      "weekly_counts": [
+        146
+      ]
+    },
+    "pickleball": {
+      "weekly_counts": [
+        136
+      ]
+    },
+    "water_quality": {
+      "weekly_counts": [
+        117
+      ]
+    },
+    "red_light_therapy": {
+      "weekly_counts": [
+        142
+      ]
+    },
+    "creatine_wellness": {
+      "weekly_counts": [
+        123
+      ]
+    },
+    "functional_beverages": {
+      "weekly_counts": [
+        69
+      ]
+    },
+    "sleep_optimization": {
+      "weekly_counts": [
+        150
+      ]
+    },
+    "home_energy": {
+      "weekly_counts": [
+        149
+      ]
+    },
+    "oral_health": {
+      "weekly_counts": [
+        150
+      ]
+    },
+    "cold_plunge": {
+      "weekly_counts": [
+        143
+      ]
+    },
+    "continuous_glucose_monitor": {
+      "weekly_counts": [
+        123
+      ]
+    },
+    "weight_loss_behavior": {
+      "weekly_counts": [
+        150
+      ]
+    },
+    "testosterone_mens_health": {
+      "weekly_counts": [
+        137
+      ]
+    },
+    "glp1_second_order": {
+      "weekly_counts": [
+        82
+      ]
+    },
+    "ai_wearables": {
+      "weekly_counts": [
+        141
+      ]
+    },
+    "gut_health_microbiome": {
+      "weekly_counts": [
+        145
+      ]
+    },
+    "retail_trading_behavior": {
+      "weekly_counts": [
+        150
+      ]
+    },
+    "energy_transition": {
+      "weekly_counts": [
+        135
+      ]
+    },
+    "outdoor_sports_fitness": {
+      "weekly_counts": [
+        150
+      ]
+    },
+    "dividend_income_investing": {
+      "weekly_counts": [
+        120
+      ]
     }
   }
 }
