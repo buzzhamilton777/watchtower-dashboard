@@ -1,0 +1,186 @@
+{
+  "timestamp": "2026-05-15T21:30:00.000000",
+  "briefing_id": "20260515_213000",
+  "picks": [
+    {
+      "rank": 1,
+      "ticker": "NVDA",
+      "company_name": "NVIDIA",
+      "confidence_score": 0.89,
+      "confidence": 0.89,
+      "conviction_level": "HIGH",
+      "generated_at": "2026-05-15T21:30:00",
+      "current_price": 135.42,
+      "entry_price": 135.42,
+      "market_cap": 3300000000000,
+      "exit_targets": {
+        "conservative": 155.73,
+        "primary": 182.82
+      },
+      "target_price": 182.82,
+      "upside_potential": "+35.0%",
+      "signal_breakdown": {
+        "earnings_acceleration": 0.92,
+        "hiring_surge": 0.85,
+        "volume_momentum": 0.88
+      },
+      "signals": {
+        "earnings": 0.92,
+        "hiring": 0.85,
+        "volume": 0.88
+      },
+      "thesis": "NVIDIA shows HIGH conviction due to:\n- Earnings: 0.92/1.0 (40% weight)\n- Hiring: 0.85/1.0 (35% weight)\n- Volume: 0.88/1.0 (25% weight)\n\nCurrent conditions suggest inflection point imminent. Volume surge + hiring acceleration indicate management confidence. Earnings beat validates operational thesis.\n\nPosition Entry: On volume confirmation, within 3% of entry price.\nExit Target (Primary): $182.82 (+35.0%)\nExit Target (Conservative): $155.73 (+15.0%)\nRisk/Reward: 3.5:1 (10% stop)",
+      "timeframe": "6-12 weeks",
+      "risk_factors": [
+        "Macro headwinds could limit upside",
+        "Earnings miss would invalidate thesis",
+        "Competitive pressure on margins"
+      ]
+    },
+    {
+      "rank": 2,
+      "ticker": "TSLA",
+      "company_name": "Tesla",
+      "confidence_score": 0.81,
+      "confidence": 0.81,
+      "conviction_level": "HIGH",
+      "generated_at": "2026-05-15T21:30:00",
+      "current_price": 187.64,
+      "entry_price": 187.64,
+      "market_cap": 600000000000,
+      "exit_targets": {
+        "conservative": 215.79,
+        "primary": 253.30
+      },
+      "target_price": 253.30,
+      "upside_potential": "+35.0%",
+      "signal_breakdown": {
+        "earnings_acceleration": 0.78,
+        "hiring_surge": 0.82,
+        "volume_momentum": 0.83
+      },
+      "signals": {
+        "earnings": 0.78,
+        "hiring": 0.82,
+        "volume": 0.83
+      },
+      "thesis": "Tesla shows HIGH conviction due to:\n- Earnings: 0.78/1.0 (40% weight)\n- Hiring: 0.82/1.0 (35% weight)\n- Volume: 0.83/1.0 (25% weight)\n\nCurrent conditions suggest inflection point imminent. Volume surge + hiring acceleration indicate management confidence. Earnings beat validates operational thesis.\n\nPosition Entry: On volume confirmation, within 3% of entry price.\nExit Target (Primary): $253.30 (+35.0%)\nExit Target (Conservative): $215.79 (+15.0%)\nRisk/Reward: 3.5:1 (10% stop)",
+      "timeframe": "6-12 weeks",
+      "risk_factors": [
+        "Macro headwinds could limit upside",
+        "Earnings miss would invalidate thesis",
+        "Competitive pressure on margins"
+      ]
+    },
+    {
+      "rank": 3,
+      "ticker": "MSFT",
+      "company_name": "Microsoft",
+      "confidence_score": 0.76,
+      "confidence": 0.76,
+      "conviction_level": "HIGH",
+      "generated_at": "2026-05-15T21:30:00",
+      "current_price": 425.30,
+      "entry_price": 425.30,
+      "market_cap": 3200000000000,
+      "exit_targets": {
+        "conservative": 489.10,
+        "primary": 574.26
+      },
+      "target_price": 574.26,
+      "upside_potential": "+35.0%",
+      "signal_breakdown": {
+        "earnings_acceleration": 0.74,
+        "hiring_surge": 0.76,
+        "volume_momentum": 0.78
+      },
+      "signals": {
+        "earnings": 0.74,
+        "hiring": 0.76,
+        "volume": 0.78
+      },
+      "thesis": "Microsoft shows HIGH conviction due to:\n- Earnings: 0.74/1.0 (40% weight)\n- Hiring: 0.76/1.0 (35% weight)\n- Volume: 0.78/1.0 (25% weight)\n\nCurrent conditions suggest inflection point imminent. Volume surge + hiring acceleration indicate management confidence. Earnings beat validates operational thesis.\n\nPosition Entry: On volume confirmation, within 3% of entry price.\nExit Target (Primary): $574.26 (+35.0%)\nExit Target (Conservative): $489.10 (+15.0%)\nRisk/Reward: 3.5:1 (10% stop)",
+      "timeframe": "6-12 weeks",
+      "risk_factors": [
+        "Macro headwinds could limit upside",
+        "Earnings miss would invalidate thesis",
+        "Competitive pressure on margins"
+      ]
+    },
+    {
+      "rank": 4,
+      "ticker": "AAPL",
+      "company_name": "Apple",
+      "confidence_score": 0.68,
+      "confidence": 0.68,
+      "conviction_level": "MEDIUM",
+      "generated_at": "2026-05-15T21:30:00",
+      "current_price": 189.45,
+      "entry_price": 189.45,
+      "market_cap": 2900000000000,
+      "exit_targets": {
+        "conservative": 217.87,
+        "perfect": 255.56
+      },
+      "target_price": 255.56,
+      "upside_potential": "+35.0%",
+      "signal_breakdown": {
+        "earnings_acceleration": 0.65,
+        "hiring_surge": 0.68,
+        "volume_momentum": 0.72
+      },
+      "signals": {
+        "earnings": 0.65,
+        "hiring": 0.68,
+        "volume": 0.72
+      },
+      "thesis": "Apple shows MEDIUM conviction due to:\n- Earnings: 0.65/1.0 (40% weight)\n- Hiring: 0.68/1.0 (35% weight)\n- Volume: 0.72/1.0 (25% weight)\n\nMixed signals suggest selective entry. Volume surge + hiring acceleration indicate management confidence. Earnings beat validates operational thesis.\n\nPosition Entry: On volume confirmation, within 3% of entry price.\nExit Target (Primary): $255.56 (+35.0%)\nExit Target (Conservative): $217.87 (+15.0%)\nRisk/Reward: 3.5:1 (10% stop)",
+      "timeframe": "6-12 weeks",
+      "risk_factors": [
+        "Macro headwinds could limit upside",
+        "Earnings miss would invalidate thesis",
+        "Competitive pressure on margins"
+      ]
+    },
+    {
+      "rank": 5,
+      "ticker": "GOOGL",
+      "company_name": "Alphabet",
+      "confidence_score": 0.62,
+      "confidence": 0.62,
+      "conviction_level": "MEDIUM",
+      "generated_at": "2026-05-15T21:30:00",
+      "current_price": 177.80,
+      "entry_price": 177.80,
+      "market_cap": 1800000000000,
+      "exit_targets": {
+        "conservative": 204.47,
+        "primary": 240.03
+      },
+      "target_price": 240.03,
+      "upside_potential": "+35.0%",
+      "signal_breakdown": {
+        "earnings_acceleration": 0.58,
+        "hiring_surge": 0.62,
+        "volume_momentum": 0.66
+      },
+      "signals": {
+        "earnings": 0.58,
+        "hiring": 0.62,
+        "volume": 0.66
+      },
+      "thesis": "Alphabet shows MEDIUM conviction due to:\n- Earnings: 0.58/1.0 (40% weight)\n- Hiring: 0.62/1.0 (35% weight)\n- Volume: 0.66/1.0 (25% weight)\n\nMixed signals suggest selective entry. Volume surge + hiring acceleration indicate management confidence. Earnings beat validates operational thesis.\n\nPosition Entry: On volume confirmation, within 3% of entry price.\nExit Target (Primary): $240.03 (+35.0%)\nExit Target (Conservative): $204.47 (+15.0%)\nRisk/Reward: 3.5:1 (10% stop)",
+      "timeframe": "6-12 weeks",
+      "risk_factors": [
+        "Macro headwinds could limit upside",
+        "Earnings miss would invalidate thesis",
+        "Competitive pressure on margins"
+      ]
+    }
+  ],
+  "analysis_summary": {
+    "high_conviction_total": 3,
+    "medium_conviction_total": 2,
+    "total_analyzed": 10
+  }
+}
