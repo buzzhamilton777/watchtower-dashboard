@@ -1068,6 +1068,15 @@ def main():
         log.warning(f"Autocomplete scanner error: {e}")
         autocomplete_signals = {}
 
+    # YouTube — full mode only (conserve quota; ~1,300 units/scan)
+    # INIT EARLY: Deep dive block below references youtube_signals
+    youtube_signals = {}
+    if args.mode == "full":
+        try:
+            youtube_signals = scan_youtube(trend_keywords, previous)
+        except Exception as e:
+            log.warning(f"YouTube scanner error: {e}")
+
     # Reactive GT deep dive: if non-GT scanners fire strongly on a trend but GT has no data,
     # use SerpAPI buffer to scan ALL keyword variants for that trend
     # Budget: ~140 searches/month buffer after daily primaries. Use sparingly.
@@ -1100,14 +1109,6 @@ def main():
             tiktok_signals = scan_tiktok(trend_keywords, previous)
         except Exception as e:
             log.warning(f"TikTok scanner error: {e}")
-
-    # YouTube — full mode only (conserve quota; ~1,300 units/scan)
-    youtube_signals = {}
-    if args.mode == "full":
-        try:
-            youtube_signals = scan_youtube(trend_keywords, previous)
-        except Exception as e:
-            log.warning(f"YouTube scanner error: {e}")
 
     # ── Score Each Trend ──────────────────────────────────────────────────────
 
