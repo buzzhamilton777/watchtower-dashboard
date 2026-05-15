@@ -1,612 +1,694 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WATCHTOWER 2.0</title>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#0a0b0d;--surface:#111318;--surface2:#181b22;--surface3:#1e222b;
-  --border:#2a2e38;--text:#e8eaed;--text2:#9aa0ac;--text3:#5c6370;
-  --red:#ff4757;--red-dim:#ff475730;--amber:#ffa502;--amber-dim:#ffa50225;
-  --green:#2ed573;--green-dim:#2ed57325;--yellow:#ffd43b;--yellow-dim:#ffd43b25;
-  --blue:#4dabf7;--blue-dim:#4dabf725;--purple:#9775fa;
-  --tier1:#ff6b35;--tier1-bg:#ff6b3512;--tier1-border:#ff6b3540;
-  --tier2:#ffa502;--tier2-bg:#ffa50210;--tier2-border:#ffa50235;
-  --tier3:#4dabf7;--tier3-bg:#4dabf710;--tier3-border:#4dabf730;
-  --radius:10px;--radius-sm:6px;
-}
-html{font-size:15px}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Helvetica,Arial,sans-serif;line-height:1.5;min-height:100vh}
-a{color:var(--blue);text-decoration:none}
-a:hover{text-decoration:underline}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WATCHTOWER 2.0 — Investment Discovery</title>
+  <style>
+    :root {
+      --bg: #0a0e1a;
+      --surface: #111827;
+      --surface2: #1c2539;
+      --border: #2a3450;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --accent: #3b82f6;
+      --green: #22c55e;
+      --green-dim: #166534;
+      --green-bg: #052e16;
+      --yellow: #eab308;
+      --yellow-dim: #854d0e;
+      --yellow-bg: #1c1100;
+      --blue: #38bdf8;
+      --blue-dim: #075985;
+      --blue-bg: #00131f;
+      --red: #ef4444;
+    }
 
-/* Layout */
-.container{max-width:1100px;margin:0 auto;padding:0 20px}
-header{padding:36px 0 24px;border-bottom:1px solid var(--border);margin-bottom:32px}
-.header-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.logo{font-size:1.8rem;font-weight:700;letter-spacing:-.02em}
-.logo span{opacity:.7}
-.tagline{color:var(--text2);font-size:.9rem;margin-top:4px;font-style:italic}
-.live-badge{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:600;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em}
-.live-badge.live{background:var(--green-dim);color:var(--green);border:1px solid var(--green)}
-.live-badge.live .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
-.live-badge.stale{background:var(--amber-dim);color:var(--amber);border:1px solid var(--amber)}
-.live-badge.stale .dot{width:7px;height:7px;border-radius:50%;background:var(--amber)}
-.live-badge.offline{background:var(--red-dim);color:var(--red);border:1px solid var(--red)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-.stats-bar{display:flex;gap:24px;margin-top:16px;flex-wrap:wrap}
-.stat{display:flex;align-items:center;gap:6px;font-size:.85rem;color:var(--text2)}
-.stat strong{color:var(--text);font-size:1.1rem;font-weight:700}
-.updated{font-size:.78rem;color:var(--text3);margin-top:8px}
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      min-height: 100vh;
+    }
 
-/* Sections */
-.section{margin-bottom:40px}
-.section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
-.section-title{font-size:1.15rem;font-weight:700;letter-spacing:.01em}
-.section-badge{font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.06em}
-.tier1-badge{background:var(--tier1);color:#fff}
-.tier2-badge{background:var(--tier2);color:#000}
-.tier3-badge{background:var(--tier3);color:#000}
+    /* ── Header ── */
+    .header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .header-left { display: flex; align-items: center; gap: 16px; }
+    .header-logo {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--accent);
+    }
+    .header-logo span { color: var(--text); }
+    .header-badge {
+      background: var(--green-bg);
+      border: 1px solid var(--green-dim);
+      color: var(--green);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .header-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+    .header-timestamp {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .header-schedule {
+      font-size: 11px;
+      color: var(--muted);
+      background: var(--surface2);
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+    }
 
-/* Signal Cards */
-.signal-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;position:relative;overflow:hidden}
-.signal-card.tier1{border-color:var(--tier1-border);background:var(--tier1-bg)}
-.signal-card.tier1::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--tier1)}
-.signal-card.tier2{border-color:var(--tier2-border);background:var(--tier2-bg)}
-.signal-card.tier2::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--tier2)}
-.signal-card.tier3{border-color:var(--tier3-border);background:var(--tier3-bg)}
+    /* ── Stats bar ── */
+    .stats-bar {
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 32px;
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .stat { display: flex; align-items: center; gap: 8px; }
+    .stat-label { font-size: 12px; color: var(--muted); }
+    .stat-value { font-size: 14px; font-weight: 700; }
+    .stat-value.green { color: var(--green); }
+    .stat-value.yellow { color: var(--yellow); }
+    .stat-value.muted { color: var(--muted); }
 
-.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.card-main{flex:1;min-width:200px}
-.card-title-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.trend-name{font-size:1.3rem;font-weight:700}
-.category-tag{font-size:.68rem;padding:2px 8px;border-radius:12px;background:var(--surface3);color:var(--text2);text-transform:uppercase;letter-spacing:.04em}
-.card-meta{display:flex;gap:16px;margin-top:6px;flex-wrap:wrap;font-size:.82rem;color:var(--text2)}
-.card-meta .days{color:var(--amber)}
-.card-desc{margin-top:10px;font-size:.88rem;color:var(--text2);line-height:1.55}
+    /* ── Main layout ── */
+    .main { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
 
-/* Score Badge */
-.score-badge{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;flex-shrink:0;position:relative}
-.score-badge .out-of{font-size:.65rem;font-weight:400;opacity:.7}
-.score-high{background:linear-gradient(135deg,#ff6b35,#ff4757);color:#fff;box-shadow:0 0 24px #ff6b3540}
-.score-mid{background:linear-gradient(135deg,#ffa502,#ff9f1a);color:#000;box-shadow:0 0 20px #ffa50230}
-.score-low{background:linear-gradient(135deg,#4dabf7,#339af0);color:#fff;box-shadow:0 0 18px #4dabf730}
+    /* ── Section headings ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      margin-top: 40px;
+    }
+    .section-header:first-child { margin-top: 0; }
+    .section-dot {
+      width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+    }
+    .section-dot.green { background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .section-dot.yellow { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+    .section-dot.blue { background: var(--blue); }
+    .section-title { font-size: 14px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+    .section-title.green { color: var(--green); }
+    .section-title.yellow { color: var(--yellow); }
+    .section-title.blue { color: var(--blue); }
+    .section-sub { font-size: 12px; color: var(--muted); margin-left: 4px; }
 
-/* Signal Icons */
-.signals-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-.signal-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:var(--radius-sm);font-size:.76rem;font-weight:600;border:1px solid var(--border);background:var(--surface2);color:var(--text3);transition:all .2s}
-.signal-chip.active{color:var(--text);border-color:var(--green);background:var(--green-dim)}
-.signal-chip .emoji{font-size:.9rem}
+    /* ── Pick card ── */
+    .pick-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+    .pick-card.high {
+      border-color: var(--green-dim);
+      background: linear-gradient(135deg, #0b1e14 0%, var(--surface) 40%);
+    }
+    .pick-card.medium {
+      border-color: var(--yellow-dim);
+      background: linear-gradient(135deg, #1a1000 0%, var(--surface) 40%);
+    }
+    .pick-card:hover { border-color: var(--accent); }
 
-/* Score Breakdown */
-.score-breakdown{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
-.breakdown-pill{font-size:.68rem;padding:2px 7px;border-radius:4px;background:var(--surface3);color:var(--text3)}
-.breakdown-pill.has-score{color:var(--text2)}
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .card-identity { display: flex; align-items: center; gap: 14px; }
+    .ticker-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 800;
+      padding: 8px 14px;
+      border-radius: 8px;
+      letter-spacing: 1px;
+      min-width: 80px;
+      text-align: center;
+    }
+    .ticker-badge.high { background: #166534; color: var(--green); border: 1px solid var(--green-dim); }
+    .ticker-badge.medium { background: #854d0e; color: var(--yellow); border: 1px solid var(--yellow-dim); }
 
-/* Awareness Bar */
-.awareness{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:.82rem}
-.awareness-label{color:var(--text3)}
-.awareness-value{font-weight:700}
-.awareness-value.low{color:var(--green)}
-.awareness-value.medium{color:var(--yellow)}
-.awareness-value.high{color:var(--red)}
-.awareness-bar{display:flex;gap:3px;margin-left:4px}
-.awareness-bar span{width:24px;height:6px;border-radius:3px;background:var(--surface3)}
-.awareness-bar.low span:nth-child(1){background:var(--green)}
-.awareness-bar.medium span:nth-child(1),.awareness-bar.medium span:nth-child(2){background:var(--yellow)}
-.awareness-bar.high span:nth-child(1),.awareness-bar.high span:nth-child(2),.awareness-bar.high span:nth-child(3){background:var(--red)}
+    .company-name { font-size: 18px; font-weight: 700; }
+    .company-meta { font-size: 13px; color: var(--muted); margin-top: 3px; }
 
-/* Data Details */
-.data-details{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
-.data-detail{font-size:.76rem;padding:6px 10px;border-radius:var(--radius-sm);background:var(--surface2);border:1px solid var(--border)}
-.data-detail .label{color:var(--text3);margin-right:4px}
-.data-detail .value{color:var(--text);font-weight:600}
-.data-detail .ratio{color:var(--green);font-weight:700}
-.data-detail .flag{color:var(--amber);margin-left:3px;font-size:.7rem}
+    .card-confidence { text-align: right; flex-shrink: 0; }
+    .confidence-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .confidence-score { font-size: 32px; font-weight: 800; line-height: 1; }
+    .confidence-score.high { color: var(--green); }
+    .confidence-score.medium { color: var(--yellow); }
+    .confidence-tier {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-top: 4px;
+      display: inline-block;
+    }
+    .confidence-tier.high { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-dim); }
+    .confidence-tier.medium { background: var(--yellow-bg); color: var(--yellow); border: 1px solid var(--yellow-dim); }
 
-/* Company Cards */
-.companies-section{margin-top:18px}
-.companies-label{font-size:.75rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;font-weight:600}
-.company-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
-.company-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;transition:border-color .2s}
-.company-card:hover{border-color:var(--text3)}
-.company-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.ticker{font-size:1.05rem;font-weight:800;font-family:'SF Mono',Menlo,Consolas,monospace;letter-spacing:.02em}
-.ps-badge{font-size:.65rem;padding:2px 6px;border-radius:4px;background:var(--purple);color:#fff;font-weight:700;margin-left:6px}
-.price{font-size:.88rem;color:var(--text2)}
-.change{font-size:.82rem;font-weight:700;margin-left:8px}
-.change.up{color:var(--green)}
-.change.down{color:var(--red)}
-.company-thesis{font-size:.78rem;color:var(--text3);margin-top:6px;line-height:1.45}
+    /* ── Signal bars ── */
+    .signals-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 600px) { .signals-grid { grid-template-columns: 1fr; } }
 
-/* Thesis Expandable */
-.thesis-toggle{display:inline-flex;align-items:center;gap:5px;margin-top:14px;padding:6px 14px;border-radius:var(--radius-sm);background:var(--surface2);border:1px solid var(--border);color:var(--text2);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;user-select:none}
-.thesis-toggle:hover{background:var(--surface3);color:var(--text);border-color:var(--text3)}
-.thesis-toggle .arrow{transition:transform .2s;font-size:.7rem}
-.thesis-toggle.open .arrow{transform:rotate(90deg)}
-.thesis-content{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease}
-.thesis-content.open{max-height:2000px;padding-top:12px}
-.thesis-text{font-size:.85rem;color:var(--text2);line-height:1.65;padding:16px;background:var(--surface2);border-radius:var(--radius-sm);border:1px solid var(--border);white-space:pre-wrap}
+    .signal-block {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .signal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .signal-name { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .signal-weight { font-size: 10px; color: var(--muted); }
+    .signal-score-row { display: flex; align-items: center; gap: 8px; }
+    .signal-bar-track {
+      flex: 1;
+      height: 6px;
+      background: var(--bg);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .signal-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.5s ease;
+    }
+    .signal-bar-fill.earnings { background: #3b82f6; }
+    .signal-bar-fill.hiring { background: #a855f7; }
+    .signal-bar-fill.volume { background: #22d3ee; }
+    .signal-pct { font-size: 13px; font-weight: 700; min-width: 36px; text-align: right; }
+    .signal-pct.earnings { color: #3b82f6; }
+    .signal-pct.hiring { color: #a855f7; }
+    .signal-pct.volume { color: #22d3ee; }
 
-/* Tier 3 Table */
-.tier3-table{width:100%;border-collapse:collapse;font-size:.85rem}
-.tier3-table th{text-align:left;padding:10px 14px;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);font-weight:600;border-bottom:1px solid var(--border)}
-.tier3-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2)}
-.tier3-table tr:hover td{background:var(--surface2)}
-.tier3-table .t-name{font-weight:700;color:var(--text)}
+    /* ── Price row ── */
+    .price-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .price-block {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      flex: 1;
+      min-width: 100px;
+    }
+    .price-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .price-value { font-size: 20px; font-weight: 700; }
+    .price-upside { font-size: 13px; font-weight: 700; color: var(--green); margin-top: 2px; }
 
-/* New Trends */
-.new-trend-list{display:flex;gap:8px;flex-wrap:wrap}
-.new-trend-chip{padding:8px 16px;border-radius:20px;background:var(--surface2);border:1px dashed var(--border);color:var(--text2);font-size:.85rem}
-.new-trend-chip::before{content:'✨ '}
-.mapper-hint{font-size:.78rem;color:var(--text3);margin-top:10px;font-style:italic}
+    /* ── Thesis ── */
+    .thesis-block {
+      background: var(--surface2);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      padding: 12px 16px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #94a3b8;
+    }
+    .thesis-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
 
-/* Exit Warnings */
-.exit-banner{padding:16px 20px;border-radius:var(--radius);background:var(--red-dim);border:1px solid var(--red);margin-bottom:12px;display:flex;align-items:center;gap:12px}
-.exit-banner .icon{font-size:1.3rem}
-.exit-banner .exit-text{font-size:.88rem}
-.exit-banner .exit-trend{font-weight:700;color:var(--red)}
+    /* ── Empty state ── */
+    .empty-section {
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      padding: 40px;
+      text-align: center;
+      color: var(--muted);
+    }
+    .empty-icon { font-size: 36px; margin-bottom: 12px; }
+    .empty-title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+    .empty-sub { font-size: 13px; line-height: 1.6; }
 
-/* Empty States */
-.empty-state{text-align:center;padding:40px 20px;color:var(--text3);font-size:.95rem}
-.empty-state .empty-icon{font-size:2rem;margin-bottom:8px}
+    /* ── No signals state ── */
+    .no-picks-banner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .no-picks-icon { font-size: 40px; margin-bottom: 12px; }
+    .no-picks-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+    .no-picks-sub { font-size: 14px; color: var(--muted); line-height: 1.7; }
 
-/* Footer */
-footer{border-top:1px solid var(--border);padding:24px 0 32px;margin-top:40px;text-align:center;color:var(--text3);font-size:.78rem}
-footer .powered{margin-bottom:6px}
-footer a{color:var(--text3)}
-footer a:hover{color:var(--text2)}
+    /* ── Summary bar ── */
+    .summary-bar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .summary-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .summary-num { font-size: 24px; font-weight: 800; }
+    .summary-num.green { color: var(--green); }
+    .summary-num.yellow { color: var(--yellow); }
+    .summary-num.muted { color: var(--muted); }
+    .summary-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+    .summary-divider { width: 1px; height: 40px; background: var(--border); }
 
-/* Loading */
-.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;color:var(--text3)}
-.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--tier1);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:16px}
-@keyframes spin{to{transform:rotate(360deg)}}
+    /* ── Footer ── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 20px 32px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 60px;
+    }
+    .footer a { color: var(--accent); text-decoration: none; }
 
-/* Error */
-.error-state{text-align:center;padding:60px 20px}
-.error-state .error-icon{font-size:2.5rem;margin-bottom:12px}
-.error-state .error-msg{color:var(--red);font-size:1rem;font-weight:600}
-.error-state .error-detail{color:var(--text3);font-size:.85rem;margin-top:6px}
-.error-state .retry-btn{margin-top:16px;padding:8px 20px;border-radius:var(--radius-sm);background:var(--surface2);border:1px solid var(--border);color:var(--text);font-size:.85rem;cursor:pointer}
-.error-state .retry-btn:hover{background:var(--surface3)}
-
-/* Responsive */
-@media(max-width:640px){
-  html{font-size:14px}
-  .container{padding:0 14px}
-  header{padding:24px 0 16px}
-  .logo{font-size:1.5rem}
-  .stats-bar{gap:14px}
-  .score-badge{width:56px;height:56px;font-size:1.25rem}
-  .signal-card{padding:16px}
-  .company-grid{grid-template-columns:1fr}
-  .data-details{flex-direction:column;gap:6px}
-  .tier3-table{font-size:.8rem}
-  .tier3-table th,.tier3-table td{padding:8px 10px}
-}
-</style>
+    /* ── Loading ── */
+    #loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      gap: 16px;
+      color: var(--muted);
+    }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <div class="header-top">
-      <div>
-        <div class="logo">🗼 WATCHTOWER <span>2.0</span></div>
-        <div class="tagline">See everything before the market does.</div>
-      </div>
-      <div id="liveBadge" class="live-badge offline">
-        <span class="dot"></span>
-        <span class="label">OFFLINE</span>
-      </div>
-    </div>
-    <div class="stats-bar" id="statsBar">
-      <div class="stat"><strong id="statSignals">—</strong>&nbsp;active signals</div>
-      <div class="stat"><strong id="statTier1">—</strong>&nbsp;Tier 1</div>
-      <div class="stat"><strong id="statKeywords">—</strong>&nbsp;keywords tracked</div>
-    </div>
-    <div class="updated" id="updatedTime">Last updated: —</div>
-  </header>
 
-  <main id="main">
-    <div class="loading" id="loadingState">
-      <div class="spinner"></div>
-      <div>Loading signal data…</div>
-    </div>
-  </main>
+<!-- Header -->
+<div class="header">
+  <div class="header-left">
+    <div class="header-logo">🗼 WATCHTOWER<span> 2.0</span></div>
+    <div class="header-badge">● LIVE</div>
+  </div>
+  <div class="header-meta">
+    <div class="header-timestamp" id="last-updated">Loading...</div>
+    <div class="header-schedule">Runs TUE / WED / THU @ 10:00 AM EST</div>
+  </div>
+</div>
 
-  <section id="sourceHealth" style="margin:32px 0 8px;padding:20px;background:var(--card);border:1px solid var(--border);border-radius:12px;display:none">
-    <div style="font-size:.8rem;font-weight:600;color:var(--text2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px">⚙️ Source Health</div>
-    <div id="healthGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px"></div>
-  </section>
+<!-- Stats bar -->
+<div class="stats-bar">
+  <div class="stat">
+    <span class="stat-label">High Conviction</span>
+    <span class="stat-value green" id="stat-high">—</span>
+  </div>
+  <div class="stat">
+    <span class="stat-label">Medium Conviction</span>
+    <span class="stat-value yellow" id="stat-medium">—</span>
+  </div>
+  <div class="stat">
+    <span class="stat-label">Companies Scanned</span>
+    <span class="stat-value muted" id="stat-scanned">—</span>
+  </div>
+  <div class="stat">
+    <span class="stat-label">Briefing ID</span>
+    <span class="stat-value muted" id="stat-briefing">—</span>
+  </div>
+</div>
 
-  <footer>
-    <div class="powered">Powered by Hamilton &amp; Opus · Camillo Social Arbitrage Methodology</div>
-    <a href="https://buzzhamilton777.github.io/watchtower-dashboard/" target="_blank">buzzhamilton777.github.io/watchtower-dashboard</a>
-  </footer>
+<!-- Main -->
+<div class="main" id="main">
+  <div id="loading">
+    <div class="spinner"></div>
+    <div>Loading latest briefing...</div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  WATCHTOWER 2.0 — Investment Discovery Engine · Three-signal: Earnings (40%) + Hiring (35%) + Volume (25%)
+  · <a href="https://github.com/buzzhamilton777/watchtower-dashboard" target="_blank">GitHub</a>
+  · Powered by Hamilton + Opus
 </div>
 
 <script>
-const DATA_URL = 'data/watchtower-data.json';
-const REFRESH_MS = 5 * 60 * 1000;
-const FRESH_MS = 30 * 60 * 1000;
+// ── Helpers ──────────────────────────────────────────────────────────────────
 
-const $ = id => document.getElementById(id);
-const main = $('main');
-
-function escHtml(s) {
-  if (!s) return '';
-  const d = document.createElement('div');
-  d.textContent = s;
-  return d.innerHTML;
+function fmt_pct(val) {
+  if (val === null || val === undefined || isNaN(val)) return '—';
+  return (val * 100).toFixed(0) + '%';
 }
 
-function relTime(iso) {
-  const d = new Date(iso);
-  if (isNaN(d)) return iso;
-  const diff = Date.now() - d.getTime();
-  if (diff < 60000) return 'just now';
-  if (diff < 3600000) return Math.floor(diff/60000) + 'm ago';
-  if (diff < 86400000) return Math.floor(diff/3600000) + 'h ago';
-  return d.toLocaleDateString('en-US', {month:'short',day:'numeric'}) + ' ' + d.toLocaleTimeString('en-US', {hour:'numeric',minute:'2-digit'});
+function fmt_price(val) {
+  if (!val) return '—';
+  return '$' + Number(val).toFixed(2);
 }
 
-function formatDate(iso) {
-  const d = new Date(iso);
-  if (isNaN(d)) return iso;
-  return d.toLocaleDateString('en-US', {weekday:'short',month:'short',day:'numeric',year:'numeric'}) + ' ' + d.toLocaleTimeString('en-US', {hour:'numeric',minute:'2-digit',timeZoneName:'short'});
+function upside_pct(entry, target) {
+  if (!entry || !target || entry === 0) return null;
+  return ((target - entry) / entry) * 100;
 }
 
-function updateFreshness(iso) {
-  const badge = $('liveBadge');
-  const d = new Date(iso);
-  const diff = Date.now() - d.getTime();
-  badge.className = 'live-badge';
-  if (isNaN(d)) {
-    badge.classList.add('offline');
-    badge.querySelector('.label').textContent = 'OFFLINE';
-  } else if (diff < FRESH_MS) {
-    badge.classList.add('live');
-    badge.querySelector('.label').textContent = 'LIVE';
-  } else {
-    badge.classList.add('stale');
-    badge.querySelector('.label').textContent = 'STALE · ' + relTime(iso);
-  }
+function tier_class(confidence) {
+  if (confidence >= 0.75) return 'high';
+  if (confidence >= 0.55) return 'medium';
+  return 'watch';
 }
 
-function scoreClass(score) {
-  if (score >= 7) return 'score-high';
-  if (score >= 4) return 'score-mid';
-  return 'score-low';
+function fmt_date(iso) {
+  try {
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })
+      + ' · ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+  } catch { return iso; }
 }
 
-function changeHtml(val) {
-  if (val == null) return '';
-  const cls = val >= 0 ? 'up' : 'down';
-  const arrow = val >= 0 ? '▲' : '▼';
-  return `<span class="change ${cls}">${arrow} ${Math.abs(val).toFixed(1)}%</span>`;
-}
+// ── Render a pick card ───────────────────────────────────────────────────────
 
-function awarenessHtml(level) {
-  const l = (level || 'unknown').toUpperCase();
-  const map = {LOW:'low',MEDIUM:'medium',HIGH:'high'};
-  const icon = {LOW:'🟢',MEDIUM:'🟡',HIGH:'🔴'};
-  const cls = map[l] || 'low';
+function render_card(pick) {
+  const conf = pick.confidence || 0;
+  const tc = tier_class(conf);
+  const signals = pick.signals || {};
+  const earn = (signals.earnings || 0);
+  const hire = (signals.hiring || 0);
+  const vol  = (signals.volume  || 0);
+
+  const entry = pick.entry_price || pick.current_price || 0;
+  const target = pick.target_price || 0;
+  const upside = upside_pct(entry, target);
+
+  const thesis = pick.thesis || pick.rationale || '';
+
   return `
-    <div class="awareness">
-      <span class="awareness-label">Wall St. Awareness:</span>
-      <span class="awareness-value ${cls}">${icon[l]||'⚪'} ${l}</span>
-      <div class="awareness-bar ${cls}"><span></span><span></span><span></span></div>
-    </div>`;
-}
-
-function signalChipsHtml(firing) {
-  const all = [
-    {key:'google_trends', emoji:'📈', label:'Google Trends'},
-    {key:'reddit', emoji:'💬', label:'Reddit'},
-    {key:'amazon_bsr', emoji:'📦', label:'Amazon BSR'},
-    {key:'amazon_autocomplete', emoji:'🔍', label:'Amazon Search'},
-    {key:'youtube', emoji:'▶️', label:'YouTube'}
-  ];
-  return '<div class="signals-row">' + all.map(s =>
-    `<span class="signal-chip ${(firing||[]).includes(s.key)?'active':''}">`+
-    `<span class="emoji">${s.emoji}</span>${s.label}</span>`
-  ).join('') + '</div>';
-}
-
-function dataDetailsHtml(sig) {
-  let parts = [];
-  if (sig.google_trends) {
-    const g = sig.google_trends;
-    let flags = '';
-    if (g.is_90d_high) flags += '<span class="flag">90d HIGH</span>';
-    if (g.is_mainstream) flags += '<span class="flag">MAINSTREAM</span>';
-    parts.push(`<div class="data-detail"><span class="label">GТrends:</span><span class="value">${g.current}</span> / avg ${g.avg_12w} · <span class="ratio">${g.ratio?.toFixed(2)}x</span>${flags}</div>`);
-  }
-  if (sig.reddit) {
-    const r = sig.reddit;
-    let flags = '';
-    if (r.novelty_bonus) flags += '<span class="flag">NOVEL</span>';
-    parts.push(`<div class="data-detail"><span class="label">Reddit 7d:</span><span class="value">${r.total_7d}</span> / avg ${r.avg_30d} · <span class="ratio">${r.ratio?.toFixed(2)}x</span>${flags}</div>`);
-  }
-  if (sig.amazon_bsr) {
-    const a = sig.amazon_bsr;
-    parts.push(`<div class="data-detail"><span class="label">Amazon BSR:</span><span class="value">${a.match_count} products</span></div>`);
-  }
-  if (sig.youtube) {
-    const y = sig.youtube;
-    if (y.video_count_7d !== undefined) {
-      let flags = '';
-      if (y.note === 'calibrating — first run') flags += '<span class="flag">CALIBRATING</span>';
-      const velocity = y.weighted_views_velocity ? ` · <span class="ratio">${Math.round(y.weighted_views_velocity).toLocaleString()} views/day</span>` : '';
-      parts.push(`<div class="data-detail"><span class="label">YouTube 7d:</span><span class="value">${y.video_count_7d} videos</span> · <span class="ratio">${y.ratio?.toFixed(2) ?? 0}x</span>${velocity}${flags}</div>`);
-      if (y.top_video_title) {
-        parts.push(`<div class="data-detail" style="max-width:340px"><span class="label">Top video:</span><span class="value" style="font-size:.7rem">${escHtml(y.top_video_title.substring(0,60))}${y.top_video_title.length>60?'…':''}</span></div>`);
-      }
-    }
-  }
-  return parts.length ? '<div class="data-details">' + parts.join('') + '</div>' : '';
-}
-
-function breakdownHtml(bd) {
-  if (!bd) return '';
-  return '<div class="score-breakdown">' +
-    Object.entries(bd).map(([k,v]) =>
-      `<span class="breakdown-pill ${v>0?'has-score':''}">${k.replace(/_/g,' ')} +${v}</span>`
-    ).join('') + '</div>';
-}
-
-function companyCardsHtml(companies) {
-  if (!companies) return '';
-  let html = '';
-  if (companies.direct?.length) {
-    html += '<div class="companies-section"><div class="companies-label">Direct Plays</div><div class="company-grid">';
-    html += companies.direct.map(c => `
-      <div class="company-card">
-        <div class="company-top">
-          <div><span class="ticker">${escHtml(c.ticker)}</span></div>
-          <div><span class="price">$${c.price?.toFixed(2) ?? '—'}</span>${changeHtml(c.change_30d)}</div>
-        </div>
-        ${c.thesis ? `<div class="company-thesis">${escHtml(c.thesis)}</div>` : ''}
-      </div>`).join('');
-    html += '</div></div>';
-  }
-  if (companies.picks_and_shovels?.length) {
-    html += '<div class="companies-section"><div class="companies-label">Picks &amp; Shovels</div><div class="company-grid">';
-    html += companies.picks_and_shovels.map(c => `
-      <div class="company-card">
-        <div class="company-top">
-          <div><span class="ticker">${escHtml(c.ticker)}</span><span class="ps-badge">⚒️ P&S</span></div>
-          <div><span class="price">$${c.price?.toFixed(2) ?? '—'}</span>${changeHtml(c.change_30d)}</div>
-        </div>
-        ${c.thesis ? `<div class="company-thesis">${escHtml(c.thesis)}</div>` : ''}
-      </div>`).join('');
-    html += '</div></div>';
-  }
-  return html;
-}
-
-function thesisHtml(thesis, id) {
-  if (!thesis) return '';
-  return `
-    <button class="thesis-toggle" onclick="toggleThesis('${id}')">
-      <span class="arrow">▶</span> View Thesis
-    </button>
-    <div class="thesis-content" id="${id}">
-      <div class="thesis-text">${escHtml(thesis)}</div>
-    </div>`;
-}
-
-function toggleThesis(id) {
-  const el = document.getElementById(id);
-  const btn = el.previousElementSibling;
-  el.classList.toggle('open');
-  btn.classList.toggle('open');
-}
-
-function renderSignalCard(sig, idx, compact) {
-  const tierCls = sig.tier === 1 ? 'tier1' : sig.tier === 2 ? 'tier2' : 'tier3';
-  const thesisId = 'thesis-' + idx;
-  return `
-    <div class="signal-card ${tierCls}">
+    <div class="pick-card ${tc}">
       <div class="card-top">
-        <div class="card-main">
-          <div class="card-title-row">
-            <span class="trend-name">${escHtml(sig.display_name || sig.trend_name)}</span>
-            ${sig.category ? `<span class="category-tag">${escHtml(sig.category)}</span>` : ''}
+        <div class="card-identity">
+          <div class="ticker-badge ${tc}">${pick.ticker || '?'}</div>
+          <div>
+            <div class="company-name">${pick.company_name || pick.ticker}</div>
+            <div class="company-meta">Confidence score · ${fmt_date(pick.timestamp || '')}</div>
           </div>
-          <div class="card-meta">
-            <span class="days">Day ${sig.days_active || 1} of signal</span>
-            <span>First seen: ${sig.signal_first_seen || '—'}</span>
-            ${sig.peak_score ? `<span>Peak: ${sig.peak_score}/10</span>` : ''}
-          </div>
-          ${!compact && sig.description ? `<div class="card-desc">${escHtml(sig.description)}</div>` : ''}
         </div>
-        <div class="score-badge ${scoreClass(sig.score)}">
-          ${sig.score}<span class="out-of">/10</span>
+        <div class="card-confidence">
+          <div class="confidence-label">Confidence</div>
+          <div class="confidence-score ${tc}">${(conf * 100).toFixed(0)}%</div>
+          <div class="confidence-tier ${tc}">${tc === 'high' ? '● HIGH CONVICTION' : '● MEDIUM CONVICTION'}</div>
         </div>
       </div>
-      ${signalChipsHtml(sig.signals_firing)}
-      ${!compact ? dataDetailsHtml(sig) : ''}
-      ${!compact ? breakdownHtml(sig.score_breakdown) : ''}
-      ${awarenessHtml(sig.wall_street_awareness)}
-      ${companyCardsHtml(sig.companies)}
-      ${!compact ? thesisHtml(sig.thesis, thesisId) : ''}
-      ${sig.exit_warning ? '<div class="exit-banner" style="margin-top:14px"><span class="icon">⚠️</span><span class="exit-text"><span class="exit-trend">EXIT WARNING</span> — Trend approaching mainstream. Review exit timeline.</span></div>' : ''}
-    </div>`;
+
+      <div class="signals-grid">
+        <div class="signal-block">
+          <div class="signal-header">
+            <div class="signal-name">📈 Earnings Accel.</div>
+            <div class="signal-weight">40% wt</div>
+          </div>
+          <div class="signal-score-row">
+            <div class="signal-bar-track">
+              <div class="signal-bar-fill earnings" style="width:${(earn*100).toFixed(0)}%"></div>
+            </div>
+            <div class="signal-pct earnings">${(earn*100).toFixed(0)}%</div>
+          </div>
+        </div>
+        <div class="signal-block">
+          <div class="signal-header">
+            <div class="signal-name">👥 Hiring Surge</div>
+            <div class="signal-weight">35% wt</div>
+          </div>
+          <div class="signal-score-row">
+            <div class="signal-bar-track">
+              <div class="signal-bar-fill hiring" style="width:${(hire*100).toFixed(0)}%"></div>
+            </div>
+            <div class="signal-pct hiring">${(hire*100).toFixed(0)}%</div>
+          </div>
+        </div>
+        <div class="signal-block">
+          <div class="signal-header">
+            <div class="signal-name">💹 Volume Momentum</div>
+            <div class="signal-weight">25% wt</div>
+          </div>
+          <div class="signal-score-row">
+            <div class="signal-bar-track">
+              <div class="signal-bar-fill volume" style="width:${(vol*100).toFixed(0)}%"></div>
+            </div>
+            <div class="signal-pct volume">${(vol*100).toFixed(0)}%</div>
+          </div>
+        </div>
+      </div>
+
+      ${(entry || target) ? `
+      <div class="price-row">
+        ${entry ? `
+        <div class="price-block">
+          <div class="price-label">Entry Target</div>
+          <div class="price-value">${fmt_price(entry)}</div>
+        </div>` : ''}
+        ${target ? `
+        <div class="price-block">
+          <div class="price-label">Price Target</div>
+          <div class="price-value">${fmt_price(target)}</div>
+          ${upside !== null ? `<div class="price-upside">+${upside.toFixed(0)}% upside</div>` : ''}
+        </div>` : ''}
+      </div>` : ''}
+
+      ${thesis ? `
+      <div class="thesis-block">
+        <div class="thesis-label">Thesis</div>
+        ${thesis}
+      </div>` : ''}
+    </div>
+  `;
 }
 
-function renderDashboard(data) {
-  const signals = data.active_signals || [];
-  const tier1 = signals.filter(s => s.tier === 1);
-  const tier2 = signals.filter(s => s.tier === 2);
-  const tier3 = signals.filter(s => s.tier === 3);
-  const stats = data.run_stats || {};
+// ── Main render ──────────────────────────────────────────────────────────────
 
-  // Update header
-  $('statSignals').textContent = signals.length;
-  $('statTier1').textContent = tier1.length;
-  $('statKeywords').textContent = stats.keywords_scanned || '—';
-  $('updatedTime').textContent = 'Last updated: ' + (data.generated_at ? formatDate(data.generated_at) : '—');
-  updateFreshness(data.generated_at);
+async function load() {
+  const main = document.getElementById('main');
+
+  // Try to load latest briefing — check a few paths for compatibility
+  const paths = [
+    'data/latest_briefing.json',
+    'data/latest.json',
+    'data/watchtower-data.json'
+  ];
+
+  let data = null;
+  for (const p of paths) {
+    try {
+      const r = await fetch(p + '?t=' + Date.now());
+      if (r.ok) { data = await r.json(); break; }
+    } catch {}
+  }
+
+  if (!data) {
+    main.innerHTML = `
+      <div class="empty-section">
+        <div class="empty-icon">📡</div>
+        <div class="empty-title">No briefing data found</div>
+        <div class="empty-sub">The system may be between runs. Check back after the next scheduled briefing.<br>Runs: TUE / WED / THU @ 10:00 AM EST</div>
+      </div>`;
+    document.getElementById('last-updated').textContent = 'No data';
+    return;
+  }
+
+  // Populate header stats
+  const ts = data.timestamp || data.generated_at || '';
+  document.getElementById('last-updated').textContent = ts ? 'Last run: ' + fmt_date(ts) : 'Last run: unknown';
+  document.getElementById('stat-briefing').textContent = data.briefing_id || '—';
+
+  const summary = data.analysis_summary || {};
+  document.getElementById('stat-high').textContent = summary.high_conviction_total ?? '—';
+  document.getElementById('stat-medium').textContent = summary.medium_conviction_total ?? '—';
+  document.getElementById('stat-scanned').textContent = summary.total_analyzed ?? '—';
+
+  // Determine data format: new investment engine vs old trend engine
+  const picks = data.picks || [];
+  const isNewFormat = picks.length === 0 || (picks[0] && 'confidence' in picks[0]);
 
   let html = '';
 
-  // Section 1: Tier 1
-  html += `<div class="section">
-    <div class="section-header">
-      <span class="section-badge tier1-badge">Tier 1</span>
-      <span class="section-title">🔴 HIGH CONVICTION</span>
-    </div>`;
-  if (tier1.length) {
-    html += tier1.map((s,i) => renderSignalCard(s, 't1-'+i, false)).join('');
-  } else {
-    html += '<div class="empty-state"><div class="empty-icon">👁️</div>No Tier 1 signals active — system is watching</div>';
-  }
-  html += '</div>';
+  if (isNewFormat) {
+    // ── New investment engine format ──────────────────────────────────────
+    const high = picks.filter(p => p.confidence >= 0.75);
+    const medium = picks.filter(p => p.confidence >= 0.55 && p.confidence < 0.75);
+    const watch = picks.filter(p => p.confidence < 0.55);
 
-  // Section 2: Tier 2
-  html += `<div class="section">
-    <div class="section-header">
-      <span class="section-badge tier2-badge">Tier 2</span>
-      <span class="section-title">🟡 WATCHING</span>
-    </div>`;
-  if (tier2.length) {
-    html += tier2.map((s,i) => renderSignalCard(s, 't2-'+i, true)).join('');
-  } else {
-    html += '<div class="empty-state">No Tier 2 signals</div>';
-  }
-  html += '</div>';
+    if (picks.length === 0) {
+      html = `
+        <div class="no-picks-banner">
+          <div class="no-picks-icon">🔍</div>
+          <div class="no-picks-title">No high-conviction signals this briefing</div>
+          <div class="no-picks-sub">
+            The system scanned <strong>${summary.total_analyzed || 0}</strong> companies.<br>
+            No earnings acceleration + hiring surge + volume momentum convergence met the threshold.<br><br>
+            <strong>Next runs:</strong> TUE / WED / THU @ 10:00 AM EST<br>
+            The bar is high — that's the point.
+          </div>
+        </div>`;
+    } else {
+      // High conviction
+      html += `
+        <div class="section-header">
+          <div class="section-dot green"></div>
+          <div class="section-title green">High Conviction</div>
+          <div class="section-sub">Confidence ≥ 75% · Research + enter 1-2% starter position</div>
+        </div>`;
+      if (high.length === 0) {
+        html += `<div class="empty-section" style="margin-bottom:16px">
+          <div class="empty-sub">No picks at HIGH conviction this briefing.</div></div>`;
+      } else {
+        high.forEach(p => html += render_card(p));
+      }
 
-  // Section 3: Tier 3
-  html += `<div class="section">
-    <div class="section-header">
-      <span class="section-badge tier3-badge">Tier 3</span>
-      <span class="section-title">📡 RADAR</span>
-    </div>`;
-  if (tier3.length) {
-    html += `<table class="tier3-table"><thead><tr>
-      <th>Keyword</th><th>Score</th><th>Signals</th><th>Top Ticker</th></tr></thead><tbody>`;
-    html += tier3.map(s => {
-      const topTicker = s.companies?.direct?.[0]?.ticker || s.companies?.picks_and_shovels?.[0]?.ticker || '—';
-      const sigs = (s.signals_firing || []).map(f => {
-        const icons = {google_trends:'📈',reddit:'💬',amazon_bsr:'📦',amazon_autocomplete:'🔍',youtube:'▶️'};
-        return icons[f] || f;
-      }).join(' ');
-      return `<tr>
-        <td class="t-name">${escHtml(s.display_name || s.trend_name)}</td>
-        <td><strong>${s.score}</strong>/10</td>
-        <td>${sigs}</td>
-        <td><span class="ticker" style="font-size:.85rem">${escHtml(topTicker)}</span></td>
-      </tr>`;
-    }).join('');
-    html += '</tbody></table>';
-  } else {
-    html += '<div class="empty-state">No Tier 3 signals on radar</div>';
-  }
-  html += '</div>';
+      // Medium conviction
+      html += `
+        <div class="section-header">
+          <div class="section-dot yellow"></div>
+          <div class="section-title yellow">Medium Conviction</div>
+          <div class="section-sub">Confidence 55-74% · Watch closely, wait for confirmation</div>
+        </div>`;
+      if (medium.length === 0) {
+        html += `<div class="empty-section" style="margin-bottom:16px">
+          <div class="empty-sub">No picks at MEDIUM conviction this briefing.</div></div>`;
+      } else {
+        medium.forEach(p => html += render_card(p));
+      }
 
-  // Section 4: New Trends
-  const newTrends = data.new_trends_discovered || [];
-  html += `<div class="section">
-    <div class="section-header">
-      <span class="section-title">✨ NEW TRENDS DISCOVERED</span>
-    </div>`;
-  if (newTrends.length) {
-    html += '<div class="new-trend-list">' + newTrends.map(t => `<span class="new-trend-chip">${escHtml(t)}</span>`).join('') + '</div>';
-    html += '<div class="mapper-hint">Add to mapper.json to track these trends.</div>';
-  } else {
-    html += '<div class="empty-state">No new trends discovered this run</div>';
-  }
-  html += '</div>';
-
-  // Section 5: Exit Warnings
-  const exitWarnings = (data.exit_warnings || []).length
-    ? data.exit_warnings
-    : signals.filter(s => s.exit_warning);
-  if (exitWarnings.length) {
-    html += `<div class="section">
-      <div class="section-header">
-        <span class="section-title">🚨 EXIT WARNINGS</span>
-      </div>`;
-    html += exitWarnings.map(w => {
-      const name = typeof w === 'string' ? w : (w.display_name || w.trend_name || w);
-      return `<div class="exit-banner"><span class="icon">⚠️</span><span class="exit-text"><span class="exit-trend">${escHtml(name)}</span> — Trend approaching mainstream. Review exit timeline.</span></div>`;
-    }).join('');
-    html += '</div>';
-  }
-
-  // Run stats
-  if (stats.duration_sec) {
-    html += `<div style="text-align:center;padding:8px 0;font-size:.72rem;color:var(--text3)">
-      Scan completed in ${stats.duration_sec}s · ${stats.keywords_scanned || 0} keywords · ${stats.tier1_count || 0} T1 / ${stats.tier2_count || 0} T2 / ${stats.tier3_count || 0} T3
-    </div>`;
-  }
-
-  main.innerHTML = html;
-
-  // Source health bar
-  const health = data.source_health || {};
-  const healthSection = document.getElementById('sourceHealth');
-  const healthGrid = document.getElementById('healthGrid');
-  if (Object.keys(health).length > 0) {
-    healthSection.style.display = 'block';
-    const labels = {
-      google_trends: '📈 Google Trends',
-      reddit: '💬 Reddit',
-      amazon_bsr: '📦 Amazon BSR',
-      amazon_autocomplete: '🔍 Amazon Search',
-      youtube: '▶️ YouTube',
-      yfinance: '💵 Stock Prices',
-      opus_thesis: '🧠 Opus Thesis',
-      discord_webhook: '🔔 Discord Alerts',
-      tiktok: '🎵 TikTok',
-    };
-    healthGrid.innerHTML = Object.entries(health).map(([key, val]) => {
-      const label = labels[key] || key;
-      const status = val.status || 'unknown';
-      const color = status === 'active' ? '#22c55e' : status === 'skipped' ? '#f59e0b' : '#ef4444';
-      const dot = `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${color};margin-right:6px"></span>`;
-      return `<div style="background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:.75rem">
-        <div style="font-weight:600;margin-bottom:4px;color:var(--text1)">${dot}${label}</div>
-        <div style="color:var(--text3)">${val.note || status}</div>
-        ${val.signals_fired !== undefined ? `<div style="color:var(--text3);margin-top:2px">${val.signals_fired} signals fired</div>` : ''}
-      </div>`;
-    }).join('');
-  }
-}
-
-function showError(msg) {
-  main.innerHTML = `
-    <div class="error-state">
-      <div class="error-icon">📡</div>
-      <div class="error-msg">Signal data unavailable</div>
-      <div class="error-detail">${escHtml(msg)}</div>
-      <button class="retry-btn" onclick="loadData()">Retry</button>
-    </div>`;
-  updateFreshness(null);
-}
-
-async function loadData() {
-  try {
-    const resp = await fetch(DATA_URL + '?t=' + Date.now());
-    if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    const data = await resp.json();
-    renderDashboard(data);
-  } catch (e) {
-    // Only show error if we haven't loaded anything yet
-    if (main.querySelector('.loading') || main.querySelector('.error-state')) {
-      showError(e.message);
+      // Watch
+      if (watch.length > 0) {
+        html += `
+          <div class="section-header">
+            <div class="section-dot blue"></div>
+            <div class="section-title blue">Watching</div>
+            <div class="section-sub">Below threshold · On radar only</div>
+          </div>`;
+        watch.forEach(p => html += render_card(p));
+      }
     }
-    console.warn('Watchtower fetch error:', e);
+
+  } else {
+    // ── Legacy trend format fallback ──────────────────────────────────────
+    const signals = data.active_signals || [];
+    if (signals.length === 0) {
+      html = `<div class="empty-section">
+        <div class="empty-icon">📡</div>
+        <div class="empty-title">No active signals</div>
+        <div class="empty-sub">No trend signals above threshold in this briefing.</div>
+      </div>`;
+    } else {
+      signals.forEach(s => {
+        html += `<div class="pick-card">
+          <div class="card-top">
+            <div class="card-identity">
+              <div class="ticker-badge">${s.keyword || s.trend_name}</div>
+              <div>
+                <div class="company-name">${s.display_name || s.keyword}</div>
+                <div class="company-meta">Tier ${s.tier} · Score ${s.score} · Day ${s.days_active}</div>
+              </div>
+            </div>
+          </div>
+          <div class="thesis-block"><div class="thesis-label">Signals Firing</div>${(s.signals_firing || []).join(', ')}</div>
+        </div>`;
+      });
+    }
   }
+
+  // Assemble page: summary + signals
+  const totalPicks = picks.length;
+  let page = '';
+
+  if (picks.length > 0) {
+    page += `
+      <div class="summary-bar">
+        <div class="summary-item">
+          <div class="summary-num green">${high?.length ?? 0}</div>
+          <div class="summary-lbl">High Conviction</div>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+          <div class="summary-num yellow">${medium?.length ?? 0}</div>
+          <div class="summary-lbl">Medium Conviction</div>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+          <div class="summary-num muted">${summary.total_analyzed ?? 0}</div>
+          <div class="summary-lbl">Companies Scanned</div>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+          <div class="summary-num muted" style="font-size:14px">${fmt_date(ts).split('·')[0].trim()}</div>
+          <div class="summary-lbl">Briefing Date</div>
+        </div>
+      </div>`;
+  }
+
+  page += html;
+  main.innerHTML = page;
 }
 
-// Init
-loadData();
-setInterval(loadData, REFRESH_MS);
+load();
+// Auto-refresh every 5 minutes
+setInterval(load, 5 * 60 * 1000);
 </script>
 </body>
 </html>
