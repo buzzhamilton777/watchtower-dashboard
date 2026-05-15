@@ -565,7 +565,8 @@ async function load() {
   const picks = data.picks || [];
   const isNewFormat = picks.length === 0 || (picks[0] && 'confidence' in picks[0]);
 
-  let html = '';
+                // Calculate max for percentage bars
+                const maxScore = Math.max(earningsScore, hiringScore, volumeScore) || 100;
 
   if (isNewFormat) {
     // ── New investment engine format ──────────────────────────────────────
